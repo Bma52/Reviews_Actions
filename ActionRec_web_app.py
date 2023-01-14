@@ -20,8 +20,7 @@ import streamlit as st
 #from st_aggrid.shared import JsCode
 #from st_aggrid.grid_options_builder import GridOptionsBuilder
 import pandas as pd
-import plotly as plt
-import plotly.express as px
+
 #from joblib import load
 import pickle
 import numpy as np
