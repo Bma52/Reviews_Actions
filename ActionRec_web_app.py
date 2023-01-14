@@ -10,8 +10,8 @@ from pickletools import float8
 from pyexpat import features
 from sqlite3 import DatabaseError
 from statistics import multimode
-from turtle import color
-from xmlrpc.client import Boolean
+#from turtle import color
+#from xmlrpc.client import Boolean
 #from msilib import datasizemask
 #from pathlib import Path
 
@@ -34,12 +34,12 @@ from sklearn import preprocessing
 from xgboost import XGBClassifier
 from sklearn import linear_model
 from sklearn.preprocessing import LabelEncoder
-
+import datetime
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 import operator 
 from heapq import nlargest
-
+import mysql.connector
 import json
 import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -60,7 +60,7 @@ from flask import Flask
 
 
 
-st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The ActionRec Annotator Page</font></H1></div>', unsafe_allow_html=True)
+st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The Annotator Page</font></H1></div>', unsafe_allow_html=True)
 
 chart = functools.partial(st.plotly_chart, use_container_width=True)
 
@@ -70,24 +70,42 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 def get_new_reviews_mysql() -> pd.DataFrame:
    
     # database connection
-    connection = pymysql.connect(host="localhost", port=8889, user="root", passwd="root", database="ActionRec_DB")
+    connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
     cursor = connection.cursor()
 
 
     product_data = pd.read_sql("SELECT * FROM Products", connection)
-    product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
+    #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
     review_data = pd.read_sql("SELECT * FROM Reviews", connection)
     annotation_data = pd.read_sql("SELECT * FROM Annotation", connection)
     annotation_data["Action Probability"] = annotation_data["Action Probability"].astype(float)
     
-    #df_1 = product_data.merge(review_data, how = 'right', on = '')
-    df_full = review_data.merge(annotation_data, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    #df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    #df_product = pd.DataFrame(df_1)
+    df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_product = pd.DataFrame(df_1)
+    df_full = df_product .merge(annotation_data, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     
 
     return df_full
 
 
-def create_triplets(df, i):
+def create_triplets(df_annotation, i):
+
+    # database connection
+    connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
+    cursor = connection.cursor()
+
+
+    product_data = pd.read_sql("SELECT * FROM Products", connection)
+    #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
+    review_data = pd.read_sql("SELECT * FROM Reviews", connection)
+
+    df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_product = pd.DataFrame(df_1)
+    df = df_product .merge(df_annotation, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+
+
 
     dct= "http://purl.org/dc/terms/"
     rdfs= "http://www.w3.org/2000/01/rdf-schema#"
@@ -97,8 +115,7 @@ def create_triplets(df, i):
     rdf= "http://www.w3.org/1999/02/22-rdf-syntax-ns#type/" 
     schema= "http://schema.org/"
     arec= "http://linked.aub.edu.lb/actionrec/"
-    os = "http://www.w3.org/ns/os#" 
-
+    os = "http://www.w3.org/ns/os#"
 
     # We will randomly choose the index 10, and set the knowleedge graph of the 10th annotation based on the rules below. 
 
@@ -145,13 +162,18 @@ def create_triplets(df, i):
     # Rule 41: <review_rating><rdfs:label><value>
 
 
+    if df["Actions"][i] == "No_Action":
+        st.write(df["Actions"][i])
+        st.error("No triplets created, this annotation has no action")
+        #return None
+    else:
 
 
-    Subject = []
-    Predicate= []
-    Object = []
+       Subject = []
+       Predicate= []
+       Object = []
 
-    list_subjects = [schema + str(df['Actions'][i]), 
+       list_subjects = [schema + str(df['Actions'][i]), 
                  arec + str(df['Features'][i]), 
                  arec + str(df['Ability'][i]), 
                  schema + str(df['Environment'][i]),
@@ -161,37 +183,38 @@ def create_triplets(df, i):
                  schema + str(df['Actions'][i]),
                  schema + str(df['Actions'][i]),
                  schema + str(df['Actions'][i]),
-                 oa + str(df['Annotation'][i]),
+                 oa + str(df['annotation'][i]),
                  arec + str(df['Features'][i]),
-                 oa + str(df['Annotation'][i]),
-                 schema + str(df['reviewBody'][i]),
-                 schema + str(df["Product"][i]),
+                 oa + str(df['annotation_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df["product_name_md5"][i]),
                  schema + str(df["Actions"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df['reviewBody'][i]),
-                 schema + str(df["offers"][i]),
-                 schema + str(df["offers"][i]),
-                 oa + str(df['Annotation'][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df["availability"][i]),
+                 schema + str(df["availability"][i]),
+                 oa + str(df['annotation_md5'][i]),
                  oa + str(df['annotation_md5'][i]),
                  schema + str(df['reviewBody_md5'][i]),
                  schema + str(df['reviewBody_md5'][i]),
                  schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df["offers"][i]),
-                 schema + str(df["offers"][i]),
-                 schema + str(df["offers"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i]),
-                 schema + str(df["name_md5"][i])
+                 schema + str(df["availability"][i]),
+                 schema + str(df["price"][i]),
+                 schema + str(df["priceCurrency"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i])
                  ]
 
  
 
-    list_predicates = [dct + "isPartOf",
+       list_predicates = [dct + "isPartOf",
                    dct + "isPartOf",
                    dct + "isPartOf",
                    dct + "isPartOf",
@@ -232,62 +255,107 @@ def create_triplets(df, i):
                    ]             
 
 
-    list_objects = [oa + str(df['Annotation'][i]),
-                oa + str(df['Annotation'][i]),
-                oa + str(df['Annotation'][i]),
-                oa + str(df['Annotation'][i]),
-                oa + str(df['Annotation'][i]),
+       list_objects = [oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
                 arec + str(df['Ability'][i]),
                 schema + str(df['Actions'][i]),
                 arec + str(df['Agent'][i]),
                 schema + str(df['Environment'][i]),
                 schema + str(df['Object'][i]),
-                schema + str(df['reviewBody'][i]),
+                schema + str(df['reviewBody_md5'][i]),
                 schema + str(df['Actions'][i]),
                 df['Valence'][i],
                 df['reviewBody'][i], 
-                oa + str(df['Annotation'][i]),
+                oa + str(df['annotation_md5'][i]),
                 schema + str(df["Object"][i]),
                 schema + str(df['Actions'][i]),
-                arec + str(df['Feature'][i]),
-                schema + str(df["Product"][i]),
-                df["reviewRating"][i],
-                schema + str(df["publisher"][i]),
-                schema + str(df["Product"][i]),
+                arec + str(df['Features'][i]),
+                schema + str(df["product_name_md5"][i]),
+                df["ratingValue"][i],
+                schema + str(df["seller_name"][i]),
+                schema + str(df["product_name_md5"][i]),
                 df["created_timestamp"][i],
                 df['annotation'][i],
-                df["name"][i],
-                df["name"][i],
-                schema + str(df["publisher"][i]),
-                df["Offers"][i],
-                df["Offers"][i],
-                df["Offers"][i],
+                df["product_name"][i],
+                df["product_name"][i],
+                schema + str(df["seller_name"][i]),
+                df["availability"][i],
+                df["price"][i],
+                df["priceCurrency"][i],
                 df["model"][i],
-                df["name"][i],
-                df["name"][i],
+                df["product_name"][i],
+                df["product_name"][i],
                 df["description"][i],
-                df["brand"][i],
+                df["brand_name"][i],
                 df["url"][i],
                 df["image"][i]
                ]    
 
 
-    df_tuples = pd.DataFrame(columns={"Subject", "Predicate", "Object"})
+       df_tuples = pd.DataFrame(columns={"Subject", "Predicate", "Object"})
 
-    df_tuples["Subject"] = list_subjects
-    df_tuples["Predicate"] = list_predicates
-    df_tuples["Object"] = list_objects
+       df_tuples["Subject"] = list_subjects
+       df_tuples["Predicate"] = list_predicates
+       df_tuples["Object"] = list_objects
 
-
-    return df_tuples
-
+       insert_to_sparql(df_tuples, df["annotation_md5"][i])
 
 
+    
 
 
+def insert_to_sparql(df_tuples, annotation_md5):
+
+    for index in df_tuples.index:
+        queryString = "INSERT DATA {{GRAPH < {0} > {{<<{1}>> <<{2}>> <<{3}>>}}}}".format(annotation_md5, df_tuples["Subject"][index], 
+                                      df_tuples["Predicate"][index], df_tuples["Object"][index])
+        st.write(queryString)
+        ssl._create_default_https_context = ssl._create_unverified_context
+        sparql = SPARQLWrapper(
+          "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
+        )
+
+        sparql.setQuery(queryString) 
+        sparql.method = 'POST'
+        sparql.query()
+        print("Triplets for the annotation", annotation_md5, "were inserted to sparql sucessfully.")
+
+
+
+def insert_checked_annotation(df, i):
+    
+    # database connection
+    try:
+        connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
+        cursor = connection.cursor()
+        mySql_insert_query = """INSERT INTO Laptop (Review_id, reviewBody, annotation, Action_Flag, Action_Probability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5, created_timestamp) 
+                           VALUES 
+                           ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}) """.format(df["Review id"][i], str(df["reviewBody"][i]), str(df["annotation"][i]), 
+                                                      str(df["Action Flag"][i]), float(df["Action Probability"][i]), str(df["Actions"][i]), str(df["Features"][i]), str(df["Agent"][i]),
+                                                      str(df["Environment"][i]), str(df["Valence"][i]), str(df["Object"][i]), str(df["Ability"][i]), str(df["annotation_md5"][i]), str(df["created_timestamp"][i]))
+
+        cursor = connection.cursor()
+        cursor.execute(mySql_insert_query)
+        connection.commit()
+        print(cursor.rowcount, "Record inserted successfully into Checked Annotation table")
+        cursor.close()
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into Checked Annotation table {}".format(error))
+
+
+
+
+
+
+@st.cache(suppress_st_warning=True)
 def main(df) -> None:
 
-    actions = ['No Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
+
+    actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
     'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
     'Type','Unlock','Use','Edit','Meet','UsingVideo','Absorb','Access','Add','Break','Buy','Charge','Consume','Crack','Cruise','Do','Drop','Find',
     'Flicker','Flip','Fold','Hold','PlugIn','Purchase','Put','Rotate','Run','Send','Setup','Switch','Take','Touch','View','ch','Delete','Expect','Hear',
@@ -344,42 +412,47 @@ def main(df) -> None:
     
     def form(df, i):
        st.session_state = i
-       df_checked_annotation = df
+       #st.session_state.a_list = []
        
-       with st.form(key=f"{i}"):
+       df_checked_annotation = df
+
+       with st.container():
            st.subheader(df["annotation"][i])
     
            col1, col2, col3 = st.columns(3)
            
         
            with col1: 
-               
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
                st.write(df["Actions"][i])
                #st.caption("Please confirm machine results")
                checked_action = st.radio(
-                 "Please verify machine prediction",
-                 ('Yes', 'No'), key="action")
-
-               if checked_action == "Yes":
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="action"+ str(i))
+               
+               if checked_action == 'Yes':
+                    
                     st.caption('')
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
                        "Please select the correct Action.", actions
                             )
-                    if new_action:
-                        df_checked_annotation["Actions"][i] = new_action
+                    st.write(new_action)
+                    if new_action != '<select>':
+                        
+                        df_checked_annotation["Actions"][i] = new_action+"Action"
                     else:
                         df_checked_annotation["Actions"][i] = df["Actions"][i]
-                  
+                    
                st.markdown("""---""")
  
-
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Feature</p>', unsafe_allow_html=True)
                st.write(df["Features"][i])
                #st.caption("Please confirm machine results")
                checked_feature = st.radio(
-                 "Please confirm machine prediction",
-                 ('Yes', 'No'), key="feature")
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="feature"+ str(i))
 
                if checked_feature == "Yes":
                     st.caption('')
@@ -388,20 +461,21 @@ def main(df) -> None:
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features
                             )
-                    if new_feature:
+                    if new_feature != '<select>':
                         df_checked_annotation["Features"][i] = new_feature
                     else:
                         df_checked_annotation["Features"][i] = df["Features"][i]
 
-               st.form_submit_button(label="Edit Labels")
+               #st.button(label="Edit Labels")
                
                
            with col2: 
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Agent</p>', unsafe_allow_html=True)
                st.write(df["Agent"][i])
                #st.caption("Please confirm machine results")
                checked_agent = st.radio(
-                 "Please verify machine prediction",
-                 ('Yes', 'No'), key="agent" )
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="agent"+ str(i))
 
                if checked_agent == "Yes":
                     st.caption('')
@@ -410,7 +484,7 @@ def main(df) -> None:
                     new_agent = st.selectbox(
                        "Please select the correct Agent.", agents
                             )
-                    if new_agent:
+                    if new_agent != '<select>':
                         df_checked_annotation["Agent"][i] = new_agent
                     else:
                         df_checked_annotation["Agent"][i] = df["Agent"][i]
@@ -419,11 +493,12 @@ def main(df) -> None:
                st.markdown("""---""")
 
 
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Valence</p>', unsafe_allow_html=True)
                st.write(df["Valence"][i])
                #st.caption("Please confirm machine results")
                checked_valence = st.radio(
-                 "Please confirm machine prediction",
-                 ('Yes', 'No'), key="valence")
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="valence"+ str(i))
 
                if checked_valence == "Yes":
                     st.caption('')
@@ -432,18 +507,21 @@ def main(df) -> None:
                     new_valence = st.selectbox(
                        "Please select the correct Valence.", valence
                             )
-                    if new_valence:
+                    if new_valence != '<select>':
                         df_checked_annotation["Valence"][i] = new_valence
                     else:
                         df_checked_annotation["Valence"][i] = df["Valence"][i]
+
+                    
                
 
            with col3: 
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Environment</p>', unsafe_allow_html=True)
                st.write(df["Environment"][i])
                #st.caption("Please confirm machine results")
                checked_env = st.radio(
-                 "Please verify machine prediction",
-                 ('Yes', 'No'), key="environment")
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="environment"+ str(i))
 
                if checked_env == "Yes":
                     st.caption('')
@@ -452,19 +530,19 @@ def main(df) -> None:
                     new_env = st.selectbox(
                        "Please select the correct Environment.", environments
                             )
-                    if new_env:
+                    if new_env != '<select>':
                         df_checked_annotation["Environment"][i] = new_env
                     else:
                         df_checked_annotation["Environment"][i] = df["Environment"][i]
                   
                st.markdown("""---""")
 
-
+               st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Object</p>', unsafe_allow_html=True)
                st.write(df["Object"][i])
                #st.caption("Please confirm machine results")
                checked_obj = st.radio(
-                 "Please confirm machine prediction",
-                 ('Yes', 'No'), key="object")
+                 "Is machine prediction correct?",
+                 ('Yes', 'No'), key="object"+ str(i))
 
                if checked_obj == "Yes":
                     st.caption('')
@@ -473,26 +551,30 @@ def main(df) -> None:
                     new_obj = st.selectbox(
                        "Please select the correct Object.", objects
                             )
-                    if new_obj:
+                    if new_obj != '<select>':
                         df_checked_annotation["Object"][i] = new_obj
                     else:
                         df_checked_annotation["Object"][i] = df["Object"][i]
+
                
+               confirmed_check = st.checkbox("Confirm annotation", key = i)
+       
+       return df_checked_annotation, i
 
                
 
-            
+
     def no_form(df, i):
        #st.session_state.a_list = []
        df_checked_annotation = df
        st.session_state = i
-       with st.form(key=f"{i}"):
+       with st.container():
            st.subheader(df["annotation"][i])
            
            st.write("This Annotation has no Action 🚨")
            result1 = st.checkbox("Confirm machine result")
            result2 = st.checkbox("Incorrect machine result, the sentence contains labels.")
-           st.form_submit_button(label="Edit")
+           #st.form_submit_button(label="Edit")
 
            if result2:
                st.write("Please enter all the labels for this annotation.")
@@ -501,15 +583,17 @@ def main(df) -> None:
                     new_action = st.selectbox(
                        "Please select the correct Action.", actions
                             )
-                    if new_action:
-                        df_checked_annotation["Actions"][i] = new_action
+                    
+                    if new_action != '<select>':
+                        st.write(new_action)
+                        df_checked_annotation["Actions"][i] = new_action+"Action"
                     else:
                         df_checked_annotation["Actions"][i] = df["Actions"][i]
 
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features
                             )
-                    if new_feature:
+                    if new_feature != '<select>':
                         df_checked_annotation["Features"][i] = new_feature
                     else:
                         df_checked_annotation["Features"][i] = df["Features"][i]
@@ -518,7 +602,7 @@ def main(df) -> None:
                     new_agent = st.selectbox(
                        "Please select the correct Agent.", agents
                             )
-                    if new_agent:
+                    if new_agent != '<select>':
                         df_checked_annotation["Agent"][i] = new_agent
                     else:
                         df_checked_annotation["Agent"][i] = df["Agent"][i]
@@ -527,7 +611,7 @@ def main(df) -> None:
                     new_valence = st.selectbox(
                        "Please select the correct Valence.", valence
                             )
-                    if new_valence:
+                    if new_valence != '<select>':
                         df_checked_annotation["Valence"][i] = new_valence
                     else:
                         df_checked_annotation["Valence"][i] = df["Valence"][i]
@@ -538,7 +622,7 @@ def main(df) -> None:
                        "Please select the correct Environment.", environments
                             )
 
-                    if new_env:
+                    if new_env != '<select>':
                         df_checked_annotation["Environment"][i] = new_env
                     else:
                         df_checked_annotation["Environment"][i] = df["Environment"][i]
@@ -547,13 +631,15 @@ def main(df) -> None:
                        "Please select the correct Object.", objects
                             )
 
-                    if new_obj:
+                    if new_obj != '<select>':
                         df_checked_annotation["Object"][i] = new_obj
                     else:
                         df_checked_annotation["Object"][i] = df["Object"][i]
 
 
-                    st.form_submit_button(label="Submit")
+                    st.button(label="Submit")
+       
+       return df_checked_annotation, i
 
 
 
@@ -567,7 +653,7 @@ def main(df) -> None:
           
           df_one_review = df.loc[df['reviewBody'] == i]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
-          st.subheader(df_one_review["itemReviewed"].unique())
+          st.subheader(df_one_review["product_name"].unique())
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
           st.write(i)
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
@@ -576,12 +662,46 @@ def main(df) -> None:
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["Action Probability"][row])
             if df_one_review["Action Flag"][row] == "Action Exist":
-                 form(df_one_review, row)
+                 df_checked_annotation, i = form(df_one_review, row)
+
+
+                 KG_btn = st.button(label="Create Knowledge Graph & Push to Triple Store", key=df_checked_annotation["annotation_md5"][i])
+                 st.markdown("""---""")
+                 if KG_btn:
+                    df_checked_annotation = df_checked_annotation.drop(["created_timestamp"] , axis=1)
+                    #st.write(df_checked_annotation)
+                    n_seconds = len(df_checked_annotation["annotation"])
+                    base = pd.Timestamp.today()
+                    checked_timestamp_list = [base + datetime.timedelta(seconds=x) for x in range(n_seconds)]
+                    df_checked_annotation["created_timestamp"] = checked_timestamp_list
+                    #insert_checked_annotation(df_checked_annotation, row)
+                    create_triplets(df_checked_annotation, row)
+
+          
+ 
+                     
+
             else:
-                 no_form(df_one_review, row)
+                 df_checked_annotation = no_form(df_one_review, row)
+                 #st.button(label="Create Knowledge Graph & Push to triple store")
+                 KG_btn = st.button(label="Create Knowledge Graph & Push to triple store", key=df_checked_annotation["annotation_md5"][i])
+                 st.markdown("""---""")
+                 if KG_btn:
+                    df_checked_annotation = df_checked_annotation.drop(["created_timestamp"] , axis=1)
+                    #st.write(df_checked_annotation)
+                    n_seconds = len(df_checked_annotation["annotation"])
+                    base = pd.Timestamp.today()
+                    checked_timestamp_list = [base + datetime.timedelta(seconds=x) for x in range(n_seconds)]
+                    df_checked_annotation["cretaed_timestamp"] = checked_timestamp_list
+                    #insert_checked_annotation(df_checked_annotation, row)
+                    create_triplets(df_checked_annotation, row)
+ 
+          
+
 
     for i in list_reviews:
         review_container(i)
+        
         submit = st.button("Submit Review", key = i)
         next = st.button("Next Review", key = i)
         if submit:
@@ -597,7 +717,6 @@ def main(df) -> None:
     
 
 if __name__ == "__main__":
-
 
 
     df = get_new_reviews_mysql()
