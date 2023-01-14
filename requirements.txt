@@ -151,5 +151,6 @@ webencodings==0.5.1
 Werkzeug==2.2.2
 widgetsnbextension==3.5.2
 wsproto==1.2.0
+xgboost == 1.7.3
 yarg==0.1.9
 zipp==3.8.0
