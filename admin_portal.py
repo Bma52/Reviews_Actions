@@ -433,6 +433,7 @@ def predict_action(df):
     df_review_with_action = pd.concat([df.reset_index(drop=True), df_pred_actions.reset_index(drop = True)], axis=1)
 
     st.write("Action Predicted")
+    st.markdown(":heavy_check_mark:")
     return df_review_with_action
 
 
@@ -448,6 +449,7 @@ def predict_agent(df_reviews, count_vect, tfidf_transformer):
 
     df_reviews["Agent"] = agent
     st.write("Agent Predicted")
+    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -464,6 +466,7 @@ def predict_environment(df_reviews, count_vect, tfidf_transformer):
 
     df_reviews["Environment"] = environment
     st.write("Environment Predicted")
+    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -479,6 +482,7 @@ def predict_valence(df_reviews, count_vect, tfidf_transformer):
 
     df_reviews["Valence"] = valence
     st.write("Valence Predicted")
+    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -493,6 +497,7 @@ def predict_object(df_reviews, count_vect, tfidf_transformer):
     
     df_reviews["Object"] = obj
     st.write("Object Predicted")
+    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -576,7 +581,7 @@ def feature_extraction(df):
 
     df["Features"] = list_dict
     st.write("Feature Extracted")
-
+    st.markdown(":heavy_check_mark:")
     df = df.drop(["review_into_words", "review_words_stemmed"], axis=1)
     return df
 
