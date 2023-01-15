@@ -133,6 +133,7 @@ stack-data==0.1.4
 streamlit==1.17.0
 streamlit-aggrid==0.2.3.post2
 streamlit-authenticator==0.2.1
+tables ==3.8.0
 tenacity==8.0.1
 terminado==0.13.1
 testpath==0.5.0
