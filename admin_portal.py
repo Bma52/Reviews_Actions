@@ -621,7 +621,7 @@ def computeMD5hash(my_string):
 def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     #Connect to mysql daabase 
-    dbConnection = mysql.connector.connect(host="localhost", port=3306, user="bma52", password="HB#FaZa*23271130**", database="ActionRec_DB"
+    dbConnection = mysql.connector.connect(host="localhost", port=3306, user="bma52", password="HB#FaZa*23271130**", database="ActionRec_DB")
 
     #sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
 
