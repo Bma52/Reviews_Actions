@@ -84,6 +84,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==9.0.0
 pipreqs==0.4.11
+pip == 22.3.1
 platformdirs==2.4.1
 plotly==5.6.0
 prometheus-client==0.13.1
