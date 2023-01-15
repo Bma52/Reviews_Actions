@@ -656,7 +656,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     df_product['product_name_md5'] = product_md5
 
-    frame_product = df_product.to_sql("Products", dbConnection, if_exists='append')
+    frame_product = df_product.to_sql("Products", dbConnection, index = False, if_exists='append')
 
 
     # Review Table
@@ -683,7 +683,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     df_reviews['reviewBody_md5'] = md5_review
 
-    frame_review = df_reviews.to_sql("Reviews", dbConnection, if_exists='append')
+    frame_review = df_reviews.to_sql("Reviews", dbConnection,index = False, if_exists='append')
 
 
     # Annotation Table 
@@ -721,7 +721,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_annotation["Ability"] = df_annotation["Ability"].astype(str)
     df_annotation["annotation_md5"] = df_annotation["annotation_md5"].astype(str)
 
-    frame_annotation = df_annotation.to_sql("Annotation", dbConnection, if_exists='append')
+    frame_annotation = df_annotation.to_sql("Annotation", dbConnection, index = False, if_exists='append')
     
     st.write("Data is now stored in MySQL Data base management system.")
 
