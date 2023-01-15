@@ -432,7 +432,7 @@ def predict_action(df):
     
     df_review_with_action = pd.concat([df.reset_index(drop=True), df_pred_actions.reset_index(drop = True)], axis=1)
 
-    st.write("Action Predicted", icon=:heavy_check_mark:)
+    st.write("Action Predicted")
     return df_review_with_action
 
 
@@ -447,7 +447,7 @@ def predict_agent(df_reviews, count_vect, tfidf_transformer):
     agent = loaded_agent_detection_model.predict(reviews_tfidf)
 
     df_reviews["Agent"] = agent
-    st.write("Agent Predicted", icon=:heavy_check_mark:)
+    st.write("Agent Predicted")
     return df_reviews
 
 
@@ -463,7 +463,7 @@ def predict_environment(df_reviews, count_vect, tfidf_transformer):
     environment = loaded_env_detection_model.predict(reviews_tfidf)
 
     df_reviews["Environment"] = environment
-    st.write("Environment Predicted", icon=:heavy_check_mark:)
+    st.write("Environment Predicted")
     return df_reviews
 
 
@@ -478,7 +478,7 @@ def predict_valence(df_reviews, count_vect, tfidf_transformer):
     valence = loaded_valence_detection_model.predict(reviews_tfidf)
 
     df_reviews["Valence"] = valence
-    st.write("Valence Predicted", icon=:heavy_check_mark:)
+    st.write("Valence Predicted")
     return df_reviews
 
 
@@ -492,7 +492,7 @@ def predict_object(df_reviews, count_vect, tfidf_transformer):
     obj = loaded_obj_detection_model.predict(reviews_tfidf)
     
     df_reviews["Object"] = obj
-    st.write("Object Predicted", icon=:heavy_check_mark:)
+    st.write("Object Predicted")
     return df_reviews
 
 
@@ -575,7 +575,7 @@ def feature_extraction(df):
        list_dict.append(top_5_features)
 
     df["Features"] = list_dict
-    st.write("Feature Extracted", icon=:heavy_check_mark:)
+    st.write("Feature Extracted")
 
     df = df.drop(["review_into_words", "review_words_stemmed"], axis=1)
     return df
