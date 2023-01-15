@@ -43,7 +43,6 @@ import json
 import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
 import ssl
-import networkx as nx
 import streamlit_authenticator as stauth
 import yaml
 from streamlit_authenticator import hasher 
