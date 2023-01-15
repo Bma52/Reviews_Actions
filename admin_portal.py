@@ -316,7 +316,7 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 # Train the action flag model. The dataset is manually done and not from sparql. 
 def train_model_action_flag() -> object:
 
-    df = pd.read_csv("/Users/bothainaa/Desktop/MSBA 370 - DDDM/Streamlit Churn App/Action classified dataset.csv")
+    df = pd.read_csv("Action classified dataset.csv")
     x = df[["review sentences"]]
     y=df[["Action Flag"]]
 
