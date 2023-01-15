@@ -807,7 +807,7 @@ def main():
         with st.expander("View Final Data Set"):
             st.write(df_final)
         
-        insert_to_mysql(df_product, df_reviews, df_final)
+        #insert_to_mysql(df_product, df_reviews, df_final)
         
     
 
