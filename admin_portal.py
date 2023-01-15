@@ -624,7 +624,7 @@ def computeMD5hash(my_string):
 
 
 def insert_to_mysql(df_product, df_reviews, df_annotation):
-    @st.experimental_memo(ttl=600)
+    
     #Connect to mysql daabase 
     dbConnection = mysql.connector.connect(**st.secrets["mysql"])
 
@@ -806,6 +806,7 @@ def main():
 
         with st.expander("View Final Data Set"):
             st.write(df_final)
+        @st.experimental_memo(ttl=600)
         insert_to_mysql(df_product, df_reviews, df_final)
         
     
