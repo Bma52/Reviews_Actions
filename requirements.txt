@@ -96,6 +96,7 @@ pyarrow==6.0.1
 pycountry==22.1.10
 pycparser==2.21
 pydeck==0.7.1
+pymysql == 1.0.2
 Pygments==2.11.2
 PyJWT==2.6.0
 Pympler==1.0.1
