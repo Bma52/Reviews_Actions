@@ -806,7 +806,7 @@ def main():
 
         with st.expander("View Final Data Set"):
             st.write(df_final)
-        @st.experimental_memo(ttl=600)
+        
         insert_to_mysql(df_product, df_reviews, df_final)
         
     
