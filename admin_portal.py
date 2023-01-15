@@ -660,11 +660,11 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
 
 
     # Review Table
-    df_reviews = df_reviews.reset_index()
-    df_reviews = df_reviews.rename(columns={"index":"Review id"})
-    df_reviews['Review id'] = df_reviews.index + 1000
+    #df_reviews = df_reviews.reset_index()
+    #df_reviews = df_reviews.rename(columns={"index":"Review id"})
+    #df_reviews['Review id'] = df_reviews.index + 1000
 
-    df_reviews["Review id"] = df_reviews["Review id"].astype(str)
+    #df_reviews["Review id"] = df_reviews["Review id"].astype(str)
     df_reviews["context"] = df_reviews["context"].astype(str)
     df_reviews["type"] = df_reviews["type"].astype(str)
     df_reviews["review_name"] = df_reviews["review_name"].astype(str)
@@ -688,7 +688,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
 
     # Annotation Table 
     df_annotation.rename(columns = {'review sentences':'annotation'}, inplace = True)
-    df_annotation = df_annotation[['Review id','reviewBody','annotation', 'Action Flag',
+    df_annotation = df_annotation[['reviewBody','annotation', 'Action Flag',
        'Action Probability', 'Actions', 'Features', 'Agent', 'Environment',
        'Valence', 'Object', 'Ability']]
 
@@ -707,7 +707,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     # iterating through timestamp_list
     df_annotation["created_timestamp"] = timestamp_list
 
-    df_annotation["Review id"] = df_annotation["Review id"].astype(str)
+    #df_annotation["Review id"] = df_annotation["Review id"].astype(str)
     df_annotation["reviewBody"] = df_annotation["reviewBody"].astype(str)
     df_annotation["annotation"] = df_annotation["annotation"].astype(str)
     df_annotation["Action Flag"] = df_annotation["Action Flag"].astype(str)
