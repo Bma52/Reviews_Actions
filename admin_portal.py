@@ -29,6 +29,7 @@ import json
 import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
 import ssl
+import networkx as nx
 import streamlit_authenticator as stauth
 import yaml
 from streamlit_authenticator import hasher 
@@ -44,9 +45,10 @@ from mysql.connector import errorcode
 import nltk.data
 from tables import index
 from sklearn import preprocessing
+
 import operator 
 from heapq import nlargest
-#from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 
 
 
@@ -316,7 +318,7 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 # Train the action flag model. The dataset is manually done and not from sparql. 
 def train_model_action_flag() -> object:
 
-    df = pd.read_csv("Action classified dataset.csv")
+    df = pd.read_csv("/Users/bothainaa/Desktop/MSBA 370 - DDDM/Streamlit Churn App/Action classified dataset.csv")
     x = df[["review sentences"]]
     y=df[["Action Flag"]]
 
@@ -433,7 +435,6 @@ def predict_action(df):
     df_review_with_action = pd.concat([df.reset_index(drop=True), df_pred_actions.reset_index(drop = True)], axis=1)
 
     st.write("Action Predicted")
-    st.markdown(":heavy_check_mark:")
     return df_review_with_action
 
 
@@ -448,8 +449,7 @@ def predict_agent(df_reviews, count_vect, tfidf_transformer):
     agent = loaded_agent_detection_model.predict(reviews_tfidf)
 
     df_reviews["Agent"] = agent
-    st.write("Agent Predicted")
-    st.markdown(":heavy_check_mark:")
+    st.write("Agent Predicted ")
     return df_reviews
 
 
@@ -465,8 +465,7 @@ def predict_environment(df_reviews, count_vect, tfidf_transformer):
     environment = loaded_env_detection_model.predict(reviews_tfidf)
 
     df_reviews["Environment"] = environment
-    st.write("Environment Predicted")
-    st.markdown(":heavy_check_mark:")
+    st.write("Environment Predicted ")
     return df_reviews
 
 
@@ -482,7 +481,6 @@ def predict_valence(df_reviews, count_vect, tfidf_transformer):
 
     df_reviews["Valence"] = valence
     st.write("Valence Predicted")
-    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -497,7 +495,6 @@ def predict_object(df_reviews, count_vect, tfidf_transformer):
     
     df_reviews["Object"] = obj
     st.write("Object Predicted")
-    st.markdown(":heavy_check_mark:")
     return df_reviews
 
 
@@ -581,7 +578,7 @@ def feature_extraction(df):
 
     df["Features"] = list_dict
     st.write("Feature Extracted")
-    st.markdown(":heavy_check_mark:")
+
     df = df.drop(["review_into_words", "review_words_stemmed"], axis=1)
     return df
 
@@ -626,11 +623,15 @@ def computeMD5hash(my_string):
 def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     #Connect to mysql daabase 
-    dbConnection = mysql.connector.connect(**st.secrets["mysql"])
 
-    #sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
+    host="localhost"
+    port=3306
+    user="bma52"
+    password="HB#FaZa*23271130**"
+    database="ActionRec_DB"
+    sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
 
-    #dbConnection = sqlEngine.connect()
+    dbConnection = sqlEngine.connect()
 
     # Product Table 
     df_product["context"] = df_product["context"].astype(str)
@@ -659,10 +660,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     frame_product = df_product.to_sql("Products", dbConnection, index = False, if_exists='append')
 
 
-    # Review Table
-    #df_reviews = df_reviews.reset_index()
-    #df_reviews = df_reviews.rename(columns={"index":"Review id"})
-    #df_reviews['Review id'] = df_reviews.index + 1000
+
 
     #df_reviews["Review id"] = df_reviews["Review id"].astype(str)
     df_reviews["context"] = df_reviews["context"].astype(str)
@@ -683,7 +681,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     df_reviews['reviewBody_md5'] = md5_review
 
-    frame_review = df_reviews.to_sql("Reviews", dbConnection,index = False, if_exists='append')
+    frame_review = df_reviews.to_sql("Reviews", dbConnection, index = False, if_exists='append')
 
 
     # Annotation Table 
@@ -806,7 +804,6 @@ def main():
 
         with st.expander("View Final Data Set"):
             st.write(df_final)
-        
         insert_to_mysql(df_product, df_reviews, df_final)
         
     
