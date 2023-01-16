@@ -107,13 +107,13 @@ def fetch_reviews(product_url):
     #st.write("Number of reviews in this page is {}".format(len(reviews)))
 
     df_product = df_product.rename(columns = {'name': 'product_name', '@type': 'type', '@context': 'context'})
-    #df_product["brand"].apply(pd.Series)
+    df_product['brand'].apply(pd.Series)
     df_product["aggregateRating"].apply(pd.Series)
     df_product["offers"].apply(pd.Series)
 
 
     df_product = pd.concat([df_product, df_product["brand"].apply(pd.Series)], axis=1)
-    #df_product = df_product.rename(columns = {'name': 'brand_name'})
+    df_product = df_product.rename(columns = {'name': 'brand_name'})
     df_product = pd.concat([df_product, df_product["aggregateRating"].apply(pd.Series)], axis=1)
     df_product = pd.concat([df_product, df_product["offers"].apply(pd.Series)], axis=1)
     df_product = pd.concat([df_product, df_product["seller"].apply(pd.Series)], axis=1)
@@ -122,7 +122,7 @@ def fetch_reviews(product_url):
 
 
     del df_product['@type']
-    #del df_product['brand']
+    del df_product['brand']
     del df_product['aggregateRating']
     del df_product['offers']
     del df_product['seller']
