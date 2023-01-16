@@ -29,7 +29,6 @@ import json
 import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
 import ssl
-import networkx as nx
 import streamlit_authenticator as stauth
 import yaml
 from streamlit_authenticator import hasher 
@@ -48,7 +47,7 @@ from sklearn import preprocessing
 
 import operator 
 from heapq import nlargest
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 
 
 
@@ -624,14 +623,14 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     #Connect to mysql daabase 
 
-    host="localhost"
-    port=3306
-    user="bma52"
-    password="HB#FaZa*23271130**"
-    database="ActionRec_DB"
-    sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
+    #host="localhost"
+    #port=3306
+    #user="bma52"
+    #password="HB#FaZa*23271130**"
+    #database="ActionRec_DB"
+    #sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
 
-    dbConnection = sqlEngine.connect()
+    dbConnection =  mysql.connector.connect(**st.secrets["mysql"])
 
     # Product Table 
     df_product["context"] = df_product["context"].astype(str)
