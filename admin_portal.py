@@ -44,7 +44,7 @@ from mysql.connector import errorcode
 import nltk.data
 from tables import index
 from sklearn import preprocessing
-
+import jprops
 import operator 
 from heapq import nlargest
 #from sqlalchemy import create_engine
@@ -720,10 +720,14 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     host="linked.aub.edu.lb"
     port=3306
     database ="reviews_actions_ml"
-    reader = ResourceBundle.getBundle("dbconfig.properties")
+    #reader = ResourceBundle.getBundle("dbconfig.properties")
+    
+
+
+    props = jprops.getJavaProperties(open("dbconfig.properties"))
     
     
-    dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(reader.getString("db.username"),reader.getString("db.password"), host, port, database))
+    dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(props["db.username"],props["db.password"], host, port, database))
 
     # Product Table 
     df_product["context"] = df_product["context"].astype(str)
