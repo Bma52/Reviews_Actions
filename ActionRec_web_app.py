@@ -723,14 +723,14 @@ def main(df_product, df_review, df_annotation) -> None:
         review_container(i)
         
         submit = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"]==i])
-        #next = st.button("Next Review", key = df_review["review_id"][df_review["reviewBody"]==i])
+        next = st.button("Next Review", key = df_review["reviewBody_md5"][df_review["reviewBody"]==i])
         if submit:
             st.write("Your Review was submitted successfully")
             
-        #if next:
-            #continue;
-        #else:
-            #break;
+        if next:
+            continue;
+        else:
+            break;
 
 
 
