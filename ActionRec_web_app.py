@@ -718,8 +718,8 @@ def main(df_product, df_review, df_annotation) -> None:
     for i in list_reviews:
         review_container(i)
         
-        submit = st.button("Submit Review", key = i)
-        next = st.button("Next Review", key = i)
+        submit = st.button("Submit Review", key = df_review["review_id"][df["reviewBody"]==i])
+        next = st.button("Next Review", key = df_review["review_id"][df["reviewBody"]==i])
         if submit:
             st.write("Your Review was submitted successfully")
             
