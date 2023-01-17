@@ -761,8 +761,11 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     df_product['product_name_md5'] = product_md5
     
+    product_cols = "`,`".join([str(i) for i in df_product.columns.tolist()])
+
+    
     for i,row in df_product.iterrows():
-        sql = "INSERT INTO `Product` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        sql = "INSERT INTO `Product` (`" + product_cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
         cursor.execute(sql, tuple(row))
         # the connection is not autocommitted by default, so we must commit to save our changes
         dbConnection.commit()
@@ -793,8 +796,10 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
 
     #frame_review = df_reviews.to_sql("Reviews", dbConnection, index = False, if_exists='append')
     
+    review_cols = "`,`".join([str(i) for i in df_reviews.columns.tolist()])
+    
     for i,row in df_reviews.iterrows():
-        sql = "INSERT INTO `Review` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        sql = "INSERT INTO `Review` (`" +review_cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
         cursor.execute(sql, tuple(row))
         # the connection is not autocommitted by default, so we must commit to save our changes
         dbConnection.commit()
@@ -823,7 +828,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     # calculating timestamps for the next 10 days
     timestamp_list = [base + datetime.timedelta(seconds=x) for x in range(n_seconds)]
     # iterating through timestamp_list
-    df_annotation["created_timestamp"] = timestamp_list
+    df_annotation["createdTimestamp"] = timestamp_list
 
     #df_annotation["Review id"] = df_annotation["Review id"].astype(str)
     df_annotation["reviewBody"] = df_annotation["reviewBody"].astype(str)
@@ -840,8 +845,11 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_annotation["annotation_md5"] = df_annotation["annotation_md5"].astype(str)
 
     #frame_annotation = df_annotation.to_sql("Annotation", dbConnection, index = False, if_exists='append')
+    
+    annotation_cols = "`,`".join([str(i) for i in df_annotation.columns.tolist()])
+    
     for i,row in df_annotation.iterrows():
-        sql = "INSERT INTO `Annotation` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        sql = "INSERT INTO `Annotation` (`" +annotation_cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
         cursor.execute(sql, tuple(row))
         # the connection is not autocommitted by default, so we must commit to save our changes
         dbConnection.commit()
