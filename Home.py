@@ -32,7 +32,7 @@ if authentication_status:
     if username == 'bma52':
         st.write(f'Welcome *{name}*')
         st.title('Annotator Page')
-    elif username == 'fz13' or username == 'wk47':
+    elif username == 'fz13':
         st.write(f'Welcome *{name}*')
         st.title('Admin page')
 elif authentication_status == False:
