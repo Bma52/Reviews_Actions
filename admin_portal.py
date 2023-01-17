@@ -726,7 +726,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     configs = Properties()
     
     with open('dbconfig.properties', 'rb') as config_file:
-    configs.load(config_file)
+         configs.load(config_file)
    
 
     #props = jprops.getJavaProperties(open("dbconfig.properties"))
