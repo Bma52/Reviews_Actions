@@ -1,0 +1,22 @@
+credentials:
+  usernames:
+    bma52:
+      email: bma52@mail.aub.edu
+      name: Bothaina Amro
+      password: '123' # To be replaced with hashed password
+    fz13:
+      email: fz13@aub.edu.lb
+      name: Fouad Zablith
+      password: '456' # To be replaced with hashed password
+    wk47:
+      email: wk47@aub.edu.lb
+      name: Wael Khreich
+      password: '789' # To be replaced with hashed password
+      
+cookie:
+  expiry_days: 60
+  key: random_signature_key
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - bma52@mail.aub.edu
