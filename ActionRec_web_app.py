@@ -119,16 +119,17 @@ def get_new_reviews_mysql() -> pd.DataFrame:
    
    
    
-    df_1 = pd.merge(product_data, review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_1 = pd.merge(product_data, review_data, validate ="one_to_many", suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
-    df_full = pd.merge(df_product, final_annotation_data, how = 'right', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_full = pd.merge(df_product, final_annotation_data, validate ="one_to_many", suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
       
-      
-      
-      
+     
     df_full = df_full.drop_duplicates(subset=["annotation_md5"], keep="first")
 
     return df_full
+
+
+
 
 
 def create_triplets(df_annotation, i):
@@ -142,9 +143,9 @@ def create_triplets(df_annotation, i):
     #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
     review_data = pd.read_sql("SELECT * FROM Reviews", connection)
 
-    df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_1 = pd.merge(product_data, review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
-    df = df_product .merge(df_annotation, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df = pd.merge(df_product, df_annotation, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
 
 
 
