@@ -68,22 +68,63 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 def get_new_reviews_mysql() -> pd.DataFrame:
    
     # database connection
-    connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
-    cursor = connection.cursor()
+    #connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
+    #cursor = connection.cursor()
+      
+      
+    host="linked.aub.edu.lb"
+    port=3306
+    database ="reviews_actions_ml"
 
-
-    product_data = pd.read_sql("SELECT * FROM Products", connection)
-    #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
-    review_data = pd.read_sql("SELECT * FROM Reviews", connection)
-    annotation_data = pd.read_sql("SELECT * FROM Annotation", connection)
-    annotation_data["Action Probability"] = annotation_data["Action Probability"].astype(float)
+    #reader = ResourceBundle.getBundle("dbconfig.properties")
     
-    #df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-    #df_product = pd.DataFrame(df_1)
+    configs = Properties()
+    
+    with open('dbconfig.properties', 'rb') as config_file:
+         configs.load(config_file)
+            
+ 
+    #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+    #cursor=dbConnection.cursor()
+
+    product_data = pd.read_sql_query("SELECT * FROM Product", dbConnection)
+    #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
+    review_data = pd.read_sql_query("SELECT * FROM Review", dbConnection)
+    annotation_data = pd.read_sql_query("SELECT * FROM Annotation", dbConnection)
+    checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    annotation_data["ActionProbability"] = annotation_data["ActionProbability"].astype(float)
+      
+    
+
+    annotation_ids = list(annotation_data["annotation_id"])
+    checked_annotation_ids = list(checked_data["checked_annotation_id"])
+      
+      
+    common_ids = set(annotation_ids).intersection(checked_annotation_ids)
+    if len(common_ids) != 0:
+        for i in common_ids:
+             annotation_ids.remove(i)
+    
+    
+        annotation_data = pd.read_sql_query("SELECT * FROM Annotation WHERE annotation_id IN annotation_ids", dbConnection)
+    
+        checked_data = pd.read_sql_query("SELECT * FROM Annotation WHERE checked_annotation_id IN common_ids", dbConnection)
+      
+    final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
+   
+   
+   
+   
+   
     df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
-    df_full = df_product .merge(annotation_data, how = 'right', on='Review id', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-    
+    df_full = df_product .merge(final_annotation_data, how = 'right', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+      
+      
+      
+      
+    df_full = df_full.drop_duplicates(subset=["annotation_md5"], keep="first")
 
     return df_full
 
@@ -361,7 +402,7 @@ def main(df) -> None:
     'Upgrade','Backup','Bend','Boot','Close','Communicate','Disconnect','Display','Fall','Improve','Lift','Light','Look','Navigate','Notify','Place',
     'Power','Press','Process','Project','Protect','Reduce','Reflect','Refresh','Respond','Scan','See','Select','Shake','Sign','Sketch','Start','Turn','Update',
     'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record']
-    features = ['ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
+    features = ['<select>','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
        'ScreenQuality', 'ProcessingPower', 'Lightweight',
        'ScreenRefreshRate', 'CPU', 'Speed', 'BatteryLife', 'Fans',
        'DiscDrive', 'PairXboxController', 'Camera', 'ScreenSize',
@@ -378,14 +419,14 @@ def main(df) -> None:
        'tr', 'InternalDrive', 'Microsoft', 'Fan', 'NumericKeypad',
        'Cortana', 'SleepMode', 'OpenBox', 'SurfaceSlimPen',
        'WindowsHello', 'SPen']
-    environments = ['Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
+    environments = ['<select>', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
        'Room']
-    agents = ['Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
+    agents = ['<select>', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
        'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
        'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
        'Freelancer', 'Developer', 'Photographer']
-    valence = ['Positive', 'Negative', 'Neutral']
-    objects = ['Games', 'Media', 'Application', 'Movie', 'Pictures',
+    valence = ['<select>', 'Positive', 'Negative', 'Neutral']
+    objects = ['<select>','Games', 'Media', 'Application', 'Movie', 'Pictures',
        'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
        'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
        'Design', 'Data', 'WorkTasks', 'Music', 'FaceTime', 'iMessage',
@@ -635,7 +676,7 @@ def main(df) -> None:
                         df_checked_annotation["Object"][i] = df["Object"][i]
 
 
-                    st.button(label="Submit")
+                    confirmed_check = st.checkbox("Confirm annotation", key = i)
        
        return df_checked_annotation, i
 
@@ -656,43 +697,16 @@ def main(df) -> None:
           st.write(i)
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
           if sorting_proba:
-             df_one_review = df_one_review.sort_values(by = ["Action Probability"] , ascending=False)
+             df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["Action Probability"][row])
-            if df_one_review["Action Flag"][row] == "Action Exist":
+            if df_one_review["ActionFlag"][row] == "Action Exist":
                  df_checked_annotation, i = form(df_one_review, row)
-
-
-                 KG_btn = st.button(label="Create Knowledge Graph & Push to Triple Store", key=df_checked_annotation["annotation_md5"][i])
-                 st.markdown("""---""")
-                 if KG_btn:
-                    df_checked_annotation = df_checked_annotation.drop(["created_timestamp"] , axis=1)
-                    #st.write(df_checked_annotation)
-                    n_seconds = len(df_checked_annotation["annotation"])
-                    base = pd.Timestamp.today()
-                    checked_timestamp_list = [base + datetime.timedelta(seconds=x) for x in range(n_seconds)]
-                    df_checked_annotation["created_timestamp"] = checked_timestamp_list
-                    #insert_checked_annotation(df_checked_annotation, row)
-                    create_triplets(df_checked_annotation, row)
-
-          
- 
-                     
-
             else:
                  df_checked_annotation = no_form(df_one_review, row)
-                 #st.button(label="Create Knowledge Graph & Push to triple store")
-                 KG_btn = st.button(label="Create Knowledge Graph & Push to triple store", key=df_checked_annotation["annotation_md5"][i])
+
                  st.markdown("""---""")
-                 if KG_btn:
-                    df_checked_annotation = df_checked_annotation.drop(["created_timestamp"] , axis=1)
-                    #st.write(df_checked_annotation)
-                    n_seconds = len(df_checked_annotation["annotation"])
-                    base = pd.Timestamp.today()
-                    checked_timestamp_list = [base + datetime.timedelta(seconds=x) for x in range(n_seconds)]
-                    df_checked_annotation["cretaed_timestamp"] = checked_timestamp_list
-                    #insert_checked_annotation(df_checked_annotation, row)
-                    create_triplets(df_checked_annotation, row)
+
  
           
 
