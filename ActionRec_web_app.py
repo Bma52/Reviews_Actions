@@ -69,11 +69,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 
 def get_new_reviews_mysql():
    
-    # database connection
-    #connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
-    #cursor = connection.cursor()
-      
-      
+
     host="linked.aub.edu.lb"
     port=3306
     database ="reviews_actions_ml"
