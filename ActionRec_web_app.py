@@ -696,16 +696,16 @@ def main(df_product, df_review, df_annotation) -> None:
     list_reviews = df_review["reviewBody"].unique()
 
     
-    def review_container(i):
+    def review_container(j):
           #placeholder = st.empty()
             
-          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
+          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == j]
           st.write(df_one_review)
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
-          st.subheader(df_review["product_name"][df_review["reviewBody"] == i].unique())
+          st.subheader(df_review["product_name"][df_review["reviewBody"] == j].unique())
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
           st.write(i)
-          sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
+          sorting_proba = st.checkbox("Sort annotations by machine scores", key = j)
           if sorting_proba:
              df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
           for row in df_one_review.index:
@@ -713,7 +713,7 @@ def main(df_product, df_review, df_annotation) -> None:
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  df_checked_annotation, i = form(df_one_review, row)
             else:
-                 df_checked_annotation = no_form(df_one_review, row)
+                 df_checked_annotation, i = no_form(df_one_review, row)
 
                  st.markdown("""---""")
 
@@ -721,8 +721,8 @@ def main(df_product, df_review, df_annotation) -> None:
           
 
 
-    for i in list_reviews:
-        review_container(i)
+    for j in list_reviews:
+        review_container(j)
         
         submit = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"]==i])
         next = st.button("Next Review", key = df_review["reviewBody_md5"][df_review["reviewBody"]==i])
