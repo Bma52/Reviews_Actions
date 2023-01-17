@@ -269,14 +269,14 @@ def predict_informative_annotations(df_reviews):
     count_vect, tfidf_transformer = train_model_action_flag()
 
     result_action_flag, proba_action = action_no_action_model(x,count_vect, tfidf_transformer)
-    df_final["Action Flag"] = result_action_flag
+    df_final["ActionFlag"] = result_action_flag
 
     probas = []
     for i in proba_action[:,0]:
         proba = round(i, 2) * 100
         probas.append(proba)
     
-    df_final["Action Probability"] = probas  
+    df_final["ActionProbability"] = probas  
     
     #st.write("Number of informative annotations that might refers to an actions is {0}, out of {1}".format(df_final['Action Flag'].value_counts()['Action Exist'], df_final.shape[0]))
 
@@ -321,7 +321,7 @@ def train_model_action_flag() -> object:
 
     df = pd.read_csv("Action classified dataset.csv")
     x = df[["review sentences"]]
-    y=df[["Action Flag"]]
+    y=df[["ActionFlag"]]
 
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
@@ -476,7 +476,7 @@ def action_no_action_model(x, count_vect, tfidf_transformer ):
 
 def predict_action(df):
 
-    df = df[df["Action Flag"] == "Action Exist"]
+    df = df[df["ActionFlag"] == "Action Exist"]
     x = df["review sentences"]
     filename_multi_action = 'multi_label_action_model.sav'
     loaded_model_multi_action = pickle.load(open(filename_multi_action, 'rb'))
@@ -732,13 +732,9 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
             
  
     #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
-    #dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
     
-    dbConnection = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-                       .format(user=configs.get("db.username").data,
-                               pw=configs.get("db.password").data,
-                               host="linked.aub.edu.lb",
-                               db="reviews_actions_ml"))
+
     
     
     # Product Table 
@@ -764,8 +760,14 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
         product_md5.append(hashed_name)
     
     df_product['product_name_md5'] = product_md5
+    
+    for i,row in df_product.iterrows():
+        sql = "INSERT INTO `Product` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        cursor.execute(sql, tuple(row))
+        # the connection is not autocommitted by default, so we must commit to save our changes
+        dbConnection.commit()
 
-    frame_product = df_product.to_sql("Products", dbConnection, index = False, if_exists='append')
+    #frame_product = df_product.to_sql("Products", dbConnection, index = False, if_exists='append')
 
 
 
@@ -789,9 +791,19 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     
     df_reviews['reviewBody_md5'] = md5_review
 
-    frame_review = df_reviews.to_sql("Reviews", dbConnection, index = False, if_exists='append')
+    #frame_review = df_reviews.to_sql("Reviews", dbConnection, index = False, if_exists='append')
+    
+    for i,row in df_reviews.iterrows():
+        sql = "INSERT INTO `Review` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        cursor.execute(sql, tuple(row))
+        # the connection is not autocommitted by default, so we must commit to save our changes
+        dbConnection.commit()
 
-
+        
+        
+        
+        
+        
     # Annotation Table 
     df_annotation.rename(columns = {'review sentences':'annotation'}, inplace = True)
     df_annotation = df_annotation[['reviewBody','annotation', 'Action Flag',
@@ -816,8 +828,8 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     #df_annotation["Review id"] = df_annotation["Review id"].astype(str)
     df_annotation["reviewBody"] = df_annotation["reviewBody"].astype(str)
     df_annotation["annotation"] = df_annotation["annotation"].astype(str)
-    df_annotation["Action Flag"] = df_annotation["Action Flag"].astype(str)
-    df_annotation["Action Probability"] = df_annotation["Action Probability"].astype(float)
+    df_annotation["ActionFlag"] = df_annotation["ActionFlag"].astype(str)
+    df_annotation["ActionProbability"] = df_annotation["ActionProbability"].astype(float)
     df_annotation["Actions"] = df_annotation["Actions"].astype(str)
     df_annotation["Features"] = df_annotation["Features"].astype(str)
     df_annotation["Agent"] = df_annotation["Agent"].astype(str)
@@ -827,7 +839,16 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_annotation["Ability"] = df_annotation["Ability"].astype(str)
     df_annotation["annotation_md5"] = df_annotation["annotation_md5"].astype(str)
 
-    frame_annotation = df_annotation.to_sql("Annotation", dbConnection, index = False, if_exists='append')
+    #frame_annotation = df_annotation.to_sql("Annotation", dbConnection, index = False, if_exists='append')
+    for i,row in df_annotation.iterrows():
+        sql = "INSERT INTO `Annotation` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        cursor.execute(sql, tuple(row))
+        # the connection is not autocommitted by default, so we must commit to save our changes
+        dbConnection.commit()
+    
+    
+    
+    
     
     st.write("Data is now stored in MySQL Data base management system.")
 
