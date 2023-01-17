@@ -1,43 +1,26 @@
-import streamlit_authenticator as stauth
-import streamlit as st
-import yaml
-from yaml.loader import SafeLoader
-from streamlit_authenticator import Hasher
-from streamlit_authenticator import Authenticate
-
-
-
-with open('config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
+import streamlit as st  
     
     
     
-    
-authenticator = Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
+# Create an empty container
+placeholder = st.empty()
 
+actual_email = "bma52@mail.aub.edu"
+actual_password = "123"
 
+# Insert a form in the container
+with placeholder.form("login"):
+    st.markdown("#### Enter your credentials")
+    email = st.text_input("Email")
+    password = st.text_input("Password", type="password")
+    submit = st.form_submit_button("Login")
 
-name, authentication_status, username = authenticator.login('Login', 'main')
-
-
-name, authentication_status, username = authenticator.login('Login', 'main')
-if authentication_status:
-    authenticator.logout('Logout', 'main')
-    if username == 'bma52':
-        st.write(f'Welcome *{name}*')
-        st.title('Annotator Page')
-    elif username == 'fz13':
-        st.write(f'Welcome *{name}*')
-        st.title('Admin page')
-elif authentication_status == False:
-    st.error('Username/password is incorrect')
-elif authentication_status == None:
-    st.warning('Please enter your username and password')
-    
-    
+if submit and email == actual_email and password == actual_password:
+    # If the form is submitted and the email and password are correct,
+    # clear the form/container and display a success message
+    placeholder.empty()
+    st.success("Login successful")
+elif submit and email != actual_email and password != actual_password:
+    st.error("Login failed")
+else:
+    pass
