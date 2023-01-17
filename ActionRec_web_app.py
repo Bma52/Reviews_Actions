@@ -49,7 +49,7 @@ from streamlit_authenticator import hasher
 import pymysql
 import jprops
 from jproperties import Properties
-import SQLAlchemy
+import sqlalchemy 
 
 from flask import Flask
 
