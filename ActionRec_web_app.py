@@ -109,11 +109,11 @@ def get_new_reviews_mysql():
              annotation_ids.remove(i)
     
     
-        annotation_data = pd.read_sql_query("SELECT * FROM Annotation WHERE annotation_id IN annotation_ids", dbConnection)
+    annotation_data = pd.read_sql_query("SELECT * FROM Annotation WHERE annotation_id IN annotation_ids", dbConnection)
     
-        checked_data = pd.read_sql_query("SELECT * FROM Annotation WHERE checked_annotation_id IN common_ids", dbConnection)
+    checked_data = pd.read_sql_query("SELECT * FROM Annotation WHERE checked_annotation_id IN common_ids", dbConnection)
       
-        final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
+    final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
    
    
    
