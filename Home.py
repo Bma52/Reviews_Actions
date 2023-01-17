@@ -1,4 +1,5 @@
 import streamlit as st  
+import admin_portal
     
     
     
@@ -7,6 +8,7 @@ placeholder = st.empty()
 
 actual_email = "bma52@mail.aub.edu"
 actual_password = "123"
+name = "Bothaina Amro"
 
 # Insert a form in the container
 with placeholder.form("login"):
@@ -23,4 +25,5 @@ if submit and email == actual_email and password == actual_password:
 elif submit and email != actual_email and password != actual_password:
     st.error("Login failed")
 else:
-    pass
+    st.write(f'Welcome *{name}*')
+    exec(open('admin_portal.py').read())
