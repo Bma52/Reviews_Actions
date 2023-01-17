@@ -67,7 +67,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 
 
 
-def get_new_reviews_mysql() -> pd.DataFrame:
+def get_new_reviews_mysql():
    
     # database connection
     #connection = pymysql.connect(host="localhost", port=3306, user="bma52", passwd="HB#FaZa*23271130**", database="ActionRec_DB")
@@ -113,7 +113,7 @@ def get_new_reviews_mysql() -> pd.DataFrame:
     
         checked_data = pd.read_sql_query("SELECT * FROM Annotation WHERE checked_annotation_id IN common_ids", dbConnection)
       
-    final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
+        final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
    
    
    
