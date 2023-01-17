@@ -732,8 +732,10 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     #props = jprops.getJavaProperties(open("dbconfig.properties"))
     
     
-    dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
-
+    #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+    
+    
     # Product Table 
     df_product["context"] = df_product["context"].astype(str)
     df_product["type"] = df_product["type"].astype(str)
