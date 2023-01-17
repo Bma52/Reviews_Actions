@@ -597,7 +597,7 @@ def convert_review(string):
 
 
 def feature_extraction(df):
-    df = df[df["Action Flag"] == "Action Exist"]
+    df = df[df["ActionFlag"] == "Action Exist"]
     review_lists = []
     for i in df["review sentences"]:
         review_splitted = convert_review(i)
@@ -806,8 +806,8 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
         
     # Annotation Table 
     df_annotation.rename(columns = {'review sentences':'annotation'}, inplace = True)
-    df_annotation = df_annotation[['reviewBody','annotation', 'Action Flag',
-       'Action Probability', 'Actions', 'Features', 'Agent', 'Environment',
+    df_annotation = df_annotation[['reviewBody','annotation', 'ActionFlag',
+       'ActionProbability', 'Actions', 'Features', 'Agent', 'Environment',
        'Valence', 'Object', 'Ability']]
 
     md5_annotation = []
@@ -906,7 +906,7 @@ def main():
         col2.metric(label="Number of Reviews", value=df_reviews.shape[0])     
         col3.metric(label="Number of Annotations", value = df_final.shape[0])
 
-        st.write("Out of {0} annotations, {1} are informtaive referencing to an action.".format(df_final.shape[0], df_final[df_final["Action Flag"] == "Action Exist"].shape[0]))
+        st.write("Out of {0} annotations, {1} are informtaive referencing to an action.".format(df_final.shape[0], df_final[df_final["ActionFlag"] == "Action Exist"].shape[0]))
         with st.spinner('Predicting Semantics'):
              #time.sleep(50)
             df_train = sparql_query()
