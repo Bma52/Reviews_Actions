@@ -321,7 +321,7 @@ def train_model_action_flag() -> object:
 
     df = pd.read_csv("Action classified dataset.csv")
     x = df[["review sentences"]]
-    y=df[["ActionFlag"]]
+    y=df[["Action Flag"]]
 
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
