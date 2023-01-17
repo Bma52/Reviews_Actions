@@ -97,7 +97,7 @@ def get_new_reviews_mysql():
     checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
     annotation_data["ActionProbability"] = annotation_data["ActionProbability"].astype(float)
       
-    
+    dbConnection.commit()
 
     annotation_ids = list(annotation_data["annotation_id"])
     checked_annotation_ids = list(checked_data["checked_annotation_id"])
@@ -114,6 +114,8 @@ def get_new_reviews_mysql():
         checked_data = pd.read_sql_query("SELECT * FROM Annotation WHERE checked_annotation_id IN common_ids", dbConnection)
       
         final_annotation_data = annotation_data.append(checked_data, ignore_index=True)
+         
+         
     else:
       final_annotation_data = annotation_data
    
