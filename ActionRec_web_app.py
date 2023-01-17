@@ -119,9 +119,9 @@ def get_new_reviews_mysql() -> pd.DataFrame:
    
    
    
-    df_1 = product_data.merge(review_data, how = 'right', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_1 = product_data.merge(review_data, how = 'inner', on = 'product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
-    df_full = df_product .merge(final_annotation_data, how = 'right', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_full = df_product .merge(final_annotation_data, how = 'inner', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
       
       
       
