@@ -701,7 +701,7 @@ def main(df) -> None:
           if sorting_proba:
              df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
           for row in df_one_review.index:
-            st.write("The probability of this part of the review having an action is ", df_one_review["Action Probability"][row])
+            st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  df_checked_annotation, i = form(df_one_review, row)
             else:
