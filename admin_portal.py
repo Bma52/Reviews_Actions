@@ -346,10 +346,92 @@ def train_model_action_flag() -> object:
 
 
 
+def train_environment_detetction_model(df_train):
+    df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
-def train_agent_detection_model():
+    x = df_train[["Review Body"]]
+    y = df_train[["Environment"]]
+    
+    x=x.iloc[:,0]
+    y=y.iloc[:,:]
+
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+    
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    clf= SVC(random_state = 0)
+    clf.fit(X_train_tfidf, y_train.values)
+    acc = clf.score(X_train_tfidf, y_train.values)
+    print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
+    
+
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_env = clf.predict(x_test_tfidf)
+    
+    
+    
+    filename_clf = 'SVM_environment_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
+    return creport(y_test, y_pred_env)
+
+
+def train_valence_detection_model(df_train):
+    x = df_train[["Review Body"]]
+    y = df_train[["Valence"]]
+    
+    x=x.iloc[:,0]
+    y=y.iloc[:,:]
+
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    LR= linear_model.LogisticRegression()
+    LR.fit(X_train_tfidf, y_train.values)
+    LR.score(X_train_tfidf, y_train.values)
+ 
+
+
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_val = LR.predict(x_test_tfidf)
+
+    
+    filename_LR = 'LR_valence_model_2.sav'
+    pickle.dump(LR, open(filename_LR, 'wb'))
+    return creport(y_test, y_pred_val)
+
+
+
+def train_object_detection_model(df_train):
+    x = df_train[["Review Body"]]
+    y = df_train[["Object"]]
+    
+    x=x.iloc[:,0]
+    y=y.iloc[:,:]
+
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    clf= SVC(random_state = 0)
+    clf.fit(X_train_tfidf, y_train.values)
+    acc = clf.score(X_train_tfidf, y_train.values)
+
+
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_obj = clf.predict(x_test_tfidf)
+ 
+    
+    filename_clf = 'SVM_object_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
+    return creport(y_test, y_pred_obj)
+
+
+
+
+def train_agent_detection_model(df_train):
     # Train the agent detection model with a split 80%, 20% and observe. 
-    df_train = sparql_query()
+    
     df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
 
     x = df_train[["Review Body"]]
@@ -366,6 +448,12 @@ def train_agent_detection_model():
     clf.fit(X_train_tfidf, y_train.values)
     acc = clf.score(X_train_tfidf, y_train.values)
     #print("Accuracy for agent detection model on training set (80% of total dataset) is :", acc)
+
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_env = clf.predict(x_test_tfidf)
+
+    filename_clf = 'SVM_agent_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
 
     return count_vect, tfidf_transformer
 
@@ -779,7 +867,8 @@ def main():
         st.write("Out of {0} annotations, {1} are informtaive referencing to an action.".format(df_final.shape[0], df_final[df_final["Action Flag"] == "Action Exist"].shape[0]))
         with st.spinner('Predicting Semantics'):
              #time.sleep(50)
-            count_vect, tfidf_transformer = train_agent_detection_model()
+            df_train = sparql_query()
+            count_vect, tfidf_transformer = train_agent_detection_model(df_train)
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
             with col1:
@@ -803,14 +892,17 @@ def main():
 
         with st.expander("View Final Data Set"):
             st.write(df_final)
-        insert_to_mysql(df_product, df_reviews, df_final)
+        #insert_to_mysql(df_product, df_reviews, df_final)
+        
+        retrain_btn = st.button("Retrain ML models")
+        if retrain_btn:
+            report_agent = train_agent_detection_model(df_train)
+            report_env = train_environment_detection_model(df_train)
+            report_valence = train_valence_detection_model(df_train)
+            report_obj = train_object_detection_model(df_train)
+                                
         
     
-
-    
-
-        
-
 
 
 if __name__ == "__main__":
