@@ -717,7 +717,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     #password="HB#FaZa*23271130**"
     #database="ActionRec_DB"
     #sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
-    host=linked.aub.edu.lb
+    host="linked.aub.edu.lb"
     port=3306
     database ="reviews_actions_ml"
     reader = ResourceBundle.getBundle("dbconfig.properties")
