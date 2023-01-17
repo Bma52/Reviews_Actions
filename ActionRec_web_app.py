@@ -696,7 +696,7 @@ def main(df_product, df_review, df_annotation) -> None:
           #placeholder = st.empty()
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
-          st.subheader(df_review["product_name"][df_review["reviewBody"] == i])
+          st.subheader(df_review["product_name"][df_review["reviewBody"] == i].unique())
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
           st.write(i)
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
@@ -718,8 +718,8 @@ def main(df_product, df_review, df_annotation) -> None:
     for i in list_reviews:
         review_container(i)
         
-        submit = st.button("Submit Review", key = df_review["review_id"][df["reviewBody"]==i])
-        next = st.button("Next Review", key = df_review["review_id"][df["reviewBody"]==i])
+        submit = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"]==i])
+        next = st.button("Next Review", key = df_review["review_id"][df_review["reviewBody"]==i])
         if submit:
             st.write("Your Review was submitted successfully")
             
