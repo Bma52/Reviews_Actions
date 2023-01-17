@@ -434,7 +434,7 @@ def train_object_detection_model(df_train):
 def train_agent_detection_model(df_train):
     # Train the agent detection model with a split 80%, 20% and observe. 
     
-    df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
+    df_train["Agent"] = df_train["Agent"].ravel().str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
 
     x = df_train[["Review Body"]]
     y = df_train[["Agent"]]
