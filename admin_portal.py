@@ -717,8 +717,13 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     #password="HB#FaZa*23271130**"
     #database="ActionRec_DB"
     #sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
-
-    dbConnection =  mysql.connector.connect(**st.secrets["mysql"])
+    host=linked.aub.edu.lb
+    port=3306
+    database ="reviews_actions_ml"
+    reader = ResourceBundle.getBundle("dbconfig.properties")
+    
+    
+    dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(reader.getString("db.username"),reader.getString("db.password"), host, port, database))
 
     # Product Table 
     df_product["context"] = df_product["context"].astype(str)
