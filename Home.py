@@ -2,8 +2,8 @@ import streamlit_authenticator as stauth
 import streamlit as st
 import yaml
 from yaml.loader import SafeLoader
-#from .hasher import Hasher
-from .authenticate import Authenticate
+from hasher import Hasher
+from authenticate import Authenticate
 
 
 
