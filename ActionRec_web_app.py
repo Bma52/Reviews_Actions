@@ -119,14 +119,16 @@ def get_new_reviews_mysql() -> pd.DataFrame:
    
    
    
-    df_1 = pd.merge(product_data, review_data, validate ="one_to_many", suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-    df_product = pd.DataFrame(df_1)
-    df_full = pd.merge(df_product, final_annotation_data, validate ="one_to_many", suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-      
+    #df_1 = pd.merge(product_data, review_data, how = 'right', on='product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    #df_product = pd.DataFrame(df_1)
+    #df_full = pd.merge(df_product, final_annotation_data, how = 'right', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+    df_product = pd.DataFrame(product_data)
+    df_review = pd.DataFrame(review_data)
      
-    df_full = df_full.drop_duplicates(subset=["annotation_md5"], keep="first")
+    final_annotation_data = final_annotation_data.drop_duplicates(subset=["annotation_md5"], keep="first")
+    
 
-    return df_full
+    return  df_product, df_review, final_annotation_data
 
 
 
@@ -394,7 +396,7 @@ def insert_checked_annotation(df, i):
 
 
 @st.cache(suppress_st_warning=True)
-def main(df) -> None:
+def main(df_product, df_review, df_annotation) -> None:
 
 
     actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
@@ -452,21 +454,21 @@ def main(df) -> None:
     
     
     
-    def form(df, i):
+    def form(df_annotation, i):
        st.session_state = i
        #st.session_state.a_list = []
        
-       df_checked_annotation = df
+       df_checked_annotation = df_annotation
 
        with st.container():
-           st.subheader(df["annotation"][i])
+           st.subheader(df_annotation["annotation"][i])
     
            col1, col2, col3 = st.columns(3)
            
         
            with col1: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
-               st.write(df["Actions"][i])
+               st.write(df_annotation["Actions"][i])
                #st.caption("Please confirm machine results")
                checked_action = st.radio(
                  "Is machine prediction correct?",
@@ -485,12 +487,12 @@ def main(df) -> None:
                         
                         df_checked_annotation["Actions"][i] = new_action+"Action"
                     else:
-                        df_checked_annotation["Actions"][i] = df["Actions"][i]
+                        df_checked_annotation["Actions"][i] = df_annotation["Actions"][i]
                     
                st.markdown("""---""")
  
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Feature</p>', unsafe_allow_html=True)
-               st.write(df["Features"][i])
+               st.write(df_annotation["Features"][i])
                #st.caption("Please confirm machine results")
                checked_feature = st.radio(
                  "Is machine prediction correct?",
@@ -506,14 +508,14 @@ def main(df) -> None:
                     if new_feature != '<select>':
                         df_checked_annotation["Features"][i] = new_feature
                     else:
-                        df_checked_annotation["Features"][i] = df["Features"][i]
+                        df_checked_annotation["Features"][i] = df_annotation["Features"][i]
 
                #st.button(label="Edit Labels")
                
                
            with col2: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Agent</p>', unsafe_allow_html=True)
-               st.write(df["Agent"][i])
+               st.write(df_annotation["Agent"][i])
                #st.caption("Please confirm machine results")
                checked_agent = st.radio(
                  "Is machine prediction correct?",
@@ -529,14 +531,14 @@ def main(df) -> None:
                     if new_agent != '<select>':
                         df_checked_annotation["Agent"][i] = new_agent
                     else:
-                        df_checked_annotation["Agent"][i] = df["Agent"][i]
+                        df_checked_annotation["Agent"][i] = df_annotation["Agent"][i]
                     
                   
                st.markdown("""---""")
 
 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Valence</p>', unsafe_allow_html=True)
-               st.write(df["Valence"][i])
+               st.write(df_annotation["Valence"][i])
                #st.caption("Please confirm machine results")
                checked_valence = st.radio(
                  "Is machine prediction correct?",
@@ -552,14 +554,14 @@ def main(df) -> None:
                     if new_valence != '<select>':
                         df_checked_annotation["Valence"][i] = new_valence
                     else:
-                        df_checked_annotation["Valence"][i] = df["Valence"][i]
+                        df_checked_annotation["Valence"][i] = df_annotation["Valence"][i]
 
                     
                
 
            with col3: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Environment</p>', unsafe_allow_html=True)
-               st.write(df["Environment"][i])
+               st.write(df_annotation["Environment"][i])
                #st.caption("Please confirm machine results")
                checked_env = st.radio(
                  "Is machine prediction correct?",
@@ -575,12 +577,12 @@ def main(df) -> None:
                     if new_env != '<select>':
                         df_checked_annotation["Environment"][i] = new_env
                     else:
-                        df_checked_annotation["Environment"][i] = df["Environment"][i]
+                        df_checked_annotation["Environment"][i] = df_annotation["Environment"][i]
                   
                st.markdown("""---""")
 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Object</p>', unsafe_allow_html=True)
-               st.write(df["Object"][i])
+               st.write(df_annotation["Object"][i])
                #st.caption("Please confirm machine results")
                checked_obj = st.radio(
                  "Is machine prediction correct?",
@@ -596,7 +598,7 @@ def main(df) -> None:
                     if new_obj != '<select>':
                         df_checked_annotation["Object"][i] = new_obj
                     else:
-                        df_checked_annotation["Object"][i] = df["Object"][i]
+                        df_checked_annotation["Object"][i] = df_annotation["Object"][i]
 
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
@@ -606,12 +608,12 @@ def main(df) -> None:
                
 
 
-    def no_form(df, i):
+    def no_form(df_annotation, i):
        #st.session_state.a_list = []
-       df_checked_annotation = df
+       df_checked_annotation = df_annotation
        st.session_state = i
        with st.container():
-           st.subheader(df["annotation"][i])
+           st.subheader(df_annotation["annotation"][i])
            
            st.write("This Annotation has no Action 🚨")
            result1 = st.checkbox("Confirm machine result")
@@ -630,7 +632,7 @@ def main(df) -> None:
                         st.write(new_action)
                         df_checked_annotation["Actions"][i] = new_action+"Action"
                     else:
-                        df_checked_annotation["Actions"][i] = df["Actions"][i]
+                        df_checked_annotation["Actions"][i] = df_annotation["Actions"][i]
 
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features
@@ -638,7 +640,7 @@ def main(df) -> None:
                     if new_feature != '<select>':
                         df_checked_annotation["Features"][i] = new_feature
                     else:
-                        df_checked_annotation["Features"][i] = df["Features"][i]
+                        df_checked_annotation["Features"][i] = df_annotation["Features"][i]
                         
                with col2:
                     new_agent = st.selectbox(
@@ -647,7 +649,7 @@ def main(df) -> None:
                     if new_agent != '<select>':
                         df_checked_annotation["Agent"][i] = new_agent
                     else:
-                        df_checked_annotation["Agent"][i] = df["Agent"][i]
+                        df_checked_annotation["Agent"][i] = df_annotation["Agent"][i]
 
 
                     new_valence = st.selectbox(
@@ -656,7 +658,7 @@ def main(df) -> None:
                     if new_valence != '<select>':
                         df_checked_annotation["Valence"][i] = new_valence
                     else:
-                        df_checked_annotation["Valence"][i] = df["Valence"][i]
+                        df_checked_annotation["Valence"][i] = df_annotation["Valence"][i]
 
 
                with col3:
@@ -667,7 +669,7 @@ def main(df) -> None:
                     if new_env != '<select>':
                         df_checked_annotation["Environment"][i] = new_env
                     else:
-                        df_checked_annotation["Environment"][i] = df["Environment"][i]
+                        df_checked_annotation["Environment"][i] = df_annotation["Environment"][i]
 
                     new_obj = st.selectbox(
                        "Please select the correct Object.", objects
@@ -676,7 +678,7 @@ def main(df) -> None:
                     if new_obj != '<select>':
                         df_checked_annotation["Object"][i] = new_obj
                     else:
-                        df_checked_annotation["Object"][i] = df["Object"][i]
+                        df_checked_annotation["Object"][i] = df_annotation["Object"][i]
 
 
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
@@ -687,16 +689,14 @@ def main(df) -> None:
 
     
 
-    list_reviews = df["reviewBody"].unique()
+    list_reviews = df_review["reviewBody"].unique()
 
     
     def review_container(i):
           #placeholder = st.empty()
-          st.write(df)
-          st.write(i)
-          df_one_review = df.loc[df['reviewBody'] == i]
+          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
-          st.subheader(df_one_review["product_name"].unique())
+          st.subheader(df_review["product_name"][df_review["reviewBody"] == i])
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
           st.write(i)
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
@@ -735,5 +735,5 @@ def main(df) -> None:
 if __name__ == "__main__":
 
 
-    df = get_new_reviews_mysql()
-    main(df)
+    df_product, df_review, df_annotation = get_new_reviews_mysql()
+    main(df_product, df_review, df_annotation)
