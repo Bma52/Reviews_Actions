@@ -735,9 +735,9 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
    
 
     #props = jprops.getJavaProperties(open("dbconfig.properties"))
-     sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
+    sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(user, password, host, port, database))
 
-     dbConnection = sqlEngine.connect()
+    dbConnection = sqlEngine.connect()
     
     #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
     #dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
