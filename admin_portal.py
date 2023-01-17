@@ -730,17 +730,15 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     with open('dbconfig.properties', 'rb') as config_file:
          configs.load(config_file)
             
-    user=configs.get("db.username").data
-    password=configs.get("db.password").data
-   
-
-    #props = jprops.getJavaProperties(open("dbconfig.properties"))
-    sqlEngine = create_engine("mysql+pymysql://{0}:{1}@{2}/{3}".format(user, password, host, database))
-
-    dbConnection = sqlEngine.connect()
-    
+ 
     #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
     #dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+    
+    dbConnection = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
+                       .format(user=configs.get("db.username").data,
+                               pw=configs.get("db.password").data,
+                               host="linked.aub.edu.lb",
+                               db="reviews_actions_ml"))
     
     
     # Product Table 
