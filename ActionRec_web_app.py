@@ -691,7 +691,8 @@ def main(df) -> None:
     
     def review_container(i):
           #placeholder = st.empty()
-          
+          st.write(df)
+          st.write(i)
           df_one_review = df.loc[df['reviewBody'] == i]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
           st.subheader(df_one_review["product_name"].unique())
