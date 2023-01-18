@@ -730,15 +730,12 @@ def main(df_product, df_review, df_annotation) -> None:
         df_one_review = review_container(i)
         
         submit_btn = st.button("Submit Review", key = df_one_review["reviewBody"].unique())
-        next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
+        #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
         
         if submit_btn:
             st.write("Your Review was submitted successfully")
-     
-        if next_btn:
             continue;
-        else:
-            break;
+
 
 
 
