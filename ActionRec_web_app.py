@@ -221,7 +221,7 @@ def main(df_annotation) -> None:
     
     
     def form(df_annotation, i):
-       st.session_state = i
+       st.session_state = True
        #st.session_state.a_list = []
        
        df_checked_annotation = df_annotation
@@ -378,8 +378,10 @@ def main(df_annotation) -> None:
 
     def no_form(df_annotation, i):
        #st.session_state.a_list = []
+       
+       st.session_state = True
+         
        df_checked_annotation = df_annotation
-       st.session_state = i
        with st.container():
            st.subheader(df_annotation["annotation"][i])
            
