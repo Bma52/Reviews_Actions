@@ -161,7 +161,7 @@ def insert_checked_annotation(df):
 
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache()
 def main(df_annotation) -> None:
 
 
