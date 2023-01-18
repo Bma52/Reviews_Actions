@@ -161,7 +161,7 @@ def insert_checked_annotation(df, i):
 
 
 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def main(df_annotation) -> None:
 
 
@@ -221,7 +221,7 @@ def main(df_annotation) -> None:
     
     
     def form(df_annotation, i):
-       st.session_state = True
+       st.session_state = i
        #st.session_state.a_list = []
        
        df_checked_annotation = df_annotation
@@ -379,7 +379,7 @@ def main(df_annotation) -> None:
     def no_form(df_annotation, i):
        #st.session_state.a_list = []
        
-       st.session_state = True
+       st.session_state = i
          
        df_checked_annotation = df_annotation
        with st.container():
