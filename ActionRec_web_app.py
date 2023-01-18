@@ -106,9 +106,45 @@ def get_new_reviews_mysql():
     
 
     return  df_full
+   
+   
+   
+   
+def insert_checked_annotation(df, i):
+    
+    # database connection
+    try:
+        host="linked.aub.edu.lb"
+        port=3306
+        database ="reviews_actions_ml"
+
+        
+    
+        configs = Properties()
+    
+        with open('dbconfig.properties', 'rb') as config_file:
+              configs.load(config_file)
+            
+ 
+         #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
+        dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
 
 
+        cursor = connection.cursor()
+        mySql_insert_query = """INSERT INTO CheckedAnnotation (reviewBody, annotation, ActionFlag, ActionProbability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5) 
+                           VALUES 
+                           ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}) """.format(str(df["reviewBody"][i]), str(df["annotation"][i]), 
+                                                      str(df["ActionFlag"][i]), float(df["ActionProbability"][i]), str(df["Actions"][i]), str(df["Features"][i]), str(df["Agent"][i]),
+                                                      str(df["Environment"][i]), str(df["Valence"][i]), str(df["Object"][i]), str(df["Ability"][i]), str(df["annotation_md5"][i])))
 
+        cursor = connection.cursor()
+        cursor.execute(mySql_insert_query)
+        connection.commit()
+        print(cursor.rowcount, "Record inserted successfully into Checked Annotation table")
+        cursor.close()
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into Checked Annotation table {}".format(error))
 
 
 
@@ -322,6 +358,8 @@ def main(df_annotation) -> None:
 
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
+               if confirmed_check:
+                  insert_checked_annotation(df_checked_annotation, i)
        st.markdown("""---""")
        return df_checked_annotation, i
 
@@ -402,6 +440,8 @@ def main(df_annotation) -> None:
 
 
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
+                    if confirmed_check:
+                       insert_checked_annotation(df_checked_annotation, i)
        st.markdown("""---""")
        return df_checked_annotation, i
 
@@ -448,11 +488,11 @@ def main(df_annotation) -> None:
     for i in list_reviews:
         review_container(i)
         
-        submit_btn = st.button("Submit Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+        load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
         #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
         
-        if submit_btn:
-            st.write("Your Review was submitted successfully")
+        if load_next_btn:
+            #st.write("Your Review was submitted successfully")
             continue;
                                                                          
         else:
