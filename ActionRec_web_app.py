@@ -689,15 +689,15 @@ def main(df_product, df_review, df_annotation) -> None:
 
     
 
-    list_reviews = df_review["reviewBody"].unique()
+    list_reviews = df_review["reviewBody_md5"].unique()
       
     
 
     
     def review_container(i):
           #placeholder = st.empty()
-            
-          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
+          review_text = df_review["reviewBody"].loc[df_review["reviewBody_md5"] == i]
+          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == review_text]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
           st.subheader(df_review["product_name"][df_review["reviewBody"] == i].unique())
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
@@ -728,7 +728,7 @@ def main(df_product, df_review, df_annotation) -> None:
     for i in list_reviews:
         review_container(i)
         
-        submit_btn = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"] == i])
+        submit_btn = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody_md5"] == i])
         #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
         
         if submit_btn:
