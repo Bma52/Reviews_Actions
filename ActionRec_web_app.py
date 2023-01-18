@@ -409,7 +409,7 @@ def main(df_annotation) -> None:
 
     
 
-    list_reviews = df_review["reviewBody"].unique()
+    list_reviews = df_annotation["reviewBody"].unique()
       
     
 
@@ -448,7 +448,7 @@ def main(df_annotation) -> None:
     for i in list_reviews:
         review_container(i)
         
-        submit_btn = st.button("Submit Review", key = df_annotation["review_id"][df_review["reviewBody"] == i])
+        submit_btn = st.button("Submit Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
         #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
         
         if submit_btn:
