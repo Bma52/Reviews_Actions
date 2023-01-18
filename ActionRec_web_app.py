@@ -736,9 +736,9 @@ def main(df_product, df_review, df_annotation) -> None:
             st.write("Your Review was submitted successfully")
      
         if next_btn:
-               continue;
-            else:
-               break;
+            continue;
+        else:
+            break;
 
 
 
