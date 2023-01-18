@@ -480,10 +480,7 @@ def main(df_annotation) -> None:
                   
           
                
-          
- 
-          
-
+         
 
     for i in list_reviews:
         review_container(i)
