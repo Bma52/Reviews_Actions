@@ -370,9 +370,8 @@ def main(df_annotation) -> None:
                     else:
                         df_checked_annotation["Object"] = df_annotation["Object"][i]
 
-               st.write(df_checked_annotation)
-               confirmed_check = st.checkbox("Confirm annotation", key = i)
                
+               confirmed_check = st.checkbox("Confirm annotation", key = i)
                
                df_checked_annotation["reviewBody"] = df_annotation["reviewBody"] 
                df_checked_annotation["annotation"] = df_annotation["annotation"]
