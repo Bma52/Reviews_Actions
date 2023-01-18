@@ -368,7 +368,7 @@ def main(df_annotation) -> None:
                     else:
                         df_checked_annotation.loc[i].at["Object"] = df_annotation["Object"][i]
 
-               
+               st.write(df_checked_annotation)
                confirmed_check = st.checkbox("Confirm annotation", key = i)
                if confirmed_check:
                   insert_checked_annotation(df_checked_annotation, i)
@@ -452,7 +452,7 @@ def main(df_annotation) -> None:
                     else:
                         df_checked_annotation.loc[i].at["Object"] = df_annotation["Object"][i]
 
-
+                    st.write(df_checked_annotation)
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
                     if confirmed_check:
                        insert_checked_annotation(df_checked_annotation, i)
