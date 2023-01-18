@@ -224,7 +224,6 @@ def main(df_annotation) -> None:
        st.session_state = i
        #st.session_state.a_list = []
       
-       df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
        
        #df_checked_annotation["reviewBody"] = df_annotation["reviewBody"][i]
        #df_checked_annotation["annotation"] = df_annotation["annotation"][i]
@@ -234,8 +233,7 @@ def main(df_annotation) -> None:
        #st.write(df_checked_annotation)
        
        
-       annotation_list = [df_annotation["reviewBody"][i], df_annotation["annotation"][i], df_annotation["ActionFlag"][i], df_annotation["ActionProbability"][i]]
-      
+       
        with st.container():
            st.subheader(df_annotation["annotation"][i])
     
@@ -243,8 +241,9 @@ def main(df_annotation) -> None:
 
            
            with col1: 
-             
-               
+               annotation_list = [df_annotation["reviewBody"][i], df_annotation["annotation"][i], df_annotation["ActionFlag"][i], df_annotation["ActionProbability"][i]]
+      
+    
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
                st.write(df_annotation["Actions"][i])
                #st.caption("Please confirm machine results")
@@ -393,6 +392,7 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Object"] = df_annotation["Object"][i]
                        annotation_list.append(df_annotation["Object"][i])
  
+               df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
                
                df_checked_annotation = annotation_list
                
