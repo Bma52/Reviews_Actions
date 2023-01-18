@@ -250,7 +250,7 @@ def main(df_annotation) -> None:
                checked_action = st.radio(
                  "Is machine prediction correct?",
                  ('Yes', 'No'), key="action"+ str(i))
-               df_annotation["Actions"][i] = df_annotation["Actions"][i].replace("Action", "", inplace = True)
+               df_annotation["Actions"][i] = df_annotation["Actions"][i].str.replace("Action", "")
                if checked_action == 'Yes':
                     st.caption('')
                else:
