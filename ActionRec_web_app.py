@@ -256,7 +256,7 @@ def main(df_annotation) -> None:
                         #df_checked_annotation["Actions"][i] = new_action+"Action"
                         df_checked_annotation["Actions"] = new_action+"Action"
                     else:
-                        df_checked_annotation["Actions"] = df_annotation["Actions"][i]
+                        df_checked_annotation["Actions"] = df_annotation["Actions"].iloc[i]
                     
                   
                st.markdown("""---""")
@@ -278,7 +278,7 @@ def main(df_annotation) -> None:
                     if new_feature != '<select>':
                         df_checked_annotation["Features"] = new_feature
                     else:
-                        df_checked_annotation["Features"] = df_annotation["Features"][i]
+                        df_checked_annotation["Features"] = df_annotation["Features"].iloc[i]
 
                #st.button(label="Edit Labels")
                
@@ -301,7 +301,7 @@ def main(df_annotation) -> None:
                     if new_agent != '<select>':
                         df_checked_annotation["Agent"] = new_agent
                     else:
-                        df_checked_annotation["Agent"] = df_annotation["Agent"][i]
+                        df_checked_annotation["Agent"] = df_annotation["Agent"].iloc[i]
                     
                   
                st.markdown("""---""")
@@ -324,7 +324,7 @@ def main(df_annotation) -> None:
                     if new_valence != '<select>':
                         df_checked_annotation["Valence"] = new_valence
                     else:
-                        df_checked_annotation["Valence"] = df_annotation["Valence"][i]
+                        df_checked_annotation["Valence"] = df_annotation["Valence"].iloc[i]
 
                     
                
@@ -347,7 +347,7 @@ def main(df_annotation) -> None:
                     if new_env != '<select>':
                         df_checked_annotation["Environment"] = new_env
                     else:
-                        df_checked_annotation["Environment"] = df_annotation["Environment"][i]
+                        df_checked_annotation["Environment"] = df_annotation["Environment"].iloc[i]
                   
                st.markdown("""---""")
 
@@ -368,16 +368,16 @@ def main(df_annotation) -> None:
                     if new_obj != '<select>':
                         df_checked_annotation["Object"] = new_obj
                     else:
-                        df_checked_annotation["Object"] = df_annotation["Object"][i]
+                        df_checked_annotation["Object"] = df_annotation["Object"].iloc[i]
 
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
                
-               df_checked_annotation["reviewBody"] = df_annotation["reviewBody"] 
-               df_checked_annotation["annotation"] = df_annotation["annotation"]
-               df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"] 
-               df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"]
-               df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"]
+               df_checked_annotation["reviewBody"] = df_annotation["reviewBody"].iloc[i]
+               df_checked_annotation["annotation"] = df_annotation["annotation"].iloc[i]
+               df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"].iloc[i]
+               df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"].iloc[i]
+               df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"].iloc[i]
                st.write(df_checked_annotation)
                if confirmed_check:
                   insert_checked_annotation(df_checked_annotation)
