@@ -230,14 +230,16 @@ def main(df_annotation) -> None:
            st.subheader(df_annotation["annotation"][i])
     
            col1, col2, col3 = st.columns(3)
-           df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-           df_checked_annotation["reviewBody"] = df_annotation["reviewBody"][i]
-           df_checked_annotation["annotation"] = df_annotation["annotation"][i]
-           df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"][i]
-           df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"][i]
-           df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
+
            
            with col1: 
+               
+               df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+               df_checked_annotation["reviewBody"] = df_annotation["reviewBody"][i]
+               df_checked_annotation["annotation"] = df_annotation["annotation"][i]
+               df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"][i]
+               df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"][i]
+               df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
                
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
                st.write(df_annotation["Actions"][i])
@@ -354,48 +356,51 @@ def main(df_annotation) -> None:
                   
                
                
-           confirmed_check = st.checkbox("Confirm annotation", key = i)
+               confirmed_check = st.checkbox("Confirm annotation", key = i)
                
-           if new_action != '<select>':  
+               if new_action != '<select>':  
                  df_checked_annotation["Actions"] = new_action+"Action"
-           else:
+               else:
                  df_checked_annotation["Actions"] = df_annotation["Actions"][i]    
                   
                   
-           if new_feature != '<select>':
+               if new_feature != '<select>':
                  df_checked_annotation["Features"] = new_feature
-           else:
+               else:
                  df_checked_annotation["Features"] = df_annotation["Features"][i]
                   
                   
-           if new_agent != '<select>':
+               if new_agent != '<select>':
                  df_checked_annotation["Agent"] = new_agent
-           else:
+               else:
                  df_checked_annotation["Agent"] = df_annotation["Agent"][i]
                   
                   
-           if new_valence != '<select>':
+               if new_valence != '<select>':
                  df_checked_annotation["Valence"] = new_valence
-           else:
+               else:
                  df_checked_annotation["Valence"] = df_annotation["Valence"][i]
                   
                   
-           if new_env != '<select>':
+               if new_env != '<select>':
                  df_checked_annotation["Environment"] = new_env
-           else:
+               else:
                  df_checked_annotation["Environment"] = df_annotation["Environment"][i]
                   
                   
-           if new_obj != '<select>':
+               if new_obj != '<select>':
                  df_checked_annotation["Object"] = new_obj
-           else:
+               else:
                  df_checked_annotation["Object"] = df_annotation["Object"][i]
                   
                   
 
-           st.write(df_checked_annotation)
-           if confirmed_check:
+               st.write(df_checked_annotation)
+               if confirmed_check:
                   insert_checked_annotation(df_checked_annotation)
+                  
+                  
+                  
        st.markdown("""---""")
        return df_checked_annotation, i
 
