@@ -130,7 +130,7 @@ def insert_checked_annotation(df, i):
         dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
 
 
-        cursor = connection.cursor()
+        cursor = dbConnection.cursor()
         #mySql_insert_query = """INSERT INTO CheckedAnnotation (reviewBody, annotation, ActionFlag, ActionProbability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5) 
                           # VALUES 
                          #  ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}) """.format(str(df["reviewBody"][i]), str(df["annotation"][i]), 
