@@ -358,8 +358,8 @@ def main(df_annotation) -> None:
 
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
-               if confirmed_check:
-                  insert_checked_annotation(df_checked_annotation, i)
+               #if confirmed_check:
+                  #insert_checked_annotation(df_checked_annotation, i)
        st.markdown("""---""")
        return df_checked_annotation, i
 
@@ -440,8 +440,8 @@ def main(df_annotation) -> None:
 
 
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
-                    if confirmed_check:
-                       insert_checked_annotation(df_checked_annotation, i)
+                    #if confirmed_check:
+                      # insert_checked_annotation(df_checked_annotation, i)
        st.markdown("""---""")
        return df_checked_annotation, i
 
