@@ -161,7 +161,7 @@ def insert_checked_annotation(df):
 
 
 
-#@st.cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True)
 def main(df_annotation) -> None:
 
 
@@ -226,15 +226,15 @@ def main(df_annotation) -> None:
       
   
        
-       
        with st.container():
            st.subheader(df_annotation["annotation"][i])
     
            col1, col2, col3 = st.columns(3)
+           df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+         
            
            with col1: 
-               df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-         
+               
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
                st.write(df_annotation["Actions"][i])
                #st.caption("Please confirm machine results")
@@ -252,7 +252,6 @@ def main(df_annotation) -> None:
                             )
                     st.write(new_action)
                     if new_action != '<select>':
-                        
                         #df_checked_annotation["Actions"][i] = new_action+"Action"
                         df_checked_annotation["Actions"] = new_action+"Action"
                     else:
