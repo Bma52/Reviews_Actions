@@ -250,16 +250,19 @@ def main(df_annotation) -> None:
                checked_action = st.radio(
                  "Is machine prediction correct?",
                  ('Yes', 'No'), key="action"+ str(i))
-               
+               df_annotation["Actions"][i] = df_annotation["Actions"][i].replace("Action", "", inplace = True)
                if checked_action == 'Yes':
-                    
                     st.caption('')
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
-                       "Please select the correct Action.", actions
+                       "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
                             )
                     st.write(new_action)
+                    annotation_list.append(new_action)
+                     
+                     
+                     
                     if new_action != '<select>':  
                        #df_checked_annotation["Actions"] = new_action+"Action"
                         annotation_list.append(new_action+"Action")
@@ -267,7 +270,7 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Actions"] = df_annotation["Actions"][i] 
                         annotation_list.append(df_annotation["Actions"][i])
 
-                    annotation_list
+                   
                   
                st.markdown("""---""")
  
@@ -283,8 +286,12 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
-                       "Please select the correct Feature.", features
+                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
                             )
+                    annotation_list.append(new_feature)
+                  
+                  
+                  
                     if new_feature != '<select>':
                        #df_checked_annotation["Features"] = new_feature
                         annotation_list.append(new_feature)
@@ -292,7 +299,7 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Features"] = df_annotation["Features"][i]
                         annotation_list.append(df_annotation["Features"][i])
                   
-                    annotation_list
+                    
 
            with col2: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Agent</p>', unsafe_allow_html=True)
@@ -307,8 +314,11 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_agent = st.selectbox(
-                       "Please select the correct Agent.", agents
+                       "Please select the correct Agent.", agents, index= agents.index(df_annotation["Agent"][i])
                             )
+                    annotation_list.append(new_agent)
+                     
+                     
                     if new_agent != '<select>':
                       #df_checked_annotation["Agent"] = new_agent
                       annotation_list.append(new_agent)
@@ -316,7 +326,7 @@ def main(df_annotation) -> None:
                       #df_checked_annotation["Agent"] = df_annotation["Agent"][i]
                       annotation_list.append(df_annotation["Agent"][i])
                   
-                    annotation_list
+                    
                     
                   
                st.markdown("""---""")
@@ -334,8 +344,12 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_valence = st.selectbox(
-                       "Please select the correct Valence.", valence
+                       "Please select the correct Valence.", valence, index= valence.index(df_annotation["Valence"][i])
                             )
+                  
+                    annotation_list.append(new_valence)
+                     
+                     
                     if new_valence != '<select>':
                        #df_checked_annotation["Valence"] = new_valence
                        annotation_list.append(new_valence)
@@ -343,7 +357,7 @@ def main(df_annotation) -> None:
                       #df_checked_annotation["Valence"] = df_annotation["Valence"][i]
                        annotation_list.append(df_annotation["Valence"][i])
                   
-                    annotation_list
+                    
 
            with col3: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Environment</p>', unsafe_allow_html=True)
@@ -358,15 +372,18 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_env = st.selectbox(
-                       "Please select the correct Environment.", environments
+                       "Please select the correct Environment.", environments, index= environments.index(df_annotation["Environment"][i])
                             )
+                    annotation_list.append(new_env)
+                     
+                     
                     if new_env != '<select>':
                        #df_checked_annotation["Environment"] = new_env
                        annotation_list.append(new_env)
                     else:
                       #df_checked_annotation["Environment"] = df_annotation["Environment"][i]
                        annotation_list.append(df_annotation["Environment"][i])
-                    annotation_list
+                    
 
                   
                st.markdown("""---""")
@@ -383,16 +400,23 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_obj = st.selectbox(
-                       "Please select the correct Object.", objects
+                       "Please select the correct Object.", objects, index= objects.index(df_annotation["Object"][i])
                             )
+                  
+                    annotation_liat.append(new_obj)
+                     
+                     
                     if new_obj != '<select>':
                        #df_checked_annotation["Object"] = new_obj
                        annotation_list.append(new_obj)
                     else:
                        #df_checked_annotation["Object"] = df_annotation["Object"][i]
                        annotation_list.append(df_annotation["Object"][i])
-                    annotation_list
-                  
+                    
+               
+               ability = new_action.replace("Action", "Ability")
+               annotation_list.append(ability)
+               annotation_list.append(df_annotation["annotation_md5"][i])
                   
                df_checked_annotation = pd.DataFrame(annotation_list, columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
                
