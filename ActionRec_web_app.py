@@ -131,17 +131,27 @@ def insert_checked_annotation(df, i):
 
 
         cursor = connection.cursor()
-        mySql_insert_query = """INSERT INTO CheckedAnnotation (reviewBody, annotation, ActionFlag, ActionProbability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5) 
-                           VALUES 
-                           ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}) """.format(str(df["reviewBody"][i]), str(df["annotation"][i]), 
-                                                      str(df["ActionFlag"][i]), float(df["ActionProbability"][i]), str(df["Actions"][i]), str(df["Features"][i]), str(df["Agent"][i]),
-                                                      str(df["Environment"][i]), str(df["Valence"][i]), str(df["Object"][i]), str(df["Ability"][i]), str(df["annotation_md5"][i]))
+        #mySql_insert_query = """INSERT INTO CheckedAnnotation (reviewBody, annotation, ActionFlag, ActionProbability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5) 
+                          # VALUES 
+                         #  ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}) """.format(str(df["reviewBody"][i]), str(df["annotation"][i]), 
+                          #                            str(df["ActionFlag"][i]), float(df["ActionProbability"][i]), str(df["Actions"][i]), str(df["Features"][i]), str(df["Agent"][i]),
+                          #                            str(df["Environment"][i]), str(df["Valence"][i]), str(df["Object"][i]), str(df["Ability"][i]), str(df["annotation_md5"][i]))
 
-        cursor = connection.cursor()
-        cursor.execute(mySql_insert_query)
-        connection.commit()
-        print(cursor.rowcount, "Record inserted successfully into Checked Annotation table")
-        cursor.close()
+        cols = "`,`".join([str(i) for i in df.columns.tolist()])
+
+    
+        for i,row in df_product.iterrows():
+              sql = "INSERT INTO `Product` (`" + product_cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+              cursor.execute(sql, tuple(row))
+              # the connection is not autocommitted by default, so we must commit to save our changes
+              st.write("Record inserted successfully into Checked Annotation table")
+              dbConnection.commit()
+      
+      
+        #cursor.execute(mySql_insert_query)
+        #connection.commit()
+        #print(cursor.rowcount, "Record inserted successfully into Checked Annotation table")
+        #cursor.close()
 
     except mysql.connector.Error as error:
         print("Failed to insert record into Checked Annotation table {}".format(error))
