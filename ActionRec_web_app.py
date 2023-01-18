@@ -256,7 +256,7 @@ def main(df_annotation) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
-                       "Please select the correct Action.", actions)
+                       "Please select the correct Action.", actions
                             )
                     st.write(new_action)
                     
