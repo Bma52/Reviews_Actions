@@ -378,7 +378,7 @@ def main(df_annotation) -> None:
                df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"] 
                df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"]
                df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"]
-               
+               st.write(df_checked_Annotation)
                if confirmed_check:
                   insert_checked_annotation(df_checked_annotation)
        st.markdown("""---""")
