@@ -719,7 +719,7 @@ def main(df_product, df_review, df_annotation) -> None:
 
                  st.markdown("""---""")
                   
-          return df_one_review
+          
                
           
  
@@ -727,15 +727,17 @@ def main(df_product, df_review, df_annotation) -> None:
 
 
     for i in list_reviews:
-        df_one_review = review_container(i)
+        review_container(i)
         
-        submit_btn = st.button("Submit Review", key = df_one_review["reviewBody"].unique())
+        submit_btn = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"] == i)
         #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
         
         if submit_btn:
             st.write("Your Review was submitted successfully")
             continue;
-
+                                                                         
+        else:
+            break;
 
 
 
