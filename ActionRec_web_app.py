@@ -226,14 +226,13 @@ def main(df_annotation) -> None:
       
   
        
-       df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-
+       
        with st.container():
            st.subheader(df_annotation["annotation"][i])
     
            col1, col2, col3 = st.columns(3)
-           
-        
+           df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+         
            with col1: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
                st.write(df_annotation["Actions"][i])
@@ -392,11 +391,11 @@ def main(df_annotation) -> None:
        
        st.session_state = i
          
-       df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-
+       
        with st.container():
            st.subheader(df_annotation["annotation"][i])
-           
+           df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+
            st.write("This Annotation has no Action 🚨")
            result1 = st.checkbox("Confirm machine result")
            result2 = st.checkbox("Incorrect machine result, the sentence contains labels.")
