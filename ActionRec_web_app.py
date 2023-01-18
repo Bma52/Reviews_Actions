@@ -260,8 +260,7 @@ def main(df_annotation) -> None:
                             )
                     st.write(new_action)
                     annotation_list.append(new_action)
-                    ability = new_action.replace("Action", "Ability")
-                    annotation_list.append(ability)
+                    
                      
                      
                      
@@ -415,7 +414,8 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Object"] = df_annotation["Object"][i]
                        annotation_list.append(df_annotation["Object"][i])
                     
-               
+                    ability = new_action.replace("Action", "Ability")
+                    annotation_list.append(ability)
                
                annotation_list.append(df_annotation["annotation_md5"][i])
                df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
