@@ -267,7 +267,7 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Actions"] = df_annotation["Actions"][i] 
                         annotation_list.append(df_annotation["Actions"][i])
 
-                    
+                    annotation_list
                   
                st.markdown("""---""")
  
@@ -292,7 +292,7 @@ def main(df_annotation) -> None:
                        #df_checked_annotation["Features"] = df_annotation["Features"][i]
                         annotation_list.append(df_annotation["Features"][i])
                   
-
+                    annotation_list
 
            with col2: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Agent</p>', unsafe_allow_html=True)
@@ -316,7 +316,7 @@ def main(df_annotation) -> None:
                       #df_checked_annotation["Agent"] = df_annotation["Agent"][i]
                       annotation_list.append(df_annotation["Agent"][i])
                   
-
+                    annotation_list
                     
                   
                st.markdown("""---""")
@@ -343,7 +343,7 @@ def main(df_annotation) -> None:
                       #df_checked_annotation["Valence"] = df_annotation["Valence"][i]
                        annotation_list.append(df_annotation["Valence"][i])
                   
-
+                    annotation_list
 
            with col3: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Environment</p>', unsafe_allow_html=True)
@@ -366,7 +366,7 @@ def main(df_annotation) -> None:
                     else:
                       #df_checked_annotation["Environment"] = df_annotation["Environment"][i]
                        annotation_list.append(df_annotation["Environment"][i])
-                  
+                    annotation_list
 
                   
                st.markdown("""---""")
@@ -391,10 +391,12 @@ def main(df_annotation) -> None:
                     else:
                        #df_checked_annotation["Object"] = df_annotation["Object"][i]
                        annotation_list.append(df_annotation["Object"][i])
- 
-               df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+                    annotation_list
+                  
+                  
+               df_checked_annotation = pd.DataFrame(annotation_list, columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
                
-               df_checked_annotation = annotation_list
+               #df_checked_annotation = annotation_list
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
                if confirmed_check:
