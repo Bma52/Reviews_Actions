@@ -250,13 +250,13 @@ def main(df_annotation) -> None:
                checked_action = st.radio(
                  "Is machine prediction correct?",
                  ('Yes', 'No'), key="action"+ str(i))
-               df_annotation["Actions"][i] = df_annotation["Actions"][i].replace("Action", "")
+               #df_annotation["Actions"][i] = df_annotation["Actions"][i].replace("Action", "")
                if checked_action == 'Yes':
                     st.caption('')
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
-                       "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
+                       "Please select the correct Action.", actions)
                             )
                     st.write(new_action)
                     
