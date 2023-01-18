@@ -706,27 +706,34 @@ def main(df_product, df_review, df_annotation) -> None:
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
           if sorting_proba:
              df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
+          list_annotation_md5s = []
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
+            
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  df_checked_annotation, i = form(df_one_review, row)
+                  list_annotation_md5s.append(df_checked_annotation["annotation_md5"][i])
             else:
                  df_checked_annotation, i = no_form(df_one_review, row)
+                 list_annotation_md5s.append(df_checked_annotation["annotation_md5"][i])
 
                  st.markdown("""---""")
-
+                  
+          return list_annotation_md5s, df_one_review
+               
+          
  
           
 
 
     for i in list_reviews:
-        review_container(i)
+        list_annotation_md5s, df_one_review = review_container(i)
         
-        submit_btn = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"] in i])
+        submit_btn = st.button("Submit Review", key = df_one_review["reviewBody"].unique())
         
         if submit_btn:
             st.write("Your Review was submitted successfully")
-            next_btn = st.button("Next Review", key = df_review["reviewBody_md5"][df_review["reviewBody"] in i])
+            next_btn = st.button("Next Review", key = str(df_one_review["reviewBody_md5"].unique())
             
             if next_btn:
                continue;
