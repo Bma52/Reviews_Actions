@@ -241,7 +241,7 @@ def main(df_annotation) -> None:
 
            
            with col1: 
-               annotation_list = [df_annotation["reviewBody"][i], df_annotation["annotation"][i], df_annotation["ActionFlag"][i], df_annotation["ActionProbability"][i]]
+               #annotation_list = [df_annotation["reviewBody"][i], df_annotation["annotation"][i], df_annotation["ActionFlag"][i], df_annotation["ActionProbability"][i]]
       
     
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Action</p>', unsafe_allow_html=True)
@@ -259,17 +259,14 @@ def main(df_annotation) -> None:
                        "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
                             )
                     st.write(new_action)
-                    annotation_list.append(new_action)
                     
-                     
-                     
-                     
+
                     if new_action != '<select>':  
-                       #df_checked_annotation["Actions"] = new_action+"Action"
-                        annotation_list.append(new_action+"Action")
+                       df_checked_annotation["Actions"] = new_action+"Action"
+                        
                     else:
-                       #df_checked_annotation["Actions"] = df_annotation["Actions"][i] 
-                        annotation_list.append(df_annotation["Actions"][i])
+                       df_checked_annotation["Actions"] = df_annotation["Actions"][i] 
+                        
 
                    
                   
@@ -289,16 +286,15 @@ def main(df_annotation) -> None:
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
                             )
-                    annotation_list.append(new_feature)
-                  
-                  
+
+  
                   
                     if new_feature != '<select>':
-                       #df_checked_annotation["Features"] = new_feature
-                        annotation_list.append(new_feature)
+                        df_checked_annotation["Features"] = new_feature
+                        
                     else:
-                       #df_checked_annotation["Features"] = df_annotation["Features"][i]
-                        annotation_list.append(df_annotation["Features"][i])
+                        df_checked_annotation["Features"] = df_annotation["Features"][i]
+                       
                   
                     
 
@@ -317,15 +313,15 @@ def main(df_annotation) -> None:
                     new_agent = st.selectbox(
                        "Please select the correct Agent.", agents, index= agents.index(df_annotation["Agent"][i])
                             )
-                    annotation_list.append(new_agent)
+               
                      
                      
                     if new_agent != '<select>':
-                      #df_checked_annotation["Agent"] = new_agent
-                      annotation_list.append(new_agent)
+                        df_checked_annotation["Agent"] = new_agent
+                      
                     else:
-                      #df_checked_annotation["Agent"] = df_annotation["Agent"][i]
-                      annotation_list.append(df_annotation["Agent"][i])
+                        df_checked_annotation["Agent"] = df_annotation["Agent"][i]
+                      
                   
                     
                     
@@ -348,15 +344,15 @@ def main(df_annotation) -> None:
                        "Please select the correct Valence.", valence, index= valence.index(df_annotation["Valence"][i])
                             )
                   
-                    annotation_list.append(new_valence)
+            
                      
                      
                     if new_valence != '<select>':
-                       #df_checked_annotation["Valence"] = new_valence
-                       annotation_list.append(new_valence)
+                         df_checked_annotation["Valence"] = new_valence
+                       
                     else:
-                      #df_checked_annotation["Valence"] = df_annotation["Valence"][i]
-                       annotation_list.append(df_annotation["Valence"][i])
+                        df_checked_annotation["Valence"] = df_annotation["Valence"][i]
+                   
                   
                     
 
@@ -375,15 +371,15 @@ def main(df_annotation) -> None:
                     new_env = st.selectbox(
                        "Please select the correct Environment.", environments, index= environments.index(df_annotation["Environment"][i])
                             )
-                    annotation_list.append(new_env)
+                
                      
                      
                     if new_env != '<select>':
-                       #df_checked_annotation["Environment"] = new_env
-                       annotation_list.append(new_env)
+                        df_checked_annotation["Environment"] = new_env
+                      
                     else:
-                      #df_checked_annotation["Environment"] = df_annotation["Environment"][i]
-                       annotation_list.append(df_annotation["Environment"][i])
+                       df_checked_annotation["Environment"] = df_annotation["Environment"][i]
+                       
                     
 
                   
@@ -404,30 +400,29 @@ def main(df_annotation) -> None:
                        "Please select the correct Object.", objects, index= objects.index(df_annotation["Object"][i])
                             )
                   
-                    annotation_liat.append(new_obj)
+                 
                      
                      
                     if new_obj != '<select>':
-                       #df_checked_annotation["Object"] = new_obj
-                       annotation_list.append(new_obj)
+                        df_checked_annotation["Object"] = new_obj
+                      
                     else:
-                       #df_checked_annotation["Object"] = df_annotation["Object"][i]
-                       annotation_list.append(df_annotation["Object"][i])
+                        df_checked_annotation["Object"] = df_annotation["Object"][i]
+         
                     
-                    ability = new_action.replace("Action", "Ability")
-                    annotation_list.append(ability)
+
                
-               annotation_list.append(df_annotation["annotation_md5"][i])
+               #annotation_list.append(df_annotation["annotation_md5"][i])
                df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
                
-               df_final_checked = df_checked_annotation.append(pd.DataFrame([annotation_list],columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"]), ignore_index=True)
+               #df_final_checked = df_checked_annotation.append(pd.DataFrame([annotation_list],columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"]), ignore_index=True)
                
                #df_checked_annotation = annotation_list
                
                confirmed_check = st.checkbox("Confirm annotation", key = i)
                if confirmed_check:
-                  st.write(df_final_checked)
-                  insert_checked_annotation(df_final_checked)
+                  st.write(df_checked_annotation)
+                  insert_checked_annotation(df_checked_annotation)
 
                   
        st.markdown("""---""")
