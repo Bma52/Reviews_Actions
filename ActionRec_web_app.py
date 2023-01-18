@@ -724,7 +724,7 @@ def main(df_product, df_review, df_annotation) -> None:
         
         submit_btn = st.button("Submit Review", key = df_review["review_id"][df_review["reviewBody"] == i])
         
-        if submit:
+        if submit_btn:
             st.write("Your Review was submitted successfully")
             next_btn = st.button("Next Review", key = df_review["reviewBody_md5"][df_review["reviewBody"] == i])
             
