@@ -441,9 +441,10 @@ def main(df_annotation) -> None:
           #list_annotation_md5s = []
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
-            df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-           
+            
             if df_one_review["ActionFlag"][row] == "Action Exist":
+                 df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+           
                  new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = form(df_one_review, row)
                  df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][i]
                  df_checked_annotation["annotation"] = df_one_review["annotation"][i]
@@ -463,6 +464,8 @@ def main(df_annotation) -> None:
                  
 
             else:
+                 df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+           
                  new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = no_form(df_one_review, row)
                  df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][i]
                  df_checked_annotation["annotation"] = df_one_review["annotation"][i]
