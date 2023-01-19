@@ -455,7 +455,7 @@ def main(df_annotation) -> None:
             df_checked_annotation["Object"] = new_obj
             df_checked_annotation["Ability"] = new_ability
             df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][row]
-            #st.write(df_checked_annotation)
+            st.dataframe(df_checked_annotation)
             insert_checked_annotation(df_checked_annotation)
 
 
