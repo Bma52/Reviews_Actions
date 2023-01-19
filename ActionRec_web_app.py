@@ -439,6 +439,8 @@ def main(df_annotation) -> None:
           if sorting_proba:
              df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
           #list_annotation_md5s = []
+          df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+       
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
             
@@ -448,15 +450,12 @@ def main(df_annotation) -> None:
             else:
                  new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = no_form(df_one_review, row)
 
-                  
-                  
-                  
-            df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-       
-            df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][i]
-            df_checked_annotation["annotation"] = df_one_review["annotation"][i]
-            df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][i]
-            df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][i]
+
+            
+            df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][row]
+            df_checked_annotation["annotation"] = df_one_review["annotation"][row]
+            df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][row]
+            df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][row]
             df_checked_annotation["Actions"] = new_action
             df_checked_annotation["Features"] = new_feature
             df_checked_annotation["Agent"] = new_agent
@@ -464,7 +463,7 @@ def main(df_annotation) -> None:
             df_checked_annotation["Valence"] = new_valence
             df_checked_annotation["Object"] = new_obj
             df_checked_annotation["Ability"] = new_ability
-            df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][i]
+            df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][row]
             st.write(df_checked_annotation)
             insert_checked_annotation(df_checked_annotation)
 
