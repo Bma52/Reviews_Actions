@@ -459,7 +459,7 @@ def main(df_annotation) -> None:
             insert_checked_annotation(df_checked_annotation)
 
 
-            st.markdown("""---""")
+            
                   
                   
 
