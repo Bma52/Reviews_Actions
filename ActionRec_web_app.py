@@ -161,7 +161,7 @@ def insert_checked_annotation(df):
 
 
 
-@st.cache(ttl=24*60*60) 
+@st.cache(suppress_st_warning=True)
 def main(df_annotation) -> None:
 
 
