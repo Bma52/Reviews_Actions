@@ -155,7 +155,7 @@ def insert_checked_annotation(df):
 
 
 
-@st.experimental_singleton
+
 def main(df_annotation) -> None:
 
 
