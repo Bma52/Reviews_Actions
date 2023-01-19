@@ -99,11 +99,7 @@ def get_new_reviews_mysql():
     df_1 = pd.merge(product_data, review_data, how = 'right', on='product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
     df_full = pd.merge(df_product, annotation_data, how = 'right', on='reviewBody', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-    #df_product = pd.DataFrame(product_data)
-    #df_review = pd.DataFrame(review_data)
-     
-    #final_annotation_data = final_annotation_data.drop_duplicates(subset=["annotation_md5"], keep="first")
-    
+
 
     return  df_full
    
@@ -148,10 +144,6 @@ def insert_checked_annotation(df):
               dbConnection.commit()
         st.write("Record inserted successfully into Checked Annotation table")
       
-        #cursor.execute(mySql_insert_query)
-        #connection.commit()
-        #print(cursor.rowcount, "Record inserted successfully into Checked Annotation table")
-        #cursor.close()
 
     except mysql.connector.Error as error:
         print("Failed to insert record into Checked Annotation table {}".format(error))
@@ -465,6 +457,7 @@ def main(df_annotation) -> None:
                  df_checked_annotation["Object"] = new_obj
                  df_checked_annotation["Ability"] = new_ability
                  df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][i]
+                 st.write(df_checked_annotation)
                  insert_checked_annotation(df_checked_annotation)
 
                  
@@ -483,6 +476,7 @@ def main(df_annotation) -> None:
                  df_checked_annotation["Object"] = new_obj
                  df_checked_annotation["Ability"] = new_ability
                  df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][i]
+                 st.write(df_checked_annotation)
                  insert_checked_annotation(df_checked_annotation)
 
 
