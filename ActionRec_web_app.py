@@ -249,8 +249,8 @@ def main(df_annotation) -> None:
                        "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
                             )
                     st.write(new_action)
-                     new_action = new_action+"Action"
-                     new_ability = new_action+"Ability"
+                    new_action = new_action+"Action"
+                    new_ability = new_action+"Ability"
                     
 
                     if new_action != '<select>':  
