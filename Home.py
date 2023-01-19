@@ -6,9 +6,9 @@ import admin_portal
 # Create an empty container
 placeholder = st.empty()
 
-actual_email = "bma52@mail.aub.edu"
-actual_password = "123"
-name = "Bothaina Amro"
+actual_email_admin = "bma52@mail.aub.edu"
+actual_password_admin = "123"
+name_admin = "Bothaina Amro"
 
 # Insert a form in the container
 with placeholder.form("login"):
@@ -17,13 +17,18 @@ with placeholder.form("login"):
     password = st.text_input("Password", type="password")
     submit = st.form_submit_button("Login")
 
-if submit and email == actual_email and password == actual_password:
+if submit and email == actual_email_admin and password == actual_password_admin:
     # If the form is submitted and the email and password are correct,
     # clear the form/container and display a success message
     placeholder.empty()
     st.success("Login successful")
-elif submit and email != actual_email and password != actual_password:
-    st.error("Login failed")
-else:
-    st.write(f'Welcome *{name}*')
+    st.write(f'Welcome *{name_admin}*')
     exec(open('admin_portal.py').read())
+elif submit and email == actual_email_annotator and password == actual_password_annotator:
+    placeholder.empty()
+    st.success("Login successful")
+    st.write(f'Welcome *{name_annotator}*')
+    exec(open('admin_portal.py').read())
+    st.error("Login failed")
+
+    
