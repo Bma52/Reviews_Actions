@@ -142,7 +142,7 @@ def insert_checked_annotation(df):
               # the connection is not autocommitted by default, so we must commit to save our changes
               
               dbConnection.commit()
-        st.write("Record inserted successfully into Checked Annotation table")
+              st.write("Record inserted successfully into Checked Annotation table")
       
 
     except mysql.connector.Error as error:
