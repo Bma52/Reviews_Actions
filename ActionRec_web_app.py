@@ -443,7 +443,7 @@ def main(df_annotation) -> None:
 
 
             
-            df_checked_annotation['reviewBody'] = df_one_review["reviewBody"][row]
+            df_checked_annotation.loc[row, 'reviewBody'] = df_one_review["reviewBody"][row]
             df_checked_annotation["annotation"] = df_one_review["annotation"][row]
             df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][row]
             df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][row]
