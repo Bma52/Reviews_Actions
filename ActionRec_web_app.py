@@ -234,7 +234,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="action"+ str(i))
                
                if checked_action == 'Yes':
-                    new_action = checked_action
+                    new_action 
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
@@ -256,7 +256,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="feature"+ str(i))
 
                if checked_feature == "Yes":
-                    new_feature = checked_feature
+                    new_feature 
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
@@ -273,7 +273,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="agent"+ str(i))
 
                if checked_agent == "Yes":
-                    new_agent = checked_agent
+                    new_agent
                else:
                     #st.caption("Please enter the correct action")
                     new_agent = st.selectbox(
@@ -293,7 +293,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="valence"+ str(i))
 
                if checked_valence == "Yes":
-                    new_valence = checked_valence
+                    new_valence 
                else:
                     #st.caption("Please enter the correct action")
                     new_valence = st.selectbox(
@@ -313,7 +313,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="environment"+ str(i))
 
                if checked_env == "Yes":
-                    new_env = checked_env
+                    new_env 
                else:
                     #st.caption("Please enter the correct action")
                     new_env = st.selectbox(
@@ -331,7 +331,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="object"+ str(i))
 
                if checked_obj == "Yes":
-                    new_obj = checked_obj
+                    new_obj 
                else:
                     #st.caption("Please enter the correct action")
                     new_obj = st.selectbox(
@@ -443,7 +443,7 @@ def main(df_annotation) -> None:
 
 
             
-            df_checked_annotation.loc[row, 'reviewBody'] = df_one_review["reviewBody"][row]
+            df_checked_annotation['reviewBody'] = df_one_review["reviewBody"][row]
             df_checked_annotation["annotation"] = df_one_review["annotation"][row]
             df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][row]
             df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][row]
