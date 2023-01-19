@@ -382,38 +382,28 @@ def main(df_annotation) -> None:
                     new_action = st.selectbox(
                        "Please select the correct Action.", actions
                             )
+                    new_action = new_action+"Action"
+                    new_ability = new_action+"Ability"
                     
-                    if new_action != '<select>':
-                        st.write(new_action)
-                        df_checked_annotation["Actions"] = new_action+"Action"
-                    else:
-                        df_checked_annotation["Actions"] = df_annotation["Actions"][i]
+
 
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features
                             )
-                    if new_feature != '<select>':
-                        df_checked_annotation["Features"] = new_feature
-                    else:
-                        df_checked_annotation["Features"] = df_annotation["Features"][i]
+
                         
                with col2:
                     new_agent = st.selectbox(
                        "Please select the correct Agent.", agents
                             )
-                    if new_agent != '<select>':
-                        df_checked_annotation["Agent"] = new_agent
-                    else:
-                        df_checked_annotation["Agent"] = df_annotation["Agent"][i]
+
+                     
 
 
                     new_valence = st.selectbox(
                        "Please select the correct Valence.", valence
                             )
-                    if new_valence != '<select>':
-                        df_checked_annotation["Valence"] = new_valence
-                    else:
-                        df_checked_annotation["Valence"] = df_annotation["Valence"][i]
+
 
 
                with col3:
@@ -421,46 +411,32 @@ def main(df_annotation) -> None:
                        "Please select the correct Environment.", environments
                             )
 
-                    if new_env != '<select>':
-                        df_checked_annotation["Environment"] = new_env
-                    else:
-                        df_checked_annotation["Environment"] = df_annotation["Environment"][i]
+
 
                     new_obj = st.selectbox(
                        "Please select the correct Object.", objects
                             )
 
-                    if new_obj != '<select>':
-                        df_checked_annotation["Object"] = new_obj
-                    else:
-                        df_checked_annotation["Object"] = df_annotation["Object"][i]
+
 
                     st.write(df_checked_annotation)
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
                      
-                    df_checked_annotation["reviewBody"] = df_annotation["reviewBody"] 
-                    df_checked_annotation["annotation"] = df_annotation["annotation"]
-                    df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"] 
-                    df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"]
-                    df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"]
-                  
-                    if confirmed_check:
-                       insert_checked_annotation(df_checked_annotation)
+
        st.markdown("""---""")
-       return df_checked_annotation, i
+       return new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i
 
 
 
     
 
-    list_reviews = df_annotation["reviewBody"].unique()
+    
       
     
 
     
     def review_container(i):
-          #placeholder = st.empty()
-          #review_text = df_review["reviewBody"].loc[df_review["reviewBody_md5"] == i]
+
               
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
@@ -492,10 +468,23 @@ def main(df_annotation) -> None:
                  insert_checked_annotation(df_checked_annotation)
 
                  
-                 #list_annotation_md5s.append(df_checked_annotation["annotation_md5"][i])
+
             else:
-                 df_checked_annotation, i = no_form(df_one_review, row)
-                 #list_annotation_md5s.append(df_checked_annotation["annotation_md5"][i])
+                 new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = no_form(df_one_review, row)
+                 df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][i]
+                 df_checked_annotation["annotation"] = df_one_review["annotation"][i]
+                 df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][i]
+                 df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][i]
+                 df_checked_annotation["Actions"] = new_action
+                 df_checked_annotation["Features"] = new_feature
+                 df_checked_annotation["Agent"] = new_agent
+                 df_checked_annotation["Environment"] = new_env
+                 df_checked_annotation["Valence"] = new_valence
+                 df_checked_annotation["Object"] = new_obj
+                 df_checked_annotation["Ability"] = new_ability
+                 df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][i]
+                 insert_checked_annotation(df_checked_annotation)
+
 
                  st.markdown("""---""")
                   
@@ -503,19 +492,17 @@ def main(df_annotation) -> None:
 
                   
           
-               
+    list_reviews = df_annotation["reviewBody"].unique()         
          
 
     for i in list_reviews:
         review_container(i)
         
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
-        #next_btn = st.button("Next Review", key = df_one_review["reviewBody"].unique())
+
         
         if load_next_btn:
-            #st.write("Your Review was submitted successfully")
-            continue;
-                                                                         
+            continue;                                                          
         else:
             break;
 
