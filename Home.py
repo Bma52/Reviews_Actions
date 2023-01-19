@@ -10,6 +10,10 @@ actual_email_admin = "bma52@mail.aub.edu"
 actual_password_admin = "123"
 name_admin = "Bothaina Amro"
 
+actual_email_annotator = "fz13@aub.edu.lb"
+actual_password_annotator = "456"
+name_annotator = "Fouad Zablith"
+
 # Insert a form in the container
 with placeholder.form("login"):
     st.markdown("#### Enter your credentials")
@@ -28,7 +32,8 @@ elif submit and email == actual_email_annotator and password == actual_password_
     placeholder.empty()
     st.success("Login successful")
     st.write(f'Welcome *{name_annotator}*')
-    exec(open('admin_portal.py').read())
-    st.error("Login failed")
+    exec(open('ActionRec_web_app.py').read())
+elif submit and (email != actual_email_annotator or actual_email_admin) and (password != actual_password_annotator or actual_password_annotator):
+        st.error("Login failed")
 
     
