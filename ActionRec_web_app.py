@@ -145,6 +145,7 @@ def insert_checked_annotation(df):
               
         dbConnection.commit()
         st.write("Record inserted successfully into Checked Annotation table")
+        cursor.close()
 
     except mysql.connector.Error as error:
         print("Failed to insert record into Checked Annotation table {}".format(error))
