@@ -242,7 +242,7 @@ def main(df_annotation) -> None:
                             )
                     st.write(new_action)
                     new_action = new_action+"Action"
-               new_ability = new_action+"Ability"
+               new_ability = new_action.replace("Action", "Ability")
                     
 
                   
