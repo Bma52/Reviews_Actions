@@ -242,7 +242,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="action"+ str(i))
                
                if checked_action == 'Yes':
-                    st.caption('')
+                    new_action = checked_action
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
@@ -250,17 +250,9 @@ def main(df_annotation) -> None:
                             )
                     st.write(new_action)
                     new_action = new_action+"Action"
-                    new_ability = new_action+"Ability"
+               new_ability = new_action+"Ability"
                     
 
-                    if new_action != '<select>':  
-                       df_checked_annotation["Actions"] = new_action+"Action"
-                        
-                    else:
-                       df_checked_annotation["Actions"] = df_annotation["Actions"][i] 
-                        
-
-                   
                   
                st.markdown("""---""")
  
@@ -272,23 +264,13 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="feature"+ str(i))
 
                if checked_feature == "Yes":
-                    st.caption('')
+                    new_feature = checked_feature
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
                             )
 
-  
-                  
-                    if new_feature != '<select>':
-                        df_checked_annotation["Features"] = new_feature
-                        
-                    else:
-                        df_checked_annotation["Features"] = df_annotation["Features"][i]
-                       
-                  
-                    
 
            with col2: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Agent</p>', unsafe_allow_html=True)
@@ -299,7 +281,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="agent"+ str(i))
 
                if checked_agent == "Yes":
-                    st.caption('')
+                    new_agent = checked_agent
                else:
                     #st.caption("Please enter the correct action")
                     new_agent = st.selectbox(
@@ -307,16 +289,7 @@ def main(df_annotation) -> None:
                             )
                
                      
-                     
-                    if new_agent != '<select>':
-                        df_checked_annotation["Agent"] = new_agent
-                      
-                    else:
-                        df_checked_annotation["Agent"] = df_annotation["Agent"][i]
-                      
-                  
-                    
-                    
+
                   
                st.markdown("""---""")
 
@@ -329,7 +302,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="valence"+ str(i))
 
                if checked_valence == "Yes":
-                    st.caption('')
+                    new_valence = checked_valence
                else:
                     #st.caption("Please enter the correct action")
                     new_valence = st.selectbox(
@@ -338,15 +311,7 @@ def main(df_annotation) -> None:
                   
             
                      
-                     
-                    if new_valence != '<select>':
-                         df_checked_annotation["Valence"] = new_valence
-                       
-                    else:
-                        df_checked_annotation["Valence"] = df_annotation["Valence"][i]
-                   
-                  
-                    
+
 
            with col3: 
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Environment</p>', unsafe_allow_html=True)
@@ -357,23 +322,13 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="environment"+ str(i))
 
                if checked_env == "Yes":
-                    st.caption('')
+                    new_env = checked_env
                else:
                     #st.caption("Please enter the correct action")
                     new_env = st.selectbox(
                        "Please select the correct Environment.", environments, index= environments.index(df_annotation["Environment"][i])
                             )
-                
-                     
-                     
-                    if new_env != '<select>':
-                        df_checked_annotation["Environment"] = new_env
-                      
-                    else:
-                       df_checked_annotation["Environment"] = df_annotation["Environment"][i]
-                       
-                    
-
+  
                   
                st.markdown("""---""")
 
@@ -385,7 +340,7 @@ def main(df_annotation) -> None:
                  ('Yes', 'No'), key="object"+ str(i))
 
                if checked_obj == "Yes":
-                    st.caption('')
+                    new_obj = checked_obj
                else:
                     #st.caption("Please enter the correct action")
                     new_obj = st.selectbox(
@@ -393,28 +348,10 @@ def main(df_annotation) -> None:
                             )
                   
                  
-                     
-                     
-                    if new_obj != '<select>':
-                        df_checked_annotation["Object"] = new_obj
-                      
-                    else:
-                        df_checked_annotation["Object"] = df_annotation["Object"][i]
-         
-                    
 
-               
-               #annotation_list.append(df_annotation["annotation_md5"][i])
-               df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
-               
-               #df_final_checked = df_checked_annotation.append(pd.DataFrame([annotation_list],columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"]), ignore_index=True)
-               
-               #df_checked_annotation = annotation_list
-               
+
                confirmed_check = st.checkbox("Confirm annotation", key = i)
-               if confirmed_check:
-                  st.write(df_checked_annotation)
-                  insert_checked_annotation(df_checked_annotation)
+
 
                   
        st.markdown("""---""")
