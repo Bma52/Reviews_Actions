@@ -280,7 +280,6 @@ def main(df_annotation) -> None:
                        "Please select the correct Agent.", agents, index= agents.index(df_annotation["Agent"][i])
                             )
                
-                     
 
                   
                st.markdown("""---""")
@@ -378,7 +377,6 @@ def main(df_annotation) -> None:
                     new_ability = new_action+"Ability"
                     
 
-
                     new_feature = st.selectbox(
                        "Please select the correct Feature.", features
                             )
@@ -389,13 +387,9 @@ def main(df_annotation) -> None:
                        "Please select the correct Agent.", agents
                             )
 
-                     
-
-
                     new_valence = st.selectbox(
                        "Please select the correct Valence.", valence
                             )
-
 
 
                with col3:
@@ -403,12 +397,9 @@ def main(df_annotation) -> None:
                        "Please select the correct Environment.", environments
                             )
 
-
-
                     new_obj = st.selectbox(
                        "Please select the correct Object.", objects
                             )
-
 
 
                     st.write(df_checked_annotation)
@@ -443,7 +434,7 @@ def main(df_annotation) -> None:
        
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
-            df_checked_annotation = pd.DataFrame()
+            df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = form(df_one_review, row)
 
@@ -452,7 +443,7 @@ def main(df_annotation) -> None:
 
 
             
-            df_checked_annotation["reviewBody"] = df_one_review["reviewBody"][row]
+            df_checked_annotation.loc[row, 'reviewBody'] = df_one_review["reviewBody"][row]
             df_checked_annotation["annotation"] = df_one_review["annotation"][row]
             df_checked_annotation["ActionFlag"] = df_one_review["ActionFlag"][row]
             df_checked_annotation["ActionProbability"] = df_one_review["ActionProbability"][row]
@@ -482,7 +473,6 @@ def main(df_annotation) -> None:
         
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
-        
         if load_next_btn:
             continue;                                                          
         else:
