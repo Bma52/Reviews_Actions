@@ -169,7 +169,8 @@ def sparql_query() -> pd.DataFrame:
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#type/>  
     PREFIX schema: <http://schema.org/>  
-    PREFIX arec: <http://linked.aub.edu.lb/actionrec/>   
+    PREFIX arec: <http://linked.aub.edu.lb/actionrec/> 
+    
  
     SELECT ?productName ?product ?action ?agent ?environment ?feature ?object ?reviewBody ?rating ?valence  ?annotationDescription ?annotationLabel ?annotation ?AnnotationCreationDate
     WHERE {   
@@ -241,6 +242,271 @@ def sparql_query() -> pd.DataFrame:
         list_rating, list_valence, list_annotation_desc, list_annotation_label, list_annotation, list_annotation_date)), columns = ["Product Name", "Product id", "Action", "Agent", 
         "Environment", "Feature", "Object", "Review Body", "Rating", "Valence", "Annotation Description", "Annotation Label", "Annotation", "Annotation Date"]) 
     return df_train
+
+
+def create_triplets(df, i):
+
+
+
+
+    dct= "http://purl.org/dc/terms/"
+    rdfs= "http://www.w3.org/2000/01/rdf-schema#"
+    oa= "http://www.w3.org/ns/oa#" 
+    dcterms= "http://purl.org/dc/terms/" 
+    xsd= "http://www.w3.org/2001/XMLSchema#"
+    rdf= "http://www.w3.org/1999/02/22-rdf-syntax-ns#type/" 
+    schema= "http://schema.org/"
+    arec= "http://linked.aub.edu.lb/actionrec/"
+    os = "http://www.w3.org/ns/os#"
+
+    # We will randomly choose the index 10, and set the knowleedge graph of the 10th annotation based on the rules below. 
+
+    # Rule 1: <schema:Action><dct:isPartOf><oa:Annotation>
+    # Rule 2: <arec:Feature><dct:isPartOf><oa:Annotation>
+    # Rule 3: <arec:Ability><dct:isPartOf><oa:Annotation>
+    # Rule 4: <schema:Location><dct:isPartOf><oa:Annotation>
+    # Rule 5: <schema:Object><dct:isPartOf><oa:Annotation>
+    # Rule 6: <arec:Agent><arec:hasAbility><arec:Ability>
+    # Rule 7: <arec:Ability><arec:supports><schema:Action>
+    # Rule 8: <schema:Action><schema:agent><arec:Agent>
+    # Rule 9: <schema:Action><schema:location><schema:Location>
+    # Rule 10: <schema:Action><schema:object><schema:Object>
+    # Rule 11: <oa:Annotation><os:hasTarget><schema:Review>
+    # Rule 12: <arec:Feature><arec:supports><schema:Action>
+    # Rule 13: <oa:Annotation><arec:hasValence><valence>
+    # Rule 14: <schema:Review><schema:reviewBody><review text>
+    # Rule 15: <schema:Product><dct:isPartOf><os:Annotation>
+    # Rule 16: <schema:Action><schema:object><schema:Object>
+    # Rule 17: <schema:Product><schema:potentialAction><schema:Action>
+    # Rule 18: <schema:Product><arec:hasFeature><arec:Feature>
+    # Rule 19: <schema:Review><schema:itemReviewed><schema:Product>
+    # Rule 20: <schema:Review><schema:reviewRating><review_rating>
+    # Rule 21: <schema:Offer><schema:offeredBy><schema:Organization>
+    # Rule 22: <schema:Offer><schema:itemOffered><schema:Product>
+    # Rule 23: <oa:Annotation><dct:cretaed><date/time>
+    # Rule 24: <oa:Annotation><rdfs:label><Label>
+    # Rule 25: <schema:Review><schema:name><name>
+    # Rule 26: <schema:Review><rdfs:label><name>
+    # Rule 27: <schema:Review><schema:publisher><schema:Organization>
+    # Rule 28: <schema:Offer><schema:itemCondition><condition>
+    # Rule 29: <schema:Offer><schema:price><price>
+    # Rule 30: <schema:Offer><schema:currency><currency>
+    # Rule 31: <schema:Product><schema:model><model>
+    # Rule 32: <schema:Product><schema:name><name> 
+    # Rule 33: <schema:Product><rdfs:label><name>
+    # Rule 34: <schema:Product><schema:description><description>
+    # Rule 35: <schema:Product><schema:brand><brand>
+    # Rule 36: <schema:Product><schema:URL><product URL>
+    # Rule 37: <schema:Product><schema:image><image URL>
+    # Rule 38: <review_rating><schema:ratingValue><value>
+    # Rule 39: <review_rating><schema:bestRating><value>
+    # Rule 40: <review_rating><schema:worstRating><value>
+    # Rule 41: <review_rating><rdfs:label><value>
+
+
+    if df["Actions"][i] == "No_ActionAction":
+        st.write(df["Actions"][i])
+        st.error("No triplets created, this annotation has no action")
+        #return None
+    else:
+
+
+       Subject = []
+       Predicate= []
+       Object = []
+
+       list_subjects = [schema + str(df['Actions'][i]), 
+                 arec + str(df['Features'][i]), 
+                 arec + str(df['Ability'][i]), 
+                 schema + str(df['Environment'][i]),
+                 schema + str(df['Object'][i]),
+                 arec + str(df['Agent'][i]),
+                 arec + str(df['Ability'][i]),
+                 schema + str(df['Actions'][i]),
+                 schema + str(df['Actions'][i]),
+                 schema + str(df['Actions'][i]),
+                 oa + str(df['annotation'][i]),
+                 arec + str(df['Features'][i]),
+                 oa + str(df['annotation_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["Actions"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df["availability"][i]),
+                 schema + str(df["availability"][i]),
+                 oa + str(df['annotation_md5'][i]),
+                 oa + str(df['annotation_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df['reviewBody_md5'][i]),
+                 schema + str(df["availability"][i]),
+                 schema + str(df["price"][i]),
+                 schema + str(df["priceCurrency"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df["product_name_md5"][i])
+                 ]
+
+ 
+
+       list_predicates = [dct + "isPartOf",
+                   dct + "isPartOf",
+                   dct + "isPartOf",
+                   dct + "isPartOf",
+                   dct + "isPartOf",
+                   arec + "hasAbility",
+                   arec + "supports",
+                   schema + "agent",
+                   schema + "location",
+                   schema + "object",
+                   os + "hasTarget",
+                   arec + "supports",
+                   arec + "hasValence",
+                   schema + "reviewBody",
+                   dct + "isPartOf",
+                   schema + "object",
+                   schema + "potentialAction",
+                   arec + "hasFeature",
+                   schema + "itemReviewed",
+                   schema + "reviewRating",
+                   schema + "offeredBy",
+                   schema + "itemOffered",
+                   dct + "created",
+                   rdfs + "label",
+                   schema + "name",
+                   rdfs + "label",
+                   schema + "publisher",
+                   schema + "itemCondition",
+                   schema + "price",
+                   schema + "currency",
+                   schema + "model",
+                   schema + "name",
+                   rdfs + "label",
+                   schema + "description",
+                   schema + "brand",
+                   schema + "URL",
+                   schema + "image"
+                
+                   ]             
+
+
+       list_objects = [oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                oa + str(df['annotation_md5'][i]),
+                arec + str(df['Ability'][i]),
+                schema + str(df['Actions'][i]),
+                arec + str(df['Agent'][i]),
+                schema + str(df['Environment'][i]),
+                schema + str(df['Object'][i]),
+                schema + str(df['reviewBody_md5'][i]),
+                schema + str(df['Actions'][i]),
+                df['Valence'][i]^^xsd:string,
+                df['reviewBody'][i]^^xsd:string, 
+                oa + str(df['annotation_md5'][i]),
+                schema + str(df["Object"][i]),
+                schema + str(df['Actions'][i]),
+                arec + str(df['Features'][i]),
+                schema + str(df["product_name_md5"][i]),
+                df["ratingValue"][i]^^xsd:decimal,
+                schema + str(df["seller_name"][i]),
+                schema + str(df["product_name_md5"][i]),
+                df["created_timestamp"][i]^^xsd:string,
+                df['annotation'][i]^^xsd:string,
+                df["product_name"][i]^^xsd:string,
+                df["product_name"][i]^^xsd:string,
+                schema + str(df["seller_name"][i]),
+                df["availability"][i]^^xsd:string,
+                df["price"][i]^^xsd:decimal,
+                df["priceCurrency"][i]^^xsd:string,
+                df["model"][i]^^xsd:string,
+                df["product_name"][i]^^xsd:string,
+                df["product_name"][i]^^xsd:string,
+                df["description"][i]^^xsd:string,
+                df["brand_name"][i]^^xsd:string,
+                df["url"][i]^^xsd:string,
+                df["image"][i]^^xsd:string
+               ]    
+
+
+       df_tuples = pd.DataFrame(columns={"Subject", "Predicate", "Object"})
+
+       df_tuples["Subject"] = list_subjects
+       df_tuples["Predicate"] = list_predicates
+       df_tuples["Object"] = list_objects
+
+       insert_to_sparql(df_tuples, df["annotation_md5"][i])
+    
+    
+    
+    
+def get_new_reviews_mysql():
+   
+
+    host="linked.aub.edu.lb"
+    port=3306
+    database ="reviews_actions_ml"
+
+
+    
+    configs = Properties()
+    
+    with open('dbconfig.properties', 'rb') as config_file:
+         configs.load(config_file)
+           
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+
+
+
+    checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    checked_data["ActionProbability"] = checked_data["ActionProbability"].astype(float)
+      
+    dbConnection.commit()
+   
+
+
+    return  checked_data
+   
+
+
+    
+    
+
+def insert_to_sparql(df_tuples, annotation_md5):
+
+    tripletsString_concat = " "
+    for index in df_tuples.index:
+          tripletString = "<{0}> <{1}> <{2}> .".format(df_tuples["Subject"][index], 
+                                      df_tuples["Predicate"][index], df_tuples["Object"][index])
+        
+          tripletsString_concat = tripletsString_concat + tripletString
+    queryString = "INSERT DATA { GRAPH <{0}> {".format(annotation_md5) + tripletsString_concat + " }"
+    
+   
+    
+
+        
+    st.write(queryString)
+    ssl._create_default_https_context = ssl._create_unverified_context
+    sparql = SPARQLWrapper(
+          "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
+        )
+
+    sparql.setQuery(queryString) 
+    sparql.method = 'POST'
+    sparql.query()
+    st.write("Successfully inserted into triple store.")
+
+
+    
 
 
 
@@ -945,6 +1211,34 @@ def main():
         insert_to_mysql(df_product, df_reviews, df_final)
         
         view_checked_annotations = st.button(" View Checked Annotations")
+        if view_checked_annotations:
+            checked_data = get_new_reviews_mysql()
+            cols   = st.columns(2)
+            fields = ["id", "content"]
+            # header
+            for col, field in zip(cols, fields):
+	           col.write("**"+field+"**")
+
+             # rows
+            for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
+	
+	            col1, col2 = st.columns(2)
+	            col1.write(str(idx))
+	
+	            placeholder = col2.empty()
+	            show_more   = placeholder.button("more", key=idx, type="primary")
+
+	            # if button pressed
+	            if show_more:
+
+		            # rename button
+		            placeholder.button("less", key=str(idx)+"_")
+		
+		            # do stuff
+		            st.write("This is some more stuff with a checkbox")
+
+            
+        
         checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
         
