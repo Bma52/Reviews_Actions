@@ -123,7 +123,7 @@ def insert_checked_annotation(df):
  
          #dbConnection =  mysql.connector.connect("mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(configs.get("db.username").data,configs.get("db.password").data, host, port, database))
         dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
-
+        
 
         cursor = dbConnection.cursor()
         #mySql_insert_query = """INSERT INTO CheckedAnnotation (reviewBody, annotation, ActionFlag, ActionProbability, Actions, Features, Agent, Environment, Valence, Object, Ability, annotation_md5) 
@@ -132,19 +132,34 @@ def insert_checked_annotation(df):
                           #                            str(df["ActionFlag"][i]), float(df["ActionProbability"][i]), str(df["Actions"][i]), str(df["Features"][i]), str(df["Agent"][i]),
                           #                            str(df["Environment"][i]), str(df["Valence"][i]), str(df["Object"][i]), str(df["Ability"][i]), str(df["annotation_md5"][i]))
 
+        
+        df['reviewBody'] = df['reviewBody'].astype(str)
+        df["annotation"] = df["annotation"].astype(str)
+        df["ActionFlag"] = df["ActionFlag"].astype(str)
+        df["ActionProbability"] = df["ActionProbability"].astype(float)
+        df["Actions"] = df["Actions"].astype(str)
+        df["Features"] = df["Features"].astype(str)
+        df["Agent"] = df["Agent"].astype(str)
+        df["Environment"] = df["Environment"].astype(str)
+        df["Valence"] = df["Valence"].astype(str)
+        df["Object"] =  df["Object"].astype(str)
+        df["Ability"] = df["Ability"].astype(str)
+        df["annotation_md5"] = df["annotation_md5"].astype(str)
+        df["checkedBy"] = df["checkedBy"].astype(str)
+      
+      
         cols = "`,`".join([str(i) for i in df.columns.tolist()])
 
     
         for i,row in df.iterrows():
-              sql = "INSERT INTO `Product` (`" + cols + "`) VALUES (" + "%s,"*(len(row)) + "%s)"
+              sql = "INSERT INTO `Product` (`" + cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
               cursor.execute(sql, tuple(row))
               # the connection is not autocommitted by default, so we must commit to save our changes
               st.write("Record inserted successfully into Checked Annotation table")
               dbConnection.commit()
               
-        #dbConnection.commit()
-        
-        #cursor.close()
+
+        st.write("Annotation inserted into MYSQL")
 
 
 
@@ -209,9 +224,7 @@ def main(df_annotation, annotator_name) -> None:
 
 
     df_annotation["Actions"] = df_annotation["Actions"].str.replace("Action", "")
-    #df_annotation["Features"] = df_annotation["Features"].str.replace("[", "")
-    #df_annotation["Features"] = df_annotation["Features"].str.replace("]", "")
-    #df_annotation["Features"] = df_annotation["Features"].str.replace("'", "")
+
     features =list(map(lambda x: x.lower(), features))
     valence =list(map(lambda x: x.lower(), valence))
     
@@ -253,6 +266,9 @@ def main(df_annotation, annotator_name) -> None:
                st.markdown("""---""")
  
                st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 10px;">Feature</p>', unsafe_allow_html=True)
+               df_annotation["Features"][i] = df_annotation["Features"][i].replace("[", "")
+               df_annotation["Features"][i] = df_annotation["Features"][i].replace("]", "")
+               df_annotation["Features"][i] = df_annotation["Features"][i].replace("'", "")
                st.write(df_annotation["Features"][i])
                #st.caption("Please confirm machine results")
                checked_feature = st.radio(
