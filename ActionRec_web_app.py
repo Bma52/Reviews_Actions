@@ -218,6 +218,7 @@ def main(df_annotation, annotator_name) -> None:
     df_annotation["Features"] = df_annotation["Features"].str.replace("]", "")
     df_annotation["Features"] = df_annotation["Features"].str.replace("'", "")
     features =list(map(lambda x: x.lower(), features))
+    valence =list(map(lambda x: x.lower(), valence))
     
     
     def form(df_annotation, i):
