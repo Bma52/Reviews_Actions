@@ -482,8 +482,8 @@ def main(df_annotation, annotator_name) -> None:
 
         if load_next_btn:
               continue;                                                          
-        else:
-              break;
+        #else:
+              #break;
           
 
         
@@ -497,7 +497,7 @@ if __name__ == "__main__":
 
 
     df = get_new_reviews_mysql()
-    st.write(df)
+    
     annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     annotator_name = st.selectbox("Please enter your name", annotators)
 
