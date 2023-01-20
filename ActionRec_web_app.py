@@ -157,7 +157,7 @@ def insert_checked_annotation(df):
 
 
 def main(df_annotation) -> None:
-
+    st.write(st.session_state.name)
 
     actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
     'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
