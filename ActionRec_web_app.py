@@ -476,7 +476,7 @@ def main(df_annotation) -> None:
          
 
     for i in list_reviews:
-        review_container(i)
+        review_container(i, annotator_name)
         
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
