@@ -497,6 +497,7 @@ if __name__ == "__main__":
 
 
     df = get_new_reviews_mysql()
+    st.write(df)
     annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     annotator_name = st.selectbox("Please enter your name", annotators)
 
