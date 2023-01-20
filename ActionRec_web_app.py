@@ -362,7 +362,7 @@ def main(df_annotation, annotator_name) -> None:
                df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
                df_checked_annotation["checkedBy"] = annotator_name
                #st.dataframe(df_checked_annotation)
-               if confirmed_checked:
+               if confirmed_check:
                    insert_checked_annotation(df_checked_annotation)
 
 
