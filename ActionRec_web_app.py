@@ -156,7 +156,7 @@ def insert_checked_annotation(df):
 
 
 
-def main(df_annotation, annotator_name) -> None:
+def main(df_annotation, i, annotator_name) -> None:
    
 
                                  
@@ -465,16 +465,13 @@ def main(df_annotation, annotator_name) -> None:
 
 
             
-                  
+         
+    review_container(i, annotator_name)
                   
 
                   
           
-    list_reviews = df_annotation["reviewBody"].unique()         
-         
 
-    for i in list_reviews:
-        review_container(i, annotator_name)
         
 
 
@@ -489,13 +486,20 @@ if __name__ == "__main__":
     annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     annotator_name = st.selectbox("Please enter your name", annotators)
       
-    main(df, annotator_name)
-    load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+    
+    list_reviews = df_annotation["reviewBody"].unique()         
+         
 
-    if load_next_btn:
-         continue;                                                          
-    else:
-         break;
+    for i in list_reviews:
+        #review_container(i, annotator_name)
+         main(df, i, annotator_name)
+         
+         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+
+         if load_next_btn:
+              continue;                                                          
+         else:
+              break;
    
    
    
