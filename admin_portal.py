@@ -944,6 +944,10 @@ def main():
             st.write(df_final)
         insert_to_mysql(df_product, df_reviews, df_final)
         
+        view_checked_annotations = st.button(" View Checked Annotations")
+        checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+        
+        
         retrain_btn = st.button("Retrain ML models")
         if retrain_btn:
             report_agent = train_agent_detection_model(df_train)
