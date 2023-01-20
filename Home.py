@@ -6,13 +6,13 @@ import admin_portal
 # Create an empty container
 placeholder = st.empty()
 
-actual_email_admin = "bma52@mail.aub.edu"
+actual_email_admin = "admin@mail.aub.edu"
 actual_password_admin = "123"
-name_admin = "Bothaina Amro"
+#name_admin = "Bothaina Amro"
 
-actual_email_annotator = "fz13@aub.edu.lb"
+actual_email_annotator = "annotator@mail.aub.edu"
 actual_password_annotator = "456"
-name_annotator = "Fouad Zablith"
+#name_annotator = "Fouad Zablith"
 
 # Insert a form in the container
 with placeholder.form("login"):
@@ -26,12 +26,12 @@ if submit and email == actual_email_admin and password == actual_password_admin:
     # clear the form/container and display a success message
     placeholder.empty()
     st.success("Login successful")
-    st.write(f'Welcome *{name_admin}*')
+    #st.write(f'Welcome *{name_admin}*')
     exec(open('admin_portal.py').read())
 elif submit and email == actual_email_annotator and password == actual_password_annotator:
     placeholder.empty()
     st.success("Login successful")
-    st.write(f'Welcome *{name_annotator}*')
+    #st.write(f'Welcome *{name_annotator}*')
     exec(open('ActionRec_web_app.py').read())
 elif submit and (email != actual_email_annotator or actual_email_admin) and (password != actual_password_annotator or actual_password_annotator):
         st.error("Login failed")
