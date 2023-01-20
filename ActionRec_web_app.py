@@ -156,11 +156,9 @@ def insert_checked_annotation(df):
 
 
 
-def main(df_annotation) -> None:
+def main(df_annotation, annotator_name) -> None:
    
-    annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
-    
-    annotator_name = st.selectbox("Please enter your name", annotators)
+
                                  
    
     actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
@@ -493,4 +491,7 @@ if __name__ == "__main__":
 
 
     df = get_new_reviews_mysql()
-    main(df)
+    annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
+    annotator_name = st.selectbox("Please enter your name", annotators)
+      
+    main(df, annotator_name)
