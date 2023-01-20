@@ -192,7 +192,7 @@ def main(df_annotation, annotator_name) -> None:
        'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
        'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
        'Freelancer', 'Developer', 'Photographer']
-    valence = ['<select>', 'Positive', 'Negative', 'Neutral']
+    valence = ['<select>', 'positive', 'negative', 'neutral']
     objects = ['<select>','Games', 'Media', 'Application', 'Movie', 'Pictures',
        'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
        'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
