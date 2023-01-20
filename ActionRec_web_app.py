@@ -154,12 +154,12 @@ def insert_checked_annotation(df):
         for i,row in df.iterrows():
               sql = "INSERT INTO `CheckedAnnotation` (`" + cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
               cursor.execute(sql, tuple(row))
+              st.write("Annotation inserted into MYSQL")
               # the connection is not autocommitted by default, so we must commit to save our changes
-              st.write("Record inserted successfully into Checked Annotation table")
               dbConnection.commit()
               
 
-        st.write("Annotation inserted into MYSQL")
+        
 
 
 
@@ -377,7 +377,7 @@ def main(df_annotation, annotator_name) -> None:
                df_checked_annotation["Ability"] = new_ability
                df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
                df_checked_annotation["checkedBy"] = annotator_name
-               st.dataframe(df_checked_annotation)
+               #st.dataframe(df_checked_annotation)
                if confirmed_check:
                    insert_checked_annotation(df_checked_annotation)
 
@@ -440,8 +440,27 @@ def main(df_annotation, annotator_name) -> None:
                             )
 
 
-                    st.write(df_checked_annotation)
+                    #st.write(df_checked_annotation)
+                     
                     confirmed_check = st.checkbox("Confirm annotation", key = i)
+                    df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5", "checkedBy"])
+            
+                    df_checked_annotation.loc[i, 'reviewBody'] = df_annotation["reviewBody"][i]
+                    df_checked_annotation["annotation"] = df_annotation["annotation"][i]
+                    df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"][i]
+                    df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"][i]
+                    df_checked_annotation["Actions"] = new_action
+                    df_checked_annotation["Features"] = new_feature
+                    df_checked_annotation["Agent"] = new_agent
+                    df_checked_annotation["Environment"] = new_env
+                    df_checked_annotation["Valence"] = new_valence
+                    df_checked_annotation["Object"] = new_obj
+                    df_checked_annotation["Ability"] = new_ability
+                    df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
+                    df_checked_annotation["checkedBy"] = annotator_name
+               
+                    if confirmed_check:
+                         insert_checked_annotation(df_checked_annotation)
                      
 
        st.markdown("""---""")
