@@ -136,7 +136,7 @@ def insert_checked_annotation(df):
 
     
         for i,row in df.iterrows():
-              sql = "INSERT INTO `Product` (`" + cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+              sql = "INSERT INTO `Product` (`" + cols + "`) VALUES (" + "%s,"*(len(row)) + "%s)"
               cursor.execute(sql, tuple(row))
               # the connection is not autocommitted by default, so we must commit to save our changes
               st.write("Record inserted successfully into Checked Annotation table")
