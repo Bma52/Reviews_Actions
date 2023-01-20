@@ -264,7 +264,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
-                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
+                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i][0])
                             )
 
 
