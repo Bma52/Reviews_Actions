@@ -475,9 +475,9 @@ def main(df_annotation, annotator_name) -> None:
         review_container(i, annotator_name)
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
-         if load_next_btn:
+        if load_next_btn:
               continue;                                                          
-         else:
+        else:
               break;
           
 
