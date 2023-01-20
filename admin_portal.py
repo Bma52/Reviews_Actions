@@ -1016,7 +1016,7 @@ def main():
             fields = ["id", "content"]
             # header
             for col, field in zip(cols, fields):
-	           col.write("**"+ field +"**")
+	            col.write("**"+ field +"**")
 
              # rows
             for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
