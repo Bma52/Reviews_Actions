@@ -108,8 +108,7 @@ def get_new_reviews_mysql():
    
 def insert_checked_annotation(df):
     
-    # database connection
-    try:
+
         host="linked.aub.edu.lb"
         port=3306
         database ="reviews_actions_ml"
@@ -146,10 +145,6 @@ def insert_checked_annotation(df):
         #dbConnection.commit()
         
         #cursor.close()
-
-    except mysql.connector.Error as error:
-        print("Failed to insert record into Checked Annotation table {}".format(error))
-
 
 
 
