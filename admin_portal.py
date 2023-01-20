@@ -1006,7 +1006,7 @@ def main():
         df_final["Actions"] = df_final["Actions"].str.replace("Action_", "")
 
         with st.expander("View Final Data Set"):
-             st.write(df_final)
+            st.write(df_final)
         
 	insert_to_mysql(df_product, df_reviews, df_final)
         
@@ -1018,7 +1018,6 @@ def main():
 	checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
 	with st.expander("View Checked Annotation"):
-        
             cols   = st.columns(2)
             fields = ["id", "content"]
             # header
