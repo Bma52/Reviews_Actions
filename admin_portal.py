@@ -1009,18 +1009,17 @@ def main():
             st.write(df_final)
         insert_to_mysql(df_product, df_reviews, df_final)
         
-        view_checked_annotations = st.button(" View Checked Annotations")
-        if view_checked_annotations:
-            st.session_state = i
-            checked_data = get_new_reviews_mysql()
-            cols   = st.columns(2)
-            fields = ["id", "content"]
-            # header
-            for col, field in zip(cols, fields):
+        
+            
+        checked_data = get_new_reviews_mysql()
+        cols   = st.columns(2)
+        fields = ["id", "content"]
+        # header
+        for col, field in zip(cols, fields):
 	            col.write("**"+ field +"**")
 
              # rows
-            for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
+        for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
 	
 	            col1, col2 = st.columns(2)
 	            col1.write(str(idx))
