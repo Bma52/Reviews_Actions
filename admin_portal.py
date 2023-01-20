@@ -1006,7 +1006,7 @@ def main():
         df_final["Actions"] = df_final["Actions"].str.replace("Action_", "")
 
         with st.expander("View Final Data Set"):
-            st.write(df_final)
+             st.write(df_final)
         
 	insert_to_mysql(df_product, df_reviews, df_final)
         
