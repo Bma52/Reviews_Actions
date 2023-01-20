@@ -477,6 +477,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
+        st.session_state = i
         review_container(i, annotator_name)
         #load_next_btn 
 
