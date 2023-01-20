@@ -1007,14 +1007,15 @@ def main():
 
         with st.expander("View Final Data Set"):
             st.write(df_final)
-        insert_to_mysql(df_product, df_reviews, df_final)
+        
+	insert_to_mysql(df_product, df_reviews, df_final)
         
         st.markdown("""---""")
         st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
 	checked_data = get_new_reviews_mysql()
-	col1, col2, col3 = st.columns(3)
-	with col1:
-	    checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+	
+
+	checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
 	with st.expander("View Checked Annotation"):
         
