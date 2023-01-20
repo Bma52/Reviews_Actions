@@ -1009,17 +1009,23 @@ def main():
             st.write(df_final)
         insert_to_mysql(df_product, df_reviews, df_final)
         
+        st.markdown("""---""")
+        st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
+	checked_data = get_new_reviews_mysql()
+	col1, col2, col3 = st.columns(3)
+	with col1:
+	    checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
-            
-        checked_data = get_new_reviews_mysql()
-        cols   = st.columns(2)
-        fields = ["id", "content"]
-        # header
-        for col, field in zip(cols, fields):
+	with st.expander("View Checked Annotation"):
+        
+            cols   = st.columns(2)
+            fields = ["id", "content"]
+            # header
+            for col, field in zip(cols, fields):
 	            col.write("**"+ field +"**")
 
              # rows
-        for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
+            for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
 	
 	            col1, col2 = st.columns(2)
 	            col1.write(str(idx))
@@ -1038,7 +1044,6 @@ def main():
 
             
         
-        checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
         
         retrain_btn = st.button("Retrain ML models")
