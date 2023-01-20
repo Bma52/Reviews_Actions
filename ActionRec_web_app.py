@@ -348,7 +348,7 @@ def main(df_annotation, annotator_name) -> None:
                confirmed_check = st.checkbox("Confirm annotation", key = i)
                df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5", "checkedBy"])
             
-               df_checked_annotation.loc[row, 'reviewBody'] = df_annotation["reviewBody"][i]
+               df_checked_annotation.loc[i, 'reviewBody'] = df_annotation["reviewBody"][i]
                df_checked_annotation["annotation"] = df_annotation["annotation"][i]
                df_checked_annotation["ActionFlag"] = df_annotation["ActionFlag"][i]
                df_checked_annotation["ActionProbability"] = df_annotation["ActionProbability"][i]
