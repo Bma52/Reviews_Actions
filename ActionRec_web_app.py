@@ -160,7 +160,7 @@ def main(df_annotation) -> None:
    
     annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     
-    annotator_name = st.selectBox("Please enter your name", annotators)
+    annotator_name = st.selectbox("Please enter your name", annotators)
                                  
    
     actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
