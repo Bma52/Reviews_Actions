@@ -214,6 +214,8 @@ def main(df_annotation, annotator_name) -> None:
 
 
     df_annotation["Actions"] = df_annotation["Actions"].str.replace("Action", "")
+    df_annotation["Features"] = df_annotation["Features"].str.replace("[", "")
+    df_annotation["Features"] = df_annotation["Features"].str.replace("]", "")
     
     
     def form(df_annotation, i):
