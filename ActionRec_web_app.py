@@ -157,8 +157,12 @@ def insert_checked_annotation(df):
 
 
 def main(df_annotation) -> None:
+   
+    annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     
-
+    annotator_name = st.selectBox("Please enter your name", annotators)
+                                 
+   
     actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
     'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
     'Type','Unlock','Use','Edit','Meet','UsingVideo','Absorb','Access','Add','Break','Buy','Charge','Consume','Crack','Cruise','Do','Drop','Find',
@@ -420,7 +424,7 @@ def main(df_annotation) -> None:
     
 
     
-    def review_container(i):
+    def review_container(i, annotator_name):
 
               
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
@@ -436,7 +440,7 @@ def main(df_annotation) -> None:
        
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
-            df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5"])
+            df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5", "checkedBy"])
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i = form(df_one_review, row)
 
@@ -457,6 +461,7 @@ def main(df_annotation) -> None:
             df_checked_annotation["Object"] = new_obj
             df_checked_annotation["Ability"] = new_ability
             df_checked_annotation["annotation_md5"] = df_one_review["annotation_md5"][row]
+            df_checked_annotation["checkedBy"] = annotator_name
             st.dataframe(df_checked_annotation)
             insert_checked_annotation(df_checked_annotation)
 
