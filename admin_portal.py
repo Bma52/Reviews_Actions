@@ -933,7 +933,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
 
 
 # Main function of the app
-@st.cache(suppress_st_warning=True)
+
 def main():
     
     product_url = st.text_area("Product URL")
@@ -1011,6 +1011,7 @@ def main():
         
         view_checked_annotations = st.button(" View Checked Annotations")
         if view_checked_annotations:
+            st.session_state = i
             checked_data = get_new_reviews_mysql()
             cols   = st.columns(2)
             fields = ["id", "content"]
