@@ -216,6 +216,7 @@ def main(df_annotation, annotator_name) -> None:
     df_annotation["Actions"] = df_annotation["Actions"].str.replace("Action", "")
     df_annotation["Features"] = df_annotation["Features"].str.replace("[", "")
     df_annotation["Features"] = df_annotation["Features"].str.replace("]", "")
+    df_annotation["Features"] = df_annotation["Features"].str.replace("'", "")
     
     
     def form(df_annotation, i):
@@ -266,7 +267,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
-                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i][0])
+                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
                             )
 
 
