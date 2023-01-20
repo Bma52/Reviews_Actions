@@ -155,7 +155,7 @@ def insert_checked_annotation(df):
 
 
 
-@st.cache
+
 def main(df_annotation, annotator_name) -> None:
    
 
