@@ -933,7 +933,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
 
 
 # Main function of the app
-
+@st.cache 
 def main():
     
     product_url = st.text_area("Product URL")
