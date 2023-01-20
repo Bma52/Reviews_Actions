@@ -1011,8 +1011,8 @@ def main():
              
 	
         
-        st.markdown("""---""")
-        st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
+        #st.markdown("""---""")
+        #st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
 	
 	checked_data = get_new_reviews_mysql()
 	
