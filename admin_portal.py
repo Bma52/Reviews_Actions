@@ -1020,14 +1020,14 @@ def main():
 	checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
 	with st.expander("View Checked Annotation"):
-            cols   = st.columns(2)
-            fields = ["id", "content"]
-            # header
-            for col, field in zip(cols, fields):
+             cols   = st.columns(2)
+             fields = ["id", "content"]
+             # header
+             for col, field in zip(cols, fields):
 	            col.write("**"+ field +"**")
 
              # rows
-            for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
+             for idx, row in zip([1,2,3],["test1", "test2", "test3"]):
 	
 	            col1, col2 = st.columns(2)
 	            col1.write(str(idx))
