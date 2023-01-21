@@ -413,7 +413,7 @@ def train_model_action_flag() -> object:
 
 
 
-def train_environment_detetction_model(df_train):
+def train_environment_detection_model(df_train):
     df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
     x = df_train[["Review Body"]]
@@ -1009,15 +1009,15 @@ def main():
         with st.expander("View Final Data Set"):
             st.write(df_final)
              
-	insert_to_mysql(df_product, df_reviews, df_final)
+	    insert_to_mysql(df_product, df_reviews, df_final)
         
-        st.markdown("""---""")
-        st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
+            st.markdown("""---""")
+            st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
 	
-	checked_data = get_new_reviews_mysql()
+	    checked_data = get_new_reviews_mysql()
 	
 
-	checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+	    checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
         
 
 
