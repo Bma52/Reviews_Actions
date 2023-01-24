@@ -49,7 +49,7 @@ import operator
 from heapq import nlargest
 from sqlalchemy import create_engine
 import sqlalchemy 
-import regex as re 
+
 
 
 
