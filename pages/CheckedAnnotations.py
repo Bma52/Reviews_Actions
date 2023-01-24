@@ -300,7 +300,7 @@ def create_triplets(df, df_review, df_product, i):
                 '<<' + schema + str(df_product.iloc[0]["seller_name"])+ '>>',
                 '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
                 str(df["checkedTimestamp"][i]) + '^^'+'<<{0}string>>'.format(xsd),
-                str(df['annotation'][i])) + '^^'+'<<{0}string>>'.format(xsd),
+                str(df['annotation'][i]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_review.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_review.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 '<<' + schema + str(df_product.iloc[0]["seller_name"])+ '>>',
@@ -335,6 +335,7 @@ def main():
       
      with st.expander("View Checked Annotation"):
           st.write(checked_data)
+          
 
      checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
      for i in checked_data.index:
