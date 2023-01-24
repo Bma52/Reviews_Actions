@@ -338,7 +338,7 @@ def main():
      checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
      for i in checked_data.index:
       
-          create_triplets(cchecked_data, review_data, product_data, i)
+          create_triplets(checked_data, review_data, product_data, i)
 
 
          
