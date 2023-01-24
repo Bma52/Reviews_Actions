@@ -90,11 +90,11 @@ def insert_to_sparql(df_tuples, annotation_md5):
 
     tripletsString_concat = " "
     for index in df_tuples.index:
-          tripletString = "<{0}> <{1}> <{2}> .".format(df_tuples["Subject"][index], 
+          tripletString = "<{0}> <{1}> {2} .".format(df_tuples["Subject"][index], 
                                       df_tuples["Predicate"][index], df_tuples["Object"][index])
         
           tripletsString_concat = tripletsString_concat + tripletString
-    queryString = "INSERT DATA { GRAPH <{0}> {".format(annotation_md5) + tripletsString_concat + " }"
+    queryString = "INSERT DATA {" + tripletsString_concat + "}"
     
    
     
@@ -277,33 +277,33 @@ def create_triplets(df, df_review, df_product, i):
                    ]             
 
 
-       list_objects = [oa + str(df['annotation_md5'][i]),
-                oa + str(df['annotation_md5'][i]),
-                oa + str(df['annotation_md5'][i]),
-                oa + str(df['annotation_md5'][i]),
-                oa + str(df['annotation_md5'][i]),
-                arec + str(df['Ability'][i]),
-                schema + str(df['Actions'][i]),
-                arec + str(df['Agent'][i]),
-                schema + str(df['Environment'][i]),
-                schema + str(df['Object'][i]),
-                schema + str(df_review['reviewBody_md5']),
-                schema + str(df['Actions'][i]),
+       list_objects = ['<' + oa + str(df['annotation_md5'][i]) + '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + arec + str(df['Ability'][i])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
+                '<' + arec + str(df['Agent'][i])+ '>',
+                '<' + schema + str(df['Environment'][i])+ '>',
+                '<' + schema + str(df['Object'][i])+ '>',
+                '<' + schema + str(df_review['reviewBody_md5'])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
                 str(df['Valence'][i]) + '^^'+'<{0}string>'.format(xsd),
                 str(df['reviewBody'][i]) + '^^'+'<{0}string>'.format(xsd),
-                oa + str(df['annotation_md5'][i]),
-                schema + str(df["Object"][i]),
-                schema + str(df['Actions'][i]),
-                arec + str(df['Features'][i]),
-                schema + str(df_product["product_name_md5"]),
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + schema + str(df["Object"][i])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
+                '<' + arec + str(df['Features'][i])+ '>',
+                '<' + schema + str(df_product["product_name_md5"])+ '>',
                 str(df_product["ratingValue"]) + '^^'+'<{0}decimal>'.format(xsd),
-                schema + str(df_product["seller_name"]),
-                schema + str(df_product["product_name_md5"]),
+                '<' + schema + str(df_product["seller_name"])+ '>',
+                '<' + schema + str(df_product["product_name_md5"])+ '>',
                 str(df["checkedTimestamp"][i]) + '^^'+'<{0}string>'.format(xsd),
                 str(df['annotation'][i]) + '^^'+'<{0}string>'.format(xsd),
                 str(df_review["product_name"]) + '^^'+'<{0}string>'.format(xsd),
                 str(df_review["product_name"]) + '^^'+'<{0}string>'.format(xsd),
-                schema + str(df_product["seller_name"]),
+                '<' + schema + str(df_product["seller_name"])+ '>',
                 str(df_product["availability"]) + '^^'+'<{0}string>'.format(xsd),
                 str(df_product["price"]) + '^^'+'<{0}decimal>'.format(xsd),
                 str(df_product["priceCurrency"]) + '^^'+'<{0}string>'.format(xsd),
