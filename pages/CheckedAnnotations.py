@@ -125,7 +125,7 @@ def create_triplets(df, df_review, df_product, i):
     
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
-    df_product = df_product[df_product['product_name'] == df_review['product_name']]
+    df_product = df_product[df_product['product_name'] == str(df_review['product_name'])]
    
    
 
