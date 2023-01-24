@@ -72,13 +72,16 @@ def get_new_reviews_mysql():
 
 
     checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    review_data = pd.read_sql_query("SELECT * FROM Review", dbConnection)
+    product_data = pd.read_sql_query("SELECT * FROM Product", dbConnection)
     checked_data["ActionProbability"] = checked_data["ActionProbability"].astype(float)
       
+    
     dbConnection.commit()
    
+    
 
-
-    return  checked_data
+    return  checked_data, review_data, product_data
 
 
 
@@ -107,13 +110,24 @@ def insert_to_sparql(df_tuples, annotation_md5):
     sparql.method = 'POST'
     sparql.query()
     st.write("Successfully inserted into triple store.")
+   
+   
+def computeMD5hash(my_string):
+    m = hashlib.md5()
+    m.update(my_string.encode('utf-8'))
+    return m.hexdigest()
     
     
     
-def create_triplets(df, i):
-
-
-
+def create_triplets(df, df_review, df_product, i):
+   
+    df_review = df_review[df_review['reviewBody'] == df['reviewBody'][i]]
+    
+    #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
+      
+    df_product = df_product[df_product['product_name'] == df_review['product_name']]
+   
+   
 
     dct= "http://purl.org/dc/terms/"
     rdfs= "http://www.w3.org/2000/01/rdf-schema#"
@@ -194,30 +208,30 @@ def create_triplets(df, i):
                  oa + str(df['annotation'][i]),
                  arec + str(df['Features'][i]),
                  oa + str(df['annotation_md5'][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df["product_name_md5"][i]),
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_product["product_name_md5"]),
                  schema + str(df["Actions"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df["availability"][i]),
-                 schema + str(df["availability"][i]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_product["availability"]),
+                 schema + str(df_product["availability"]),
                  oa + str(df['annotation_md5'][i]),
                  oa + str(df['annotation_md5'][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df['reviewBody_md5'][i]),
-                 schema + str(df["availability"][i]),
-                 schema + str(df["price"][i]),
-                 schema + str(df["priceCurrency"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i]),
-                 schema + str(df["product_name_md5"][i])
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_review['reviewBody_md5']),
+                 schema + str(df_product["availability"]),
+                 schema + str(df_product["price"]),
+                 schema + str(df_product["priceCurrency"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"])
                  ]
 
  
@@ -273,7 +287,7 @@ def create_triplets(df, i):
                 arec + str(df['Agent'][i]),
                 schema + str(df['Environment'][i]),
                 schema + str(df['Object'][i]),
-                schema + str(df['reviewBody_md5'][i]),
+                schema + str(df_review['reviewBody_md5']),
                 schema + str(df['Actions'][i]),
                 str(df['Valence'][i]) + '^^'+'<{0}string>'.format(xsd),
                 str(df['reviewBody'][i]) + '^^'+'<{0}string>'.format(xsd),
@@ -281,25 +295,25 @@ def create_triplets(df, i):
                 schema + str(df["Object"][i]),
                 schema + str(df['Actions'][i]),
                 arec + str(df['Features'][i]),
-                schema + str(df["product_name_md5"][i]),
-                str(df["ratingValue"][i]) + '^^'+'<{0}decimal>'.format(xsd),
-                schema + str(df["seller_name"][i]),
-                schema + str(df["product_name_md5"][i]),
-                str(df["created_timestamp"][i]) + '^^'+'<{0}string>'.format(xsd),
+                schema + str(df_product["product_name_md5"]),
+                str(df_product["ratingValue"][i]) + '^^'+'<{0}decimal>'.format(xsd),
+                schema + str(df_product["seller_name"][i]),
+                schema + str(df_product["product_name_md5"][i]),
+                str(df["checkedTimestamp"][i]) + '^^'+'<{0}string>'.format(xsd),
                 str(df['annotation'][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
-                schema + str(df["seller_name"][i]),
-                str(df["availability"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["price"][i]) + '^^'+'<{0}decimal>'.format(xsd),
-                str(df["priceCurrency"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["model"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["description"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["brand_name"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["url"][i]) + '^^'+'<{0}string>'.format(xsd),
-                str(df["image"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_review["product_name"]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_review["product_name"]) + '^^'+'<{0}string>'.format(xsd),
+                schema + str(df_product["seller_name"][i]),
+                str(df_product["availability"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["price"][i]) + '^^'+'<{0}decimal>'.format(xsd),
+                str(df_product["priceCurrency"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["model"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["product_name"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["description"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["brand_name"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["url"][i]) + '^^'+'<{0}string>'.format(xsd),
+                str(df_product["image"][i]) + '^^'+'<{0}string>'.format(xsd),
                ]    
 
 
@@ -317,14 +331,14 @@ def create_triplets(df, i):
 def main():
   
      st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
-     checked_data = get_new_reviews_mysql()
+     checked_data, review_data, product_data = get_new_reviews_mysql()
       
     
 
      checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
      for i in checked_data.index:
       
-          create_triplets(checked_data, i)
+          create_triplets(cchecked_data, review_data, product_data, i)
 
 
          
