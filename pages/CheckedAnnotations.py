@@ -338,29 +338,29 @@ def main():
        for j in range(0,checked_data.shape[0]):
           col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12 = st.columns(12)
           with col1:
-              st.write(checked_data["annotation"])
+              st.write(checked_data["annotation"][j])
           with col2:
-              st.write(checked_data["ActionFlag"])
+              st.write(checked_data["ActionFlag"][j])
           with col3:
-              st.write(checked_data["ActionProbability"])
+              st.write(checked_data["ActionProbability"][j])
           with col4:
-              st.write(checked_data["Actions"])
+              st.write(checked_data["Actions"][j])
           with col5: 
-              st.write(checked_data["Features"])
+              st.write(checked_data["Features"][j])
           with col6:
-              st.write(checked_data["Agent"])
+              st.write(checked_data["Agent"][j])
           with col7:
-              st.write(checked_data["Environment"])
+              st.write(checked_data["Environment"][j])
           with col8: 
-              st.write(checked_data["Valence"])
+              st.write(checked_data["Valence"][j])
           with col9:
-              st.write(checked_data["Object"])
+              st.write(checked_data["Object"][j])
           with col10:
-              st.write(checked_data["Ability"])
+              st.write(checked_data["Ability"][j])
           with col11:
-              st.write(checked_data["Ability"])
+              st.write(checked_data["Ability"][j])
           with col12:
-              (st.button("Insert to Sparql" ,key= checked_data["Ability"][j])) 
+              (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j])) 
             
           
 
