@@ -90,7 +90,7 @@ def get_new_reviews_mysql():
     #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
     review_data = pd.read_sql_query("SELECT * FROM Review", dbConnection)
     annotation_data = pd.read_sql_query("SELECT * FROM Annotation", dbConnection)
-    checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    #checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
     annotation_data["ActionProbability"] = annotation_data["ActionProbability"].astype(float)
       
     dbConnection.commit()
