@@ -327,5 +327,9 @@ def main():
           create_triplets(checked_data, i)
 
 
+         
+if __name__ == "__main__":
+    
+    main()
 
     
