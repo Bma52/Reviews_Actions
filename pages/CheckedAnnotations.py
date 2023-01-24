@@ -93,7 +93,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
           tripletString = "<{0}> <{1}> {2} .".format(df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
         
           tripletsString_concat = tripletsString_concat + tripletString
-    queryString = "INSERT DATA {{0}}".format(tripletsString_concat)
+    queryString = "INSERT DATA {{{0}}}".format(tripletsString_concat)
     
    
     
