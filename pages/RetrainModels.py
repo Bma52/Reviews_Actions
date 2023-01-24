@@ -86,6 +86,7 @@ def get_model_info_mysql():
   
   
 def main():
+    st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The Machine Learning Models Page</font></H1></div>', unsafe_allow_html=True)
     model_data = get_model_info_mysql()
     with st.expander("View ML Models Information"):
         st.write(model_data)
