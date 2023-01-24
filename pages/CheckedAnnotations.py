@@ -330,7 +330,7 @@ def create_triplets(df, df_review, df_product, i):
     
 def main():
   
-     st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The Admin Page</font></H1></div>', unsafe_allow_html=True)
+     st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; ">Checked Annotations Page</font></H1></div>', unsafe_allow_html=True)
      checked_data, review_data, product_data = get_new_reviews_mysql()
       
      with st.expander("View Checked Annotation"):
