@@ -229,8 +229,8 @@ def create_triplets(df, df_review, df_product, i):
                  schema + str(df_product.iloc[0]["product_name_md5"]),
                  schema + str(df_product.iloc[0]["product_name_md5"]),
                  schema + str(df_product.iloc[0]["product_name_md5"]),
-                 schema + str(df_product.iloc[0]["product_name_md5"]),
-                 schema + str(df_product.iloc[0]["product_name_md5"])
+                 #schema + str(df_product.iloc[0]["product_name_md5"]),
+                 #schema + str(df_product.iloc[0]["product_name_md5"])
                  ]
 
  
@@ -270,8 +270,8 @@ def create_triplets(df, df_review, df_product, i):
                    rdfs + "label",
                    schema + "description",
                    schema + "brand",
-                   schema + "URL",
-                   schema + "image"
+                   #schema + "URL",
+                   #schema + "image"
                 
                    ]             
 
@@ -311,8 +311,8 @@ def create_triplets(df, df_review, df_product, i):
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["description"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["brand_name"]) + '^^'+'<<{0}string>>'.format(xsd),
-                str(df_product.iloc[0]["url"]) + '^^'+'<<{0}string>>'.format(xsd),
-                str(df_product.iloc[0]["image"]) + '^^'+'<<{0}string>>'.format(xsd),
+                #str(df_product.iloc[0]["url"]) + '^^'+'<<{0}string>>'.format(xsd),
+                #str(df_product.iloc[0]["image"]) + '^^'+'<<{0}string>>'.format(xsd),
                ]    
 
 
@@ -332,7 +332,8 @@ def main():
      st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
      checked_data, review_data, product_data = get_new_reviews_mysql()
       
-    
+     with st.expander("View Checked Annotation"):
+          st.write(checked_data)
 
      checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
      for i in checked_data.index:
