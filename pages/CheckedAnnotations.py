@@ -125,7 +125,7 @@ def create_triplets(df, df_review, df_product, i):
     
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
-    df_product = df_product[df_product['product_name'] == str(df_review['product_name'])]
+    df_product = df_product[df_product['product_name'] == str(df_review.iloc[0]['product_name'])]
    
    
 
@@ -208,7 +208,7 @@ def create_triplets(df, df_review, df_product, i):
                  oa + str(df['annotation'][i]),
                  arec + str(df['Features'][i]),
                  oa + str(df['annotation_md5'][i]),
-                 schema + str(df_review['reviewBody_md5'][0]),
+                 schema + str(df_review.iloc[0]['reviewBody_md5']),
                  schema + str(df_product["product_name_md5"][0]),
                  schema + str(df["Actions"][i]),
                  schema + str(df_product["product_name_md5"][0]),
