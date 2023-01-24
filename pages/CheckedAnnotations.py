@@ -330,11 +330,38 @@ def create_triplets(df, df_review, df_product, i):
     
 def main():
   
-     st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
+     st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The Admin Page</font></H1></div>', unsafe_allow_html=True)
      checked_data, review_data, product_data = get_new_reviews_mysql()
       
      with st.expander("View Checked Annotation"):
-          st.write(checked_data)
+          #st.write(checked_data)
+       for j in checked_data.shape[0]:
+          col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12 = st.columns(12)
+          with col1:
+              st.write(checked_data["annotation"])
+          with col2:
+              st.write(checked_data["ActionFlag"])
+          with col3:
+              st.write(checked_data["ActionProbability"])
+          with col4:
+              st.write(checked_data["Actions"])
+          with col5: 
+              st.write(checked_data["Features"])
+          with col6:
+              st.write(checked_data["Agent"])
+          with col7:
+              st.write(checked_data["Environment"])
+          with col8: 
+              st.write(checked_data["Valence"])
+          with col9:
+              st.write(checked_data["Object"])
+          with col10:
+              st.write(checked_data["Ability"])
+          with col11:
+              st.write(checked_data["Ability"])
+          with col12:
+              (st.button("Insert to Sparql" ,key= checked_data["Ability"][j])) 
+            
           
 
      checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
