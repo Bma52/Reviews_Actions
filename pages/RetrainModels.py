@@ -128,7 +128,7 @@ def train_model_action_flag(df) -> object:
     y=y.iloc[:,:]
     #X=x.to_dict()
     #X=list(x)  
-    x = x.transpose()
+    #x = x.transpose()
    
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
