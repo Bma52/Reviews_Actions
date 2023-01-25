@@ -1210,27 +1210,7 @@ def main():
             st.write(df_final)
              
         insert_to_mysql(df_product, df_reviews, df_final)
-        
-        st.markdown("""---""")
-        st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">The Checked Annotation Section</p>', unsafe_allow_html=True)
-        checked_data = get_new_reviews_mysql()
-	
-
-        checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
-        
-	
-        create_triplets(checked_data, 0)
-
-            
-        
-        
-        
-        retrain_btn = st.button("Retrain ML models")
-        if retrain_btn:
-            report_agent = train_agent_detection_model(df_train)
-            report_env = train_environment_detection_model(df_train)
-            report_valence = train_valence_detection_model(df_train)
-            report_obj = train_object_detection_model(df_train)
+  
                                 
         
     
