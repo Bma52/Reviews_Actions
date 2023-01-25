@@ -491,7 +491,7 @@ def main(df_annotation, annotator_name) -> None:
     
 
     
-    def review_container(i):
+    def review_container(i, annotator_name):
 
               
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
@@ -510,11 +510,11 @@ def main(df_annotation, annotator_name) -> None:
             #df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5", "checkedBy"])
             
             if df_one_review["ActionFlag"][row] == "Action Exist":
-                 form(df_one_review, row)
+                 form(df_one_review, row, annotator_name)
                  
 
             else:
-                 no_form(df_one_review, row)
+                 no_form(df_one_review, row, annotator_name)
                  
                  
 
@@ -531,7 +531,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        review_container(i)
+        review_container(i, annotator_name)
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
       
         if load_next_btn:
