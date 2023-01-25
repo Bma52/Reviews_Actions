@@ -308,8 +308,8 @@ def main():
         st.write(model_data)
       
     
-    df_flag_report = train_model_action_flag(df_train)
-    st.write("Action Flag Model Updated!")
+    #df_flag_report = train_model_action_flag(df_train)
+    #st.write("Action Flag Model Updated!")
          
     df_env_report = train_environment_detection_model(df_train)
     st.write("Environement Model Updated!")  
