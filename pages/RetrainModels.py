@@ -139,8 +139,8 @@ def train_model_action_flag(df) -> object:
     #X_train_tfidf= X_train_tfidf.toarray()
 
     clf= SVC(random_state = 0,  probability=True)
-    clf.fit(X_train_tfidf, y.values)
-    clf.score(X_train_tfidf, y.values)
+    clf.fit(X_train_tfidf, y)
+    clf.score(X_train_tfidf, y)
       
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_flag = clf.predict(x_test_tfidf)
