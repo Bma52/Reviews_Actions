@@ -215,7 +215,7 @@ def create_triplets(df, df_review, df_product, i):
                  schema + str(df['Actions'][i]),
                  schema + str(df['Actions'][i]),
                  schema + str(df['Actions'][i]),
-                 oa + str(df['annotation'][i]),
+                 oa + str(df['annotation_md5'][i]),
                  arec + str(df['Features'][i]),
                  oa + str(df['annotation_md5'][i]),
                  schema + str(df_review.iloc[0]['reviewBody_md5']),
