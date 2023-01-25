@@ -90,11 +90,15 @@ def get_new_reviews_mysql():
     #product_data = product_data.rename(columns = {'name': 'product_name'}, inplace=True)
     review_data = pd.read_sql_query("SELECT * FROM Review", dbConnection)
     annotation_data = pd.read_sql_query("SELECT * FROM Annotation", dbConnection)
-    #checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
     annotation_data["ActionProbability"] = annotation_data["ActionProbability"].astype(float)
       
     dbConnection.commit()
-   
+    
+    list_checked_annotations = list(checked_data["annotation_md5"])
+    annotation_data = annotation_data[~annotation_data['annotation_md5'].isin(list_checked_annotations)]
+      
+    
    
     df_1 = pd.merge(product_data, review_data, how = 'right', on='product_name', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
     df_product = pd.DataFrame(df_1)
