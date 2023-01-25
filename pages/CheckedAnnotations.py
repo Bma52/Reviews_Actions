@@ -290,7 +290,7 @@ def create_triplets(df, df_review, df_product, i):
        list_objects = ['<<' + oa + str(df['annotation_md5'][i]) + '>>',
                 '<<' + oa + str(df['annotation_md5'][i])+ '>>',
                 '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<,' + oa + str(df['annotation_md5'][i])+ '>>',
+                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
                 '<<' + oa + str(df['annotation_md5'][i])+ '>>',
                 '<<' + arec + str(df['Ability'][i])+ '>>',
                 '<<' + schema + str(df['Actions'][i])+ '>>',
