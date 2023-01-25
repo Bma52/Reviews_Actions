@@ -191,6 +191,7 @@ def create_triplets(df, df_review, df_product, i):
     df_product["product_name"] = df_product["product_name"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["description"] = df_product["description"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["model"] = df_product["model"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df_product["seller_name"] = df_product["seller_name"].str.replace(' ', '', regex=True)
       
 
     if df["Actions"][i] == "No_ActionAction":
@@ -313,7 +314,7 @@ def create_triplets(df, df_review, df_product, i):
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
-                str(df_product.iloc[0]["availability"]) + '^^'+'<<{0}string>>'.format(xsd),
+                str(df_product.iloc[0]["availability"]),
                 str(df_product.iloc[0]["price"]) + '^^'+'<<{0}decimal>>'.format(xsd),
                 str(df_product.iloc[0]["priceCurrency"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["model"]) + '^^'+'<<{0}string>>'.format(xsd),
