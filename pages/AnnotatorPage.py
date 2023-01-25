@@ -493,8 +493,7 @@ def main(df_annotation, annotator_name) -> None:
           sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
           if sorting_proba:
              df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
-          
-          
+
        
           for row in df_one_review.index:
             st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
@@ -543,13 +542,17 @@ def main(df_annotation, annotator_name) -> None:
 
 if __name__ == "__main__":
    
-    annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
+    annotators = ["","Bma52", "Fz13", "Wk14"]
     annotator_name = st.selectbox("Please enter your name", annotators)
+    if annotator_name! = "":
+         df = get_new_reviews_mysql(annotator_name)
+         main(df,annotator_name)
+         
 
 
-    df = get_new_reviews_mysql(annotator_name)
+    
     
 
 
-    main(df,annotator_name)
+    
          
