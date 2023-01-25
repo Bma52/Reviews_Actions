@@ -116,7 +116,7 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 # Train the action flag model. The dataset is manually done and not from sparql. 
-def train_model_action_flag(df) -> object:
+def train_model_action_flag(df):
 
     #df = pd.read_csv("Action classified dataset.csv")
     x = df[["annotation"]]
@@ -128,7 +128,7 @@ def train_model_action_flag(df) -> object:
     y=y.iloc[:,:]
     #X=x.to_dict()
     #X=list(x)  
-    x = x.transpose()
+    #x = x.transpose()
    
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
