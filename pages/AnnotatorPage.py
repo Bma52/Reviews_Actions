@@ -236,7 +236,7 @@ def main(df_annotation, annotator_name) -> None:
     valence =list(map(lambda x: x.lower(), valence))
     
     
-    def form(df_annotation, i):
+    def form(df_annotation, i, annotator_name):
        st.session_state = i
        #st.session_state.a_list = []
       
@@ -403,7 +403,7 @@ def main(df_annotation, annotator_name) -> None:
                
 
 
-    def no_form(df_annotation, i):
+    def no_form(df_annotation, i, annotator_name):
        #st.session_state.a_list = []
        
        st.session_state = i
