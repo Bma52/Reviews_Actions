@@ -127,12 +127,16 @@ def train_model_action_flag(df) -> object:
     y=y.iloc[:,:]
     #X=x.to_dict()
     X=list(x)  
+   
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+    
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
 
-    count_vect=CountVectorizer()
-    tfidf_transformer = TfidfTransformer()
-    X_train_counts=count_vect.fit_transform(X)
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-    X_train_tfidf= X_train_tfidf.toarray()
+    #count_vect=CountVectorizer()
+    #tfidf_transformer = TfidfTransformer()
+    #X_train_counts=count_vect.fit_transform(X)
+    #X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+    #X_train_tfidf= X_train_tfidf.toarray()
 
     clf= SVC(random_state = 0,  probability=True)
     clf.fit(X_train_tfidf, y.values)
