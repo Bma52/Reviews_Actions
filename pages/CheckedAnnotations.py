@@ -185,10 +185,12 @@ def create_triplets(df, df_review, df_product, i):
     # Rule 41: <review_rating><rdfs:label><value>
     
     #cleanString = re.sub(r"[^A-Za-z]+",'', string)
-    df["annotation"] = df["annotation"].str.replace(r"[^A-Za-z]+", '', regex=True)
-    df["reviewBody"] = df["reviewBody"].str.replace(r"[^A-Za-z]+", '', regex=True)
-    df_review["reviewBody"] = df_review["reviewBody"].str.replace(r"[^A-Za-z]+", '', regex=True)
-    df_product["product_name"] = df_product["product_name"].str.replace(r"[^A-Za-z]+", '', regex=True)
+    df["annotation"] = df["annotation"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df["reviewBody"] = df["reviewBody"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df_review["reviewBody"] = df_review["reviewBody"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df_product["product_name"] = df_product["product_name"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df_product["description"] = df_product["description"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+      
 
     if df["Actions"][i] == "No_ActionAction":
         st.write(df["Actions"][i])
