@@ -315,15 +315,15 @@ def main():
          st.write(df_agent_report)
              
              
-     df_valence_report = train_valence_detection_model(df_train)
-     st.write("Valence Model Updated!")  
-     with st.expander("View Report"):
+    df_valence_report = train_valence_detection_model(df_train)
+    st.write("Valence Model Updated!")  
+    with st.expander("View Report"):
          st.write(df_valence_report)
               
               
-     df_object_report = train_object_detection_model(df_train)
-     st.write("Object Model Updated!")  
-     with st.expander("View Report"):
+    df_object_report = train_object_detection_model(df_train)
+    st.write("Object Model Updated!")  
+    with st.expander("View Report"):
          st.write(df_object_report)
   
      
