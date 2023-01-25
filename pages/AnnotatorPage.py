@@ -178,7 +178,7 @@ def main(df_annotation, annotator_name) -> None:
 
                                  
    
-    actions = ['<select>', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
+    actions = [' ', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
     'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
     'Type','Unlock','Use','Edit','Meet','UsingVideo','Absorb','Access','Add','Break','Buy','Charge','Consume','Crack','Cruise','Do','Drop','Find',
     'Flicker','Flip','Fold','Hold','PlugIn','Purchase','Put','Rotate','Run','Send','Setup','Switch','Take','Touch','View','ch','Delete','Expect','Hear',
@@ -186,7 +186,7 @@ def main(df_annotation, annotator_name) -> None:
     'Upgrade','Backup','Bend','Boot','Close','Communicate','Disconnect','Display','Fall','Improve','Lift','Light','Look','Navigate','Notify','Place',
     'Power','Press','Process','Project','Protect','Reduce','Reflect','Refresh','Respond','Scan','See','Select','Shake','Sign','Sketch','Start','Turn','Update',
     'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record', 'Add a new action']
-    features = ['<select>','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
+    features = [' ','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
        'ScreenQuality', 'ProcessingPower', 'Lightweight',
        'ScreenRefreshRate', 'CPU', 'Speed', 'BatteryLife', 'Fans',
        'DiscDrive', 'PairXboxController', 'Camera', 'ScreenSize',
@@ -203,14 +203,14 @@ def main(df_annotation, annotator_name) -> None:
        'tr', 'InternalDrive', 'Microsoft', 'Fan', 'NumericKeypad',
        'Cortana', 'SleepMode', 'OpenBox', 'SurfaceSlimPen',
        'WindowsHello', 'SPen']
-    environments = ['<select>', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
+    environments = [' ', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
        'Room']
-    agents = ['<select>', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
+    agents = [' ', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
        'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
        'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
        'Freelancer', 'Developer', 'Photographer']
-    valence = ['<select>', 'positive', 'negative', 'neutral']
-    objects = ['<select>','Games', 'Media', 'Application', 'Movie', 'Pictures',
+    valence = [' ', 'positive', 'negative', 'neutral']
+    objects = [' ','Games', 'Media', 'Application', 'Movie', 'Pictures',
        'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
        'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
        'Design', 'Data', 'WorkTasks', 'Music', 'FaceTime', 'iMessage',
@@ -391,7 +391,9 @@ def main(df_annotation, annotator_name) -> None:
                df_checked_annotation["checkedBy"] = annotator_name
                #st.dataframe(df_checked_annotation)
                if confirmed_check:
-                   insert_checked_annotation(df_checked_annotation)
+                    if df_checked_annotation["Actions"] == "No_ActionAction":
+                         df_checked_annotation["ActionFlag"] = "No Action Found"
+                         insert_checked_annotation(df_checked_annotation)
 
 
                   
@@ -472,7 +474,9 @@ def main(df_annotation, annotator_name) -> None:
                     df_checked_annotation["checkedBy"] = annotator_name
                
                     if confirmed_check:
-                         insert_checked_annotation(df_checked_annotation)
+                         if df_checked_annotation["Actions"] == "No_ActionAction":
+                            df_checked_annotation["ActionFlag"] = "No Action Found"
+                            insert_checked_annotation(df_checked_annotation)
                      
 
        st.markdown("""---""")
