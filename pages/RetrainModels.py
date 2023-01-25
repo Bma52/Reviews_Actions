@@ -259,7 +259,8 @@ def train_agent_detection_model(df_train):
    
    
    
-   def get_train_data_mysql():
+   
+def get_train_data_mysql():
    
 
     host="linked.aub.edu.lb"
@@ -284,7 +285,7 @@ def train_agent_detection_model(df_train):
    
 
 
-    return  
+    return  checked_data
 
 
 
