@@ -344,11 +344,14 @@ def main():
   
      st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; ">Checked Annotations Page</font></H1></div>', unsafe_allow_html=True)
      checked_data, review_data, product_data = get_new_reviews_mysql()
+     
+     checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+     
       
      with st.expander("View Checked Annotation"):
           #st.write(checked_data)
        for j in range(0,checked_data.shape[0]):
-          col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12 = st.columns(12)
+          col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
           with col1:
               st.write(checked_data["annotation"][j])
           with col2:
@@ -372,11 +375,14 @@ def main():
           with col11:
               st.write(checked_data["Ability"][j])
           with col12:
+              st.write(checked_data["checkedBy"][j])
+          with col13:
               (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j])) 
+
             
           
 
-     checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+
      for i in checked_data.index:
       
           create_triplets(checked_data, review_data, product_data, i)
