@@ -482,10 +482,11 @@ def main(df_annotation, annotator_name) -> None:
     
 
     
-    def review_container(i, annotator_name):
+    def review_container(i):
 
               
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
+          df_one_review = df_one_review.drop_duplicates(subset=['annotation_md5'], keep='first')
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
           st.subheader(df_annotation["product_name"].unique())
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
@@ -505,7 +506,7 @@ def main(df_annotation, annotator_name) -> None:
 
             else:
                  no_form(df_one_review, row)
-                 continue;
+                 
                  
 
 
@@ -521,7 +522,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        review_container(i, annotator_name)
+        review_container(i)
         load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
       
         if load_next_btn:
