@@ -474,7 +474,7 @@ def main(df_annotation, annotator_name) -> None:
                     df_checked_annotation["checkedBy"] = annotator_name
                
                     if confirmed_check:
-                         if df_checked_annotation["Actions"] == "No_ActionAction":
+                         if df_checked_annotation["Actions"].any() == "No_ActionAction":
                             df_checked_annotation["ActionFlag"] = "No Action Found"
                             insert_checked_annotation(df_checked_annotation)
                      
