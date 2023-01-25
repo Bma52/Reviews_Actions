@@ -115,11 +115,11 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 # Train the action flag model. The dataset is manually done and not from sparql. 
-def train_model_action_flag() -> object:
+def train_model_action_flag(df) -> object:
 
-    df = pd.read_csv("Action classified dataset.csv")
-    x = df[["review sentences"]]
-    y=df[["Action Flag"]]
+    #df = pd.read_csv("Action classified dataset.csv")
+    x = df[["annotation"]]
+    y=df[["ActionFlag"]]
 
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
@@ -149,7 +149,7 @@ def train_model_action_flag() -> object:
 def train_environment_detection_model(df_train):
     df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Environment"]]
     
     x=x.iloc[:,0]
@@ -176,7 +176,7 @@ def train_environment_detection_model(df_train):
 
 
 def train_valence_detection_model(df_train):
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Valence"]]
     
     x=x.iloc[:,0]
@@ -203,7 +203,7 @@ def train_valence_detection_model(df_train):
 
 
 def train_object_detection_model(df_train):
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Object"]]
     
     x=x.iloc[:,0]
@@ -232,9 +232,9 @@ def train_object_detection_model(df_train):
 def train_agent_detection_model(df_train):
     # Train the agent detection model with a split 80%, 20% and observe. 
     
-    df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
+    #df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
 
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Agent"]]
     
     x=x.iloc[:,0]
@@ -300,7 +300,7 @@ def main():
         st.write(model_data)
       
     
-    count_vect, tfidf_transformer = train_model_action_flag()
+    count_vect, tfidf_transformer = train_model_action_flag(df_train)
     st.write("Action Flag Model Updated!")
          
     df_env_report = train_environment_detection_model(df_train)
