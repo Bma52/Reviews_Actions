@@ -499,9 +499,11 @@ def main(df_annotation, annotator_name) -> None:
             
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  form(df_one_review, row)
+                 load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
             else:
                  no_form(df_one_review, row)
+                 load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
 
             
@@ -516,15 +518,16 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        
         review_container(i, annotator_name)
-    load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+      
+        if load_next_btn:
+            continue;  
+        else:
+            break;
+    
          
 
-    if load_next_btn:
-              continue;  
-    else:
-              break;
+
           
 
         
