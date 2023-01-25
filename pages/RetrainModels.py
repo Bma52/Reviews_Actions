@@ -127,6 +127,7 @@ def train_model_action_flag(df) -> object:
     y=y.iloc[:,:]
     #X=x.to_dict()
     #X=list(x)  
+    x = x.transpose()
    
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
@@ -307,8 +308,8 @@ def main():
         st.write(model_data)
       
     
-    count_vect, tfidf_transformer = train_model_action_flag(df_train)
-    st.write("Action Flag Model Updated!")
+    #df_flag_report = train_model_action_flag(df_train)
+    #st.write("Action Flag Model Updated!")
          
     df_env_report = train_environment_detection_model(df_train)
     st.write("Environement Model Updated!")  
