@@ -156,7 +156,7 @@ def train_model_action_flag(df) -> object:
 
 
 def train_environment_detection_model(df_train):
-    df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
+    #df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
     x = df_train[["annotation"]]
     y = df_train[["Environment"]]
@@ -309,8 +309,8 @@ def main():
         st.write(model_data)
       
     
-    #df_flag_report = train_model_action_flag(df_train)
-    #st.write("Action Flag Model Updated!")
+    df_flag_report = train_model_action_flag(df_train)
+    st.write("Action Flag Model Updated!")
          
     df_env_report = train_environment_detection_model(df_train)
     st.write("Environement Model Updated!")  
