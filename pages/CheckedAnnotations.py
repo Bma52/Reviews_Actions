@@ -314,7 +314,7 @@ def create_triplets(df, df_review, df_product, i):
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
-                str(df_product.iloc[0]["availability"]),
+                '<' + str(df_product.iloc[0]["availability"])+ '>',
                 str(df_product.iloc[0]["price"]) + '^^'+'<<{0}decimal>>'.format(xsd),
                 str(df_product.iloc[0]["priceCurrency"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["model"]) + '^^'+'<<{0}string>>'.format(xsd),
