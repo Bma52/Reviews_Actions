@@ -185,7 +185,7 @@ def main(df_annotation, annotator_name) -> None:
     'Install','Load','Looking','Open','Pay','Pickup','Produce','Realize','Reboot','Receive','Remove','Return','Save','Set','Support','Surprise',
     'Upgrade','Backup','Bend','Boot','Close','Communicate','Disconnect','Display','Fall','Improve','Lift','Light','Look','Navigate','Notify','Place',
     'Power','Press','Process','Project','Protect','Reduce','Reflect','Refresh','Respond','Scan','See','Select','Shake','Sign','Sketch','Start','Turn','Update',
-    'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record']
+    'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record', 'Add a new action']
     features = ['<select>','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
        'ScreenQuality', 'ProcessingPower', 'Lightweight',
        'ScreenRefreshRate', 'CPU', 'Speed', 'BatteryLife', 'Fans',
@@ -264,8 +264,13 @@ def main(df_annotation, annotator_name) -> None:
                     new_action = st.selectbox(
                        "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
                             )
-                    st.write(new_action)
-                    new_action = new_action+"Action"
+                    
+                    if new_action == 'Add a new action':
+                         otherOption = st.text_input("Enter your other option...")
+                         new_action = otherOption+"Action"
+                    else:  
+                         new_action = new_action+"Action"
+                    st.write(new_action) 
                new_ability = new_action.replace("Action", "Ability")
                     
 
