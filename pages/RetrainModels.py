@@ -119,14 +119,14 @@ def train_model_action_flag(df) -> object:
 
     #df = pd.read_csv("Action classified dataset.csv")
     x = df[["annotation"]]
-    y=df[["ActionFlag"]]
+    y= df[["ActionFlag"]]
 
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
     x=x.iloc[:,0]
     y=y.iloc[:,:]
     #X=x.to_dict()
-    X=list(x)  
+    #X=list(x)  
    
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
@@ -141,12 +141,15 @@ def train_model_action_flag(df) -> object:
     clf= SVC(random_state = 0,  probability=True)
     clf.fit(X_train_tfidf, y.values)
     clf.score(X_train_tfidf, y.values)
+      
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_flag = clf.predict(x_test_tfidf)
     
 
-    filename_svm = 'SVM_action_noaction_model.sav'
+    filename_svm = 'SVM_action_noaction_model_version2.sav'
     pickle.dump(clf, open(filename_svm, 'wb'))
 
-    return count_vect, tfidf_transformer
+    return creport(y_test, y_pred_flag)
 
 
 
@@ -174,7 +177,7 @@ def train_environment_detection_model(df_train):
     
     
     
-    filename_clf = 'SVM_environment_model_2.sav'
+    filename_clf = 'SVM_environment_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
     return creport(y_test, y_pred_env)
 
@@ -200,7 +203,7 @@ def train_valence_detection_model(df_train):
     y_pred_val = LR.predict(x_test_tfidf)
 
     
-    filename_LR = 'LR_valence_model_2.sav'
+    filename_LR = 'LR_valence_model_version2.sav'
     pickle.dump(LR, open(filename_LR, 'wb'))
     return creport(y_test, y_pred_val)
 
@@ -226,7 +229,7 @@ def train_object_detection_model(df_train):
     y_pred_obj = clf.predict(x_test_tfidf)
  
     
-    filename_clf = 'SVM_object_model_2.sav'
+    filename_clf = 'SVM_object_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
     return creport(y_test, y_pred_obj)
 
@@ -256,7 +259,7 @@ def train_agent_detection_model(df_train):
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_env = clf.predict(x_test_tfidf)
 
-    filename_clf = 'SVM_agent_model_2.sav'
+    filename_clf = 'SVM_agent_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
 
     return count_vect, tfidf_transformer
