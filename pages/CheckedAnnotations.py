@@ -49,6 +49,7 @@ import operator
 from heapq import nlargest
 from sqlalchemy import create_engine
 import sqlalchemy 
+import re
 
 
 
@@ -182,7 +183,12 @@ def create_triplets(df, df_review, df_product, i):
     # Rule 39: <review_rating><schema:bestRating><value>
     # Rule 40: <review_rating><schema:worstRating><value>
     # Rule 41: <review_rating><rdfs:label><value>
-
+    
+    #cleanString = re.sub(r"[^A-Za-z]+",'', string)
+    df["annotation"] = df["annotation"].str.replace(r"[^A-Za-z]+", '', regex=True)
+    df["reviewBody"] = df["reviewBody"].str.replace(r"[^A-Za-z]+", '', regex=True)
+    df_review["reviewBody"] = df_review["reviewBody"].str.replace(r"[^A-Za-z]+", '', regex=True)
+    df_product["product_name"] = df_product["product_name"].str.replace(r"[^A-Za-z]+", '', regex=True)
 
     if df["Actions"][i] == "No_ActionAction":
         st.write(df["Actions"][i])
@@ -301,8 +307,8 @@ def create_triplets(df, df_review, df_product, i):
                 '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
                 str(df["checkedTimestamp"][i]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df['annotation'][i]) + '^^'+'<<{0}string>>'.format(xsd),
-                str(df_review.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
-                str(df_review.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
+                str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
+                str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
                 str(df_product.iloc[0]["availability"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["price"]) + '^^'+'<<{0}decimal>>'.format(xsd),
