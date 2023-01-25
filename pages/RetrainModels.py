@@ -305,25 +305,25 @@ def main():
          
     df_env_report = train_environment_detection_model(df_train)
     st.write("Environement Model Updated!")  
-    with st.expander("View Report")
+    with st.expander("View Report"):
          st.write(df_env_report)
              
              
     df_agent_report = train_agent_detection_model(df_train)
     st.write("Agent Model Updated!")  
-    with st.expander("View Report")
+    with st.expander("View Report"):
          st.write(df_agent_report)
              
              
      df_valence_report = train_valence_detection_model(df_train)
      st.write("Valence Model Updated!")  
-     with st.expander("View Report")
+     with st.expander("View Report"):
          st.write(df_valence_report)
               
               
      df_object_report = train_object_detection_model(df_train)
      st.write("Object Model Updated!")  
-     with st.expander("View Report")
+     with st.expander("View Report"):
          st.write(df_object_report)
   
      
