@@ -67,7 +67,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 
 
 
-def get_new_reviews_mysql():
+def get_new_reviews_mysql(annotator_name):
    
 
     host="linked.aub.edu.lb"
@@ -94,7 +94,10 @@ def get_new_reviews_mysql():
     annotation_data["ActionProbability"] = annotation_data["ActionProbability"].astype(float)
       
     dbConnection.commit()
+   
     
+    checked_data = checked_data[checked_data['checkedBy'] == annotator_name]
+   
     list_checked_annotations = list(checked_data["annotation_md5"])
     annotation_data = annotation_data[~annotation_data['annotation_md5'].isin(list_checked_annotations)]
       
@@ -499,11 +502,11 @@ def main(df_annotation, annotator_name) -> None:
             
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  form(df_one_review, row)
-                 load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+                 
 
             else:
                  no_form(df_one_review, row)
-                 load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+                 
 
 
             
@@ -519,6 +522,7 @@ def main(df_annotation, annotator_name) -> None:
 
     for i in list_reviews:
         review_container(i, annotator_name)
+        load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
       
         if load_next_btn:
             continue;  
@@ -538,12 +542,14 @@ def main(df_annotation, annotator_name) -> None:
     
 
 if __name__ == "__main__":
-
-
-    df = get_new_reviews_mysql()
-    
+   
     annotators = ["","Bothaina Amro", "Fouad Zablith", "Wael Khreich"]
     annotator_name = st.selectbox("Please enter your name", annotators)
+
+
+    df = get_new_reviews_mysql(annotator_name)
+    
+
 
     main(df,annotator_name)
          
