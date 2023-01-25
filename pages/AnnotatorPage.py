@@ -544,7 +544,7 @@ if __name__ == "__main__":
    
     annotators = ["","Bma52", "Fz13", "Wk14"]
     annotator_name = st.selectbox("Please enter your name", annotators)
-    if annotator_name! = "":
+    if annotator_name != "":
          df = get_new_reviews_mysql(annotator_name)
          main(df,annotator_name)
          
