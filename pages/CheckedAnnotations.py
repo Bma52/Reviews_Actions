@@ -55,6 +55,7 @@ import re
 
 
 
+
 def get_new_reviews_mysql():
    
 
@@ -192,6 +193,7 @@ def create_triplets(df, df_review, df_product, i):
     df_product["description"] = df_product["description"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["model"] = df_product["model"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["seller_name"] = df_product["seller_name"].str.replace(' ', '', regex=True)
+    df["checkedTimestamp"] = pd.to_datetime(df["checkedTimestamp"])
       
 
     if df["Actions"][i] == "No_ActionAction":
