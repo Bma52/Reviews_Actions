@@ -190,6 +190,7 @@ def create_triplets(df, df_review, df_product, i):
     df_review["reviewBody"] = df_review["reviewBody"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["product_name"] = df_product["product_name"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
     df_product["description"] = df_product["description"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
+    df_product["model"] = df_product["model"].str.replace(r'[^a-zA-Z0-9\s]+', '', regex=True)
       
 
     if df["Actions"][i] == "No_ActionAction":
@@ -307,7 +308,7 @@ def create_triplets(df, df_review, df_product, i):
                 str(df_product.iloc[0]["ratingValue"]) + '^^'+'<<{0}decimal>>'.format(xsd),
                 '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
                 '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
-                str(df["checkedTimestamp"][i]) + '^^'+'<<{0}string>>'.format(xsd),
+                str(df["checkedTimestamp"][i]) + '^^'+'<<{0}dateTime>>'.format(xsd),
                 str(df['annotation'][i]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df_product.iloc[0]["product_name"]) + '^^'+'<<{0}string>>'.format(xsd),
