@@ -536,8 +536,8 @@ def main(df_annotation, annotator_name) -> None:
       
         if load_next_btn:
             continue;  
-        else:
-            break;
+        #else:
+            #break;
     
          
 
