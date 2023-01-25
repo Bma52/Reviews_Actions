@@ -297,7 +297,7 @@ def create_triplets(df, df_review, df_product, i):
                 '<<' + arec + str(df['Features'][i])+ '>>',
                 '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
                 str(df_product.iloc[0]["ratingValue"]) + '^^'+'<<{0}decimal>>'.format(xsd),
-                '<<' + schema + str(df_product.iloc[0]["seller_name"])+ '>>',
+                '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
                 '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
                 str(df["checkedTimestamp"][i]) + '^^'+'<<{0}string>>'.format(xsd),
                 str(df['annotation'][i]) + '^^'+'<<{0}string>>'.format(xsd),
