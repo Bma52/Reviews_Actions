@@ -264,7 +264,7 @@ def train_agent_detection_model(df_train):
     filename_clf = 'SVM_agent_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
 
-    return count_vect, tfidf_transformer
+    return creport(y_test, y_pred_obj)
    
    
    
