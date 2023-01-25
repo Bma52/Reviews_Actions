@@ -501,7 +501,6 @@ def main(df_annotation, annotator_name) -> None:
             
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  form(df_one_review, row)
-                 continue;
                  
 
             else:
