@@ -90,6 +90,7 @@ def get_new_reviews_mysql():
 
 
 def insert_to_sparql(df_tuples, annotation_md5):
+    """
     queryString = "INSERT DATA { GRAPH <b6a5da3c79c2f579c35f52ad663ef049> { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://www.w3.org/ns/oa#b6a5da3c79c2f579c35f52ad663ef049> .}}"
     st.write(queryString)
             
@@ -104,6 +105,25 @@ def insert_to_sparql(df_tuples, annotation_md5):
     sparql.method = 'POST'
     sparql.query()
     st.write(sparql.query())
+    st.write("Successfully inserted into triple store.")
+    """
+      
+    ffor index, row in df.iterrows():
+          tripletString = " <<{0}>> <<{1}>> {2} .".format( row["Subject"], row["Predicate"], row["Object"])
+          queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+          #tripletsString_concat += tripletString
+          st.write(queryString)
+            
+          ssl._create_default_https_context = ssl._create_unverified_context
+          #tripletsString_concat = " "
+          sparql = SPARQLWrapper(
+             "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
+              )
+
+
+          sparql.setQuery(str(queryString)) 
+          sparql.method = 'POST'
+          sparql.query()
     st.write("Successfully inserted into triple store.")
     """
     for index in df_tuples.index:
