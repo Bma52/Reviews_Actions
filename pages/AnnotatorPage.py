@@ -392,9 +392,8 @@ def main(df_annotation, annotator_name) -> None:
                if confirmed_check:
                     if df_checked_annotation.loc[i]["Actions"] == "No_ActionAction":
                          df_checked_annotation["ActionFlag"] = "No Action Found"
-                         insert_checked_annotation(df_checked_annotation)
-                    else:
-                         insert_checked_annotation(df_checked_annotation)
+                    insert_checked_annotation(df_checked_annotation)
+                    
 
 
                   
@@ -480,9 +479,8 @@ def main(df_annotation, annotator_name) -> None:
                     if confirmed_check:
                          if df_checked_annotation["Actions"].loc[0] == "No_ActionAction":
                             df_checked_annotation["ActionFlag"] = "No Action Found"
-                            insert_checked_annotation(df_checked_annotation)
-                         else:
-                            insert_checked_annotation(df_checked_annotation)
+                         insert_checked_annotation(df_checked_annotation)
+           
                      
 
        st.markdown("""---""")
