@@ -89,16 +89,16 @@ def get_new_reviews_mysql():
 
 
 def insert_to_sparql(df_tuples, annotation_md5):
-   
+    
     for index in df_tuples.index:
           
           tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
           queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-          #tripletsString_concat += tripletString
+          
           st.write(queryString)
             
-          ssl._create_default_https_context = ssl._create_unverified_context
-          #tripletsString_concat = " "
+          #ssl._create_default_https_context = ssl._create_unverified_context
+          
           sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
@@ -111,11 +111,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
     
     
 
-    
-
-        
-    
-
+   
    
    
 def computeMD5hash(my_string):
@@ -331,7 +327,9 @@ def create_triplets(df, df_review, df_product, i):
                 #str(df_product.iloc[0]["url"]) + '^^'+'<<{0}string>>'.format(xsd),
                 #str(df_product.iloc[0]["image"]) + '^^'+'<<{0}string>>'.format(xsd),
                ]    
-
+       
+       
+           
 
        df_tuples = pd.DataFrame(columns={"Subject", "Predicate", "Object"})
 
@@ -340,7 +338,7 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Object"] = list_objects
 
        insert_to_sparql(df_tuples, df['annotation_md5'][i])
-    
+       
     
     
     
