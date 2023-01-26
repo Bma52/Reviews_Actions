@@ -340,7 +340,7 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Object"] = list_objects
        for i in df_tuples.index:
           tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][i], df_tuples["Predicate"][i], df_tuples["Object"][i])
-          queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+          queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(df['annotation_md5'][i], tripletString) 
           #tripletsString_concat += tripletString
           st.write(queryString)
             
