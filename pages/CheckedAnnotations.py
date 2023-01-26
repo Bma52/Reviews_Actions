@@ -105,7 +105,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
 
 
           sparql.setQuery(queryString) 
-          sparql.method = 'POST'
+          sparql.method = 'GET'
           sparql.query()
     st.write("Successfully inserted into triple store.")
     
