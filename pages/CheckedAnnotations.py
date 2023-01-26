@@ -352,11 +352,11 @@ def create_triplets(df, df_review, df_product, i):
 def main():
   
      st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; ">Checked Annotations Page</font></H1></div>', unsafe_allow_html=True)
-     checked_data, review_data, product_data = get_new_reviews_mysql()
+     checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
      col1, col2, col3 = st.columns(3)
 
      checked_by = st.multiselect("Filter Checked data by annotators:", ["Bma52", "Fz13", "Wk14"])
-     checked_data = checked_data[checked_data["checkedBy"].isin(checked_by)]
+     checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
 
       
      with st.expander("View Checked Annotation"):
