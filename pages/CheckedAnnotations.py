@@ -89,7 +89,7 @@ def get_new_reviews_mysql():
 
 
 def insert_to_sparql(df_tuples, annotation_md5):
-    
+    ssl._create_default_https_context = ssl._create_unverified_context
     for index in df_tuples.index:
           
           tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
@@ -97,8 +97,6 @@ def insert_to_sparql(df_tuples, annotation_md5):
           
           st.write(queryString)
             
-          #ssl._create_default_https_context = ssl._create_unverified_context
-          
           sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
