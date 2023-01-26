@@ -534,6 +534,7 @@ def main(df_annotation, annotator_name) -> None:
         count +=1
         if load_review:
            with st.form("Review Form"):
+               st.session_state = i
                review_container(i, annotator_name)
                st.form_submit_button("finish Review")
 
