@@ -497,7 +497,7 @@ def main(df_annotation, annotator_name) -> None:
     
     def review_container(i, annotator_name):
 
-              
+          st.session_state = i
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
           df_one_review = df_one_review.drop_duplicates(subset=['annotation_md5'], keep='first')
           st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
