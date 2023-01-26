@@ -377,7 +377,7 @@ def main():
           with col12:
               st.write(checked_data["checkedBy"][j])
           with col13:
-              (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j], on_click=create_triplets(checked_data, review_data, product_data, j)) 
+              (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j], on_click=create_triplets(checked_data, review_data, product_data, j)))
 
             
           
