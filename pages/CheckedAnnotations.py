@@ -91,27 +91,30 @@ def get_new_reviews_mysql():
 
 def insert_to_sparql(df_tuples, annotation_md5):
 
-    tripletsString_concat = " "
+    #tripletsString_concat = " "
     for index in df_tuples.index:
-          tripletString = "<<{0}>> <<{1}>> {2} .".format(df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-        
-          tripletsString_concat += tripletString
-    queryString = "INSERT DATA {{{0}}}".format(tripletsString_concat)
+          tripletString = "INSERT DATA {GRAPH <{0}> { <<{1}>> <<{2}>> {3} .".format(str(annotation_md5), df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
+          queryString = "INSERT DATA {{{0}}}".format(tripletString)
+          #tripletsString_concat += tripletString
+          st.write(queryString)
+            
+          ssl._create_default_https_context = ssl._create_unverified_context
+          sparql = SPARQLWrapper(
+          "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
+            )
+
+          sparql.setQuery(queryString) 
+          sparql.method = 'POST'
+          sparql.query()
+    st.write("Successfully inserted into triple store.")
+    
     
    
     
 
         
-    st.write(queryString)
-    ssl._create_default_https_context = ssl._create_unverified_context
-    sparql = SPARQLWrapper(
-          "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
-        )
+    
 
-    sparql.setQuery(queryString) 
-    sparql.method = 'POST'
-    sparql.query()
-    st.write("Successfully inserted into triple store.")
    
    
 def computeMD5hash(my_string):
