@@ -50,7 +50,7 @@ from heapq import nlargest
 from sqlalchemy import create_engine
 import sqlalchemy 
 import re
-
+from SPARQLWrapper import SPARQLWrapper, BASIC
 
 
 
@@ -95,6 +95,7 @@ def construct_graph(df_tuples, index, annotation_md5):
        
 
 def insert_to_sparql(queryString):
+    """
     ssl._create_default_https_context = ssl._create_unverified_context
     #for index in df_tuples.index:
       
@@ -112,8 +113,20 @@ def insert_to_sparql(queryString):
     sparql.method = 'GET'
     sparql.query()
     st.write("Successfully inserted into triple store.")
+    """
     
+
+    db = SPARQLWrapper("https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update")
+
+    db.setHTTPAuth(BASIC)
+    db.setCredentials('login', 'password')
+    db.setQuery(queryString)
+    db.method = "POST"
+    db.setReturnFormat('json')
+    db.queryType = "INSERT"
+    result = db.query()
     
+    st.write(result)
 
    
    
