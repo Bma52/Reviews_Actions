@@ -525,7 +525,7 @@ def main(df_annotation, annotator_name) -> None:
         review_container(i, annotator_name)
         _ ,next = st.columns([10, 2])
    
-        if next.button("Next", key = i):
+        if next.button("Next", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
 
             if page_number + 1 > last_page:
                page_number = 0
