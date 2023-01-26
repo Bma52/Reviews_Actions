@@ -309,7 +309,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_agent = st.selectbox(
-                       "Please select the correct Agent.", agents, index= agents.index(df_annotation["Agent"][i])
+                       "Please select the correct Agent.", agents, index= i)
                             )
                
 
