@@ -163,7 +163,7 @@ def train_action_model():
    df = pd.read_csv("Gummy_data_for_multi_label_action_model.csv")
 
    x=df["review sentences"]
-   y=df.iloc[:,2:]
+   y=df.iloc[:,3:]
    y.astype(int)
 
 
