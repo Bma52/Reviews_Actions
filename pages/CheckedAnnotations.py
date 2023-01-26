@@ -86,13 +86,19 @@ def get_new_reviews_mysql():
 
     return  checked_data, review_data, product_data
 
-
-
-
-def insert_to_sparql(df_tuples, annotation_md5):
-    """
-    queryString = "INSERT DATA { GRAPH <b6a5da3c79c2f579c35f52ad663ef049> { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://www.w3.org/ns/oa#b6a5da3c79c2f579c35f52ad663ef049> .}}"
+def get_tuples(row, annotation_md5):
+    tripletString = " <<{0}>> <<{1}>> {2} .".format( row["Subject"], row["Predicate"], row["Object"])
+    queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+    #tripletsString_concat += tripletString
     st.write(queryString)
+    return queryString
+
+
+
+def insert_to_sparql(queryString):
+   
+    #queryString = "INSERT DATA { GRAPH <b6a5da3c79c2f579c35f52ad663ef049> { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://www.w3.org/ns/oa#b6a5da3c79c2f579c35f52ad663ef049> .}}"
+    #st.write(queryString)
             
     ssl._create_default_https_context = ssl._create_unverified_context
           #tripletsString_concat = " "
@@ -106,7 +112,11 @@ def insert_to_sparql(df_tuples, annotation_md5):
     sparql.query()
     st.write(sparql.query())
     st.write("Successfully inserted into triple store.")
+      
     """
+    
+      
+    
       
     for index, row in df_tuples.iterrows():
           tripletString = " <<{0}>> <<{1}>> {2} .".format( row["Subject"], row["Predicate"], row["Object"])
@@ -125,6 +135,8 @@ def insert_to_sparql(df_tuples, annotation_md5):
           sparql.method = 'POST'
           sparql.query()
     st.write("Successfully inserted into triple store.")
+   """
+   
     """
     for index in df_tuples.index:
           tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
@@ -373,9 +385,10 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Subject"] = list_subjects
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
-
-
-       insert_to_sparql(df_tuples, df["annotation_md5"][i])
+       for index, row in df_tuples.iterrows():
+            queryString, annotation_md5 = get_tuples(row, str(row["annotation_md5"]))
+           
+            insert_to_sparql(queryString)
     
     
     
