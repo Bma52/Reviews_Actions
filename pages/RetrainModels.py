@@ -191,9 +191,10 @@ def train_action_model():
 
    #predictions = np.argmax(predictions, axis = 1)
    #y_test = np.argmax(y_test, axis = 1)
+   y_test = np.argmax(y_test.values, axis = 1)
    accuracy = accuracy_score(y_test ,predictions)
-   #f1_score = f1_score(y_test, predictions, average="micro")
-   #hamming_loss = hamming_loss(y_test, predictions)
+   f1_score = f1_score(y_test, predictions, average="micro")
+   hamming_loss = hamming_loss(y_test, predictions)
 
    return accuracy, grid_search_cv
 
