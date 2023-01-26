@@ -531,6 +531,7 @@ def main(df_annotation, annotator_name) -> None:
                page_number = 0
             else:
                page_number += 1
+               break;
             #review_container(i, annotator_name)
 
          
