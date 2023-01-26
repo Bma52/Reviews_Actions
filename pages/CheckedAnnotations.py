@@ -87,26 +87,30 @@ def get_new_reviews_mysql():
     return  checked_data, review_data, product_data
 
 
-
-def insert_to_sparql(df_tuples, annotation_md5):
-    ssl._create_default_https_context = ssl._create_unverified_context
-    for index in df_tuples.index:
+def construct_graph(df_tuples, index, annotation_md5):
       
-          tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-          queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+       tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
+       queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+       insert_to_sparql(queryString)
+       
+
+def insert_to_sparql(queryString):
+    ssl._create_default_https_context = ssl._create_unverified_context
+    #for index in df_tuples.index:
+      
+    #tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
+    #queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
           
-          st.write(queryString)
+    st.write(queryString)
             
-          sparql = SPARQLWrapper(
+    sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
-         
-          
 
-          sparql.setQuery(str(queryString))
+    sparql.setQuery(str(queryString))
           
-          sparql.method = 'POST'
-          sparql.query()
+    sparql.method = 'POST'
+    sparql.query()
     st.write("Successfully inserted into triple store.")
     
     
@@ -337,8 +341,10 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
        st.write(df_tuples)
-       df_tuples.to_csv("Tuples.csv")
-       insert_to_sparql(df_tuples, df['annotation_md5'][i])
+       for i in df_tuples.index:
+           construct_graph(df_tuples, i, df['annotation_md5'][i])
+       
+       #insert_to_sparql(df_tuples, df['annotation_md5'][i])
        
     
     
