@@ -350,24 +350,10 @@ def main():
      st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; ">Checked Annotations Page</font></H1></div>', unsafe_allow_html=True)
      checked_data, review_data, product_data = get_new_reviews_mysql()
      col1, col2, col3 = st.columns(3)
-     with col1: 
-         bma52 = st.checkbox("Reviewed by Bma52")
-     with col2:
-         fz13 = st.checkbox("Reviewed by Fz13")
-     with col3:
-         wk47 = st.checkbox("Reviews by Wk14")
-     #checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
 
-     if bma52:
-        checked_data = checked_data[checked_data["checkedBy"] == "Bma52"]
-     elif fz13:
-        checked_data = checked_data[checked_data["checkedBy"] == "Fz13"]
-     elif fz13:
-        checked_data = checked_data[checked_data["checkedBy"] == "Wk14"]
-         
-     elif bma52 & fz13:
-        checked_data = checked_data[(checked_data["checkedBy"] == "Bma52") & (checked_data["checkedBy"] == "Fz13")]
-            
+     checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
+
+
       
      with st.expander("View Checked Annotation"):
           #st.write(checked_data)
