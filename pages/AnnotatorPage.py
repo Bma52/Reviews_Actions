@@ -494,7 +494,7 @@ def main(df_annotation, annotator_name) -> None:
       
     
 
-    @st.cache(suppress_st_warning=True)
+    
     def review_container(i, annotator_name):
 
           st.session_state = i
