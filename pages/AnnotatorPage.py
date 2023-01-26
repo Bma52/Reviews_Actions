@@ -494,7 +494,7 @@ def main(df_annotation, annotator_name) -> None:
       
     
 
-    
+    @st.cache(allow_output_mutation=True)
     def review_container(i, annotator_name):
 
           st.session_state = i
@@ -536,8 +536,8 @@ def main(df_annotation, annotator_name) -> None:
            with st.form("Review Form"):
                st.session_state = i
                review_container(i, annotator_name)
-               submit_status = st.session_state
-               st.form_submit_button("finish Review", onclick=submit_status)
+               
+               st.form_submit_button("finish Review")
 
     
  
