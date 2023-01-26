@@ -146,12 +146,16 @@ def train_model_action_flag(df):
       
     #x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     #y_pred_flag = clf.predict(x_test_tfidf)
-    
+   
 
+    return acc, clf
+   
+   
+   
+def save_action_noaction_model(clf):
+   
     filename_svm = 'SVM_action_noaction_model_version2.sav'
     pickle.dump(clf, open(filename_svm, 'wb'))
-
-    return acc
 
 
 
@@ -177,11 +181,18 @@ def train_environment_detection_model(df_train):
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_env = clf.predict(x_test_tfidf)
     
+   
     
-    
-    filename_clf = 'SVM_environment_model_version2.sav'
+    return creport(y_test, y_pred_env), clf
+
+
+def save_env_model(clf):
+   filename_clf = 'SVM_environment_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
-    return creport(y_test, y_pred_env)
+      
+      
+      
+      
 
 
 def train_valence_detection_model(df_train):
@@ -205,9 +216,14 @@ def train_valence_detection_model(df_train):
     y_pred_val = LR.predict(x_test_tfidf)
 
     
+
+    return creport(y_test, y_pred_val), LR
+   
+   
+   
+def save_valence_model(LR):
     filename_LR = 'LR_valence_model_version2.sav'
     pickle.dump(LR, open(filename_LR, 'wb'))
-    return creport(y_test, y_pred_val)
 
 
 
@@ -231,9 +247,17 @@ def train_object_detection_model(df_train):
     y_pred_obj = clf.predict(x_test_tfidf)
  
     
+
+    return creport(y_test, y_pred_obj), clf
+   
+   
+def save_obj_model(clf):
     filename_clf = 'SVM_object_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
-    return creport(y_test, y_pred_obj)
+   
+   
+   
+
 
 
 
@@ -259,13 +283,18 @@ def train_agent_detection_model(df_train):
     #print("Accuracy for agent detection model on training set (80% of total dataset) is :", acc)
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
-    y_pred_env = clf.predict(x_test_tfidf)
+    y_pred_agent = clf.predict(x_test_tfidf)
 
+    #filename_clf_agent = 'SVM_agent_model_version2.sav'
+    #pickle.dump(clf, open(filename_clf_agent, 'wb'))
+
+    return creport(y_test, y_pred_agent), clf
+   
+   
+   
+def save_agent_model(clf):
     filename_clf = 'SVM_agent_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
-
-    return creport(y_test, y_pred_obj)
-   
    
    
    
@@ -309,31 +338,49 @@ def main():
         st.write(model_data)
       
     
-    df_flag_report = train_model_action_flag(df_train)
-    st.write("Action Flag Model Updated!")
+    df_flag_report, model = train_model_action_flag(df_train)
+    st.write("Action Flag Model Retrained")
+    with st.expander("View report"):
+         st.write(df_flag_report)
+         save1= st.button("Save new action/noaction model")
+         if save1:
+            save_action_noaction_model(model)
+            
          
-    df_env_report = train_environment_detection_model(df_train)
-    st.write("Environement Model Updated!")  
+    df_env_report, model = train_environment_detection_model(df_train)
+    st.write("Environement Model Retrained")  
     with st.expander("View Report"):
          st.write(df_env_report)
+         save2= st.button("Save new Environment model")
+         if save2:
+            save_env_model(model)
              
              
-    df_agent_report = train_agent_detection_model(df_train)
-    st.write("Agent Model Updated!")  
+    df_agent_report, model = train_agent_detection_model(df_train)
+    st.write("Agent Model Retrained")  
     with st.expander("View Report"):
          st.write(df_agent_report)
+         save3= st.button("Save new Agent model")
+         if save3:
+            save_agent_model(model)
              
              
-    df_valence_report = train_valence_detection_model(df_train)
-    st.write("Valence Model Updated!")  
+    df_valence_report, model = train_valence_detection_model(df_train)
+    st.write("Valence Model Retrained")  
     with st.expander("View Report"):
          st.write(df_valence_report)
+         save4= st.button("Save new Valence model")
+         if save4:
+            save_valence_model(model)
               
               
-    df_object_report = train_object_detection_model(df_train)
-    st.write("Object Model Updated!")  
+    df_object_report, model = train_object_detection_model(df_train)
+    st.write("Object Model Retrained")  
     with st.expander("View Report"):
          st.write(df_object_report)
+         save5= st.button("Save new Object model")
+         if save5:
+            save_valence_model(model)
   
      
   
