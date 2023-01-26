@@ -535,6 +535,7 @@ def main(df_annotation, annotator_name) -> None:
         if load_review:
            with st.form("Review Form"):
                review_container(i, annotator_name)
+               st.form_submit_button("finish Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
 
     
  
