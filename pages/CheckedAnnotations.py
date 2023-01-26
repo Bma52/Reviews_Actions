@@ -91,7 +91,7 @@ def construct_graph(df_tuples, index, annotation_md5):
       
        tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
        queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-       insert_to_sparql(queryString)
+       #insert_to_sparql(queryString)
        
 
 def insert_to_sparql(queryString):
