@@ -517,38 +517,46 @@ def main(df_annotation, annotator_name) -> None:
                  no_form(df_one_review, row, annotator_name)
                  
                  
-
-
-            
-
-
-
-            
-         
-    
                   
-
+    page_number = 0
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        review_container(i, annotator_name)
-        load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
-      
-        if load_next_btn:
-            continue;  
-        else:
-            break;
-    
+        prev, _ ,next = st.beta_columns([2, 8, 2])
+   
+        if next.button("Next"):
+
+            if page_number + 1 > last_page:
+               page_number = 0
+            else:
+               page_number += 1
+
+        if prev.button("Previous"):
+
+            if page_number - 1 < 0:
+               page_number = last_page
+            else:
+               page_number -= 1
          
+        #start_idx = page_number * N 
+        #end_idx = (1 + page_number) * N
+
+         # Index into the sub dataframe
+        review_container(i, annotator_name)
+
+            
+                  
 
 
-          
-
-        
-
-
-
-
+        #review_container(i, annotator_name)
+        #load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+      
+        #if load_next_btn:
+            #continue;  
+        #else:
+            #break;
+    
+ 
     
 
 if __name__ == "__main__":
