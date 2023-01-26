@@ -526,6 +526,9 @@ def main(df_annotation, annotator_name) -> None:
     
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
+    for i in list_reviews:
+         review_container(i, annotator_name)
+    """
     count = 1
     for i in list_reviews:
         load_review = st.button("Load Review {0}".format(count) , key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
@@ -555,7 +558,7 @@ def main(df_annotation, annotator_name) -> None:
                  no_form(df_one_review, row, annotator_name)
                
                
-
+     """
     
  
     
