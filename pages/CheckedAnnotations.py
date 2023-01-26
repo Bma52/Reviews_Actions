@@ -101,7 +101,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
          
-          time.sleep(2)
+          
 
           sparql.setQuery(str(queryString))
           
@@ -336,7 +336,7 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Subject"] = list_subjects
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
-
+       df_tuples.to_csv("Tuples.csv)
        insert_to_sparql(df_tuples, df['annotation_md5'][i])
        
     
