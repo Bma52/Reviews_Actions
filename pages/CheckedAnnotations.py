@@ -108,9 +108,9 @@ def insert_to_sparql(queryString):
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
 
-    sparql.setQuery(str(queryString))
-          
-    sparql.method = 'GET'
+    sparql.setQuery("{0}".format(queryString))
+                             
+    sparql.method = 'POST'
     sparql.query()
     st.write("Successfully inserted into triple store.")
 
