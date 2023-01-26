@@ -533,6 +533,7 @@ def main(df_annotation, annotator_name) -> None:
         load_review = st.button("Load Review {0}".format(count) , key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
         count +=1
         if load_review:
+           session_state =i
            review_container(i, annotator_name)
 
     
