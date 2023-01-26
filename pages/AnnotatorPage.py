@@ -524,7 +524,7 @@ def main(df_annotation, annotator_name) -> None:
     for i in list_reviews:
         prev, _ ,next = st.columns([2, 8, 2])
    
-        if next.button("Next"):
+        if next.button("Next", key = i):
 
             if page_number + 1 > last_page:
                page_number = 0
@@ -532,7 +532,7 @@ def main(df_annotation, annotator_name) -> None:
                page_number += 1
             review_container(i, annotator_name)
 
-        if prev.button("Previous"):
+        if prev.button("Previous", key = i):
 
             if page_number - 1 < 0:
                page_number = last_page
