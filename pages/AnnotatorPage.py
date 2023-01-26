@@ -529,7 +529,7 @@ def main(df_annotation, annotator_name) -> None:
         if next.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
            next(itr)
         else:
-           st.write(" ")
+           itr = i
 
 
          
