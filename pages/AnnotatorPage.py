@@ -521,15 +521,14 @@ def main(df_annotation, annotator_name) -> None:
                   
     page_number = 0
     list_reviews = df_annotation["reviewBody"].unique()         
-
+    itr = iter(list_reviews)
     for i in list_reviews:
         review_container(i, annotator_name)
         _ ,next = st.columns([10, 2])
-   
+        
         if next.button("Next", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
-           continue;
-        else:
-           break;
+           next(itr)
+
 
          
         #start_idx = page_number * N 
