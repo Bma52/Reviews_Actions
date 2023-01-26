@@ -525,7 +525,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
     for i in list_reviews:
-        load_review = st.button("Load Review", key = df_one_review["review_id"][df_one_review["reviewBody"] == i])
+        load_review = st.button("Load Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
         if load_review:
            review_container(i, annotator_name)
         #_ ,next = st.columns([10, 2])
