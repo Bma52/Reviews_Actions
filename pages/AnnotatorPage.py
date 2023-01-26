@@ -151,6 +151,7 @@ def insert_checked_annotation(df):
         df["Valence"] = df["Valence"].astype(str)
         df["Object"] =  df["Object"].astype(str)
         df["Ability"] = df["Ability"].astype(str)
+        df["User_description"] = df["User_description"].astype(str)
         df["annotation_md5"] = df["annotation_md5"].astype(str)
         df["checkedBy"] = df["checkedBy"].astype(str)
       
@@ -391,7 +392,8 @@ def main(df_annotation, annotator_name) -> None:
                if confirmed_check:
                     if df_checked_annotation.loc[i]["Actions"] == "No_ActionAction":
                          df_checked_annotation["ActionFlag"] = "No Action Found"
-                         
+                         insert_checked_annotation(df_checked_annotation)
+                    else:
                          insert_checked_annotation(df_checked_annotation)
 
 
@@ -478,6 +480,8 @@ def main(df_annotation, annotator_name) -> None:
                     if confirmed_check:
                          if df_checked_annotation["Actions"].loc[0] == "No_ActionAction":
                             df_checked_annotation["ActionFlag"] = "No Action Found"
+                            insert_checked_annotation(df_checked_annotation)
+                         else:
                             insert_checked_annotation(df_checked_annotation)
                      
 
