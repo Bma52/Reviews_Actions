@@ -522,7 +522,8 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        prev, _ ,next = st.columns([2, 8, 2])
+        review_container(i, annotator_name)
+        _ ,next = st.columns([10, 2])
    
         if next.button("Next", key = i):
 
@@ -530,15 +531,8 @@ def main(df_annotation, annotator_name) -> None:
                page_number = 0
             else:
                page_number += 1
-            review_container(i, annotator_name)
+            #review_container(i, annotator_name)
 
-        if prev.button("Previous", key = i):
-
-            if page_number - 1 < 0:
-               page_number = last_page
-            else:
-               page_number -= 1
-            review_container(i, annotator_name)
          
         #start_idx = page_number * N 
         #end_idx = (1 + page_number) * N
