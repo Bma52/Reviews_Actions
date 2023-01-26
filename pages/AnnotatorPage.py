@@ -526,8 +526,10 @@ def main(df_annotation, annotator_name) -> None:
         review_container(i, annotator_name)
         _ ,next = st.columns([10, 2])
         
-        if next.button("Next", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
+        if next.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
            next(itr)
+        else:
+           st.write(" ")
 
 
          
