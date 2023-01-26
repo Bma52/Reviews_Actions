@@ -355,14 +355,14 @@ def main():
      checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
      col1, col2, col3 = st.columns(3)
 
-     checked_by = st.multiselect("Filter Checked data by annotators:", ["Bma52", "Fz13", "Wk14"])
+     checked_by = st.multiselect("Filter Checked data by annotators:", ["","Bma52", "Fz13", "Wk14"])
      if checked_by:
         checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
 
       
         with st.expander("View Checked Annotation"):
           #st.write(checked_data)
-          for j in range(0,checked_data.shape[0]):
+          for j in range(0, checked_data.shape[0]):
              col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
              with col1:
               st.write(checked_data["annotation"][j])
