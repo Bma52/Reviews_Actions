@@ -262,7 +262,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_action = st.selectbox(
-                       "Please select the correct Action.", actions, index= actions.index(df_annotation["Actions"][i])
+                       "Please select the correct Action.", actions, index= i
                             )
                     
                     if new_action == 'Add a new action':
@@ -292,7 +292,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_feature = st.selectbox(
-                       "Please select the correct Feature.", features, index= features.index(df_annotation["Features"][i])
+                       "Please select the correct Feature.", features, index= i
                             )
 
 
@@ -329,7 +329,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_valence = st.selectbox(
-                       "Please select the correct Valence.", valence, index= valence.index(df_annotation["Valence"][i])
+                       "Please select the correct Valence.", valence, index= i
                             )
                   
             
@@ -349,7 +349,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_env = st.selectbox(
-                       "Please select the correct Environment.", environments, index= environments.index(df_annotation["Environment"][i])
+                       "Please select the correct Environment.", environments, index= i
                             )
   
                   
@@ -367,7 +367,7 @@ def main(df_annotation, annotator_name) -> None:
                else:
                     #st.caption("Please enter the correct action")
                     new_obj = st.selectbox(
-                       "Please select the correct Object.", objects, index= objects.index(df_annotation["Object"][i])
+                       "Please select the correct Object.", objects, index= i
                             )
                   
                  
