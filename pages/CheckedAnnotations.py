@@ -356,7 +356,7 @@ def main():
      col1, col2, col3 = st.columns(3)
 
      checked_by = st.multiselect("Filter Checked data by annotators:", ["Bma52", "Fz13", "Wk14"])
-     checked_data = checked_data[checked_data["checkedBy"] in checked_by]
+     checked_data = checked_data[checked_data["checkedBy"].isin(checked_by)]
 
       
      with st.expander("View Checked Annotation"):
