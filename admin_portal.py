@@ -895,9 +895,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     # iterating through timestamp_list
     df_annotation["createdTimestamp"] = timestamp_list
 
-    for i in df_annotation.index:
-	df_annotation.iloc[i]["User_description"] = "The {0} has a {1} sentiment becuase he or she {2} using this product".format(df_annotation["Agent"][i], df_annotation["Valence"][i], df_annotation["Actions"][i])
-    
+
 
     #df_annotation["Review id"] = df_annotation["Review id"].astype(str)
     df_annotation["reviewBody"] = df_annotation["reviewBody"].astype(str)
