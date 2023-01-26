@@ -527,8 +527,9 @@ def main(df_annotation, annotator_name) -> None:
         _ ,next = st.columns([10, 2])
    
         if next.button("Next", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
-
            continue;
+        else:
+           break;
 
          
         #start_idx = page_number * N 
