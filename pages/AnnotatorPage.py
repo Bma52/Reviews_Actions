@@ -172,7 +172,7 @@ def insert_checked_annotation(df):
 
 
 
-
+@st.cache(allow_output_mutation=True)
 def main(df_annotation, annotator_name) -> None:
    
 
@@ -494,7 +494,7 @@ def main(df_annotation, annotator_name) -> None:
       
     
 
-    @st.cache
+    @st.cache(allow_output_mutation=True)
     def review_container(i, annotator_name):
        
           st.session_state = i
