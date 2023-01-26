@@ -472,6 +472,8 @@ def main(df_annotation, annotator_name) -> None:
                     df_checked_annotation["Valence"] = new_valence
                     df_checked_annotation["Object"] = new_obj
                     df_checked_annotation["Ability"] = new_ability
+                    df_checked_annotation["User_description"] = "The {0} has a {1} sentiment becuase he or she {2} using this product".format(new_agent, new_valence, new_action)
+                
                     df_checked_annotation["annotation_md5"] = df_annotation["annotation_md5"][i]
                     df_checked_annotation["checkedBy"] = annotator_name
                
