@@ -92,6 +92,8 @@ def construct_graph(df_tuples, index, annotation_md5):
        tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
        queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
        #insert_to_sparql(queryString)
+         
+       return queryString
        
 
 def insert_to_sparql(queryString):
@@ -347,14 +349,14 @@ def create_triplets(df, df_review, df_product, i):
       
            #tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
            #queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-           query = "{0}".format(queryString)
-           st.write(query)
+           #query = "{0}".format(queryString)
+           st.write(queryString)
             
            sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
 
-           sparql.setQuery(query)
+           sparql.setQuery(queryString)
                              
            sparql.method = 'POST'
            sparql.query()
