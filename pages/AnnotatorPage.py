@@ -511,10 +511,11 @@ def main(df_annotation, annotator_name) -> None:
             
             if df_one_review["ActionFlag"][row] == "Action Exist":
                  form(df_one_review, row, annotator_name)
-                 
 
             else:
                  no_form(df_one_review, row, annotator_name)
+                  
+
                  
                  
                   
@@ -527,12 +528,7 @@ def main(df_annotation, annotator_name) -> None:
    
         if next.button("Next", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
 
-            if page_number + 1 > last_page:
-               page_number = 0
-            else:
-               page_number += 1
-               break;
-            #review_container(i, annotator_name)
+           continue;
 
          
         #start_idx = page_number * N 
