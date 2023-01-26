@@ -532,12 +532,12 @@ def main(df_annotation, annotator_name) -> None:
 
     for i in list_reviews:
         review_container(i, annotator_name)
-        load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i], on_click = continue)
+        load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
       
-        #if load_next_btn:
-            #continue;  
-        #else:
-            #break;
+        if load_next_btn:
+            continue;  
+        else:
+            break;
     
          
 
