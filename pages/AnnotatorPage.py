@@ -435,7 +435,7 @@ def no_form(df_annotation, i, annotator_name):
     
 
     
-def review_container(i, annotator_name):
+def review_container(i, df_annotation, annotator_name):
        
           st.session_state = i
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
@@ -527,7 +527,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
     for i in list_reviews:
-         review_container(i, annotator_name)
+         review_container(i, df_annotation, annotator_name)
     """
     count = 1
     for i in list_reviews:
