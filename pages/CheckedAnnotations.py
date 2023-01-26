@@ -385,8 +385,9 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Subject"] = list_subjects
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
+       
        for index, row in df_tuples.iterrows():
-            queryString, annotation_md5 = get_tuples(row, str(row["annotation_md5"]))
+            queryString, annotation_md5 = get_tuples(row, str(df['annotation_md5'][i]))
            
             insert_to_sparql(queryString)
     
