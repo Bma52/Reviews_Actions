@@ -162,6 +162,7 @@ def insert_checked_annotation(df):
               sql = "INSERT INTO `CheckedAnnotation` (`" + cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
               cursor.execute(sql, tuple(row))
               st.write("Annotation inserted into MYSQL")
+             
               # the connection is not autocommitted by default, so we must commit to save our changes
               dbConnection.commit()
               
@@ -390,6 +391,7 @@ def main(df_annotation, annotator_name) -> None:
                if confirmed_check:
                     if df_checked_annotation.loc[i]["Actions"] == "No_ActionAction":
                          df_checked_annotation["ActionFlag"] = "No Action Found"
+                         st.write(df_checked_annotation)
                          insert_checked_annotation(df_checked_annotation)
 
 
