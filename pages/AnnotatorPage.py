@@ -494,9 +494,9 @@ def main(df_annotation, annotator_name) -> None:
       
     
 
-    
+    @st.cache
     def review_container(i, annotator_name):
-       with st.form("New review"):
+       
           st.session_state = i
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
           df_one_review = df_one_review.drop_duplicates(subset=['annotation_md5'], keep='first')
@@ -519,7 +519,7 @@ def main(df_annotation, annotator_name) -> None:
             else:
                  no_form(df_one_review, row, annotator_name)
                   
-            st.form_submit_button("Finish Review")
+            
                   
 
                  
