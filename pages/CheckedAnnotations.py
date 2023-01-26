@@ -108,7 +108,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
     st.write("Successfully inserted into triple store.")
     """
       
-    ffor index, row in df.iterrows():
+    ffor index, row in df_tuples.iterrows():
           tripletString = " <<{0}>> <<{1}>> {2} .".format( row["Subject"], row["Predicate"], row["Object"])
           queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
           #tripletsString_concat += tripletString
