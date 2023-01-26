@@ -100,7 +100,8 @@ def insert_to_sparql(df_tuples, annotation_md5):
           sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
-
+         
+          time.sleep(2)
 
           sparql.setQuery(str(queryString))
           
