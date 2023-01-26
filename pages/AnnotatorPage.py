@@ -152,7 +152,7 @@ def insert_checked_annotation(df):
         df["Object"] =  df["Object"].astype(str)
         df["Ability"] = df["Ability"].astype(str)
         df["User_description"] = df["User_description"].astype(str)
-        df["annotation_md5"] = df["annotation_md5"].astype(str)
+        #df["annotation_md5"] = df["annotation_md5"].astype(str)
         df["checkedBy"] = df["checkedBy"].astype(str)
       
       
