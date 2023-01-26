@@ -187,7 +187,7 @@ def train_environment_detection_model(df_train):
 
 
 def save_env_model(clf):
-   filename_clf = 'SVM_environment_model_version2.sav'
+    filename_clf = 'SVM_environment_model_version2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
       
       
