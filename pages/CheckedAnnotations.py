@@ -347,14 +347,14 @@ def create_triplets(df, df_review, df_product, i):
       
            #tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
            #queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-          
-           st.write(queryString)
+           query = "{0}".format(queryString)
+           st.write(query)
             
            sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
 
-           sparql.setQuery(queryString)
+           sparql.setQuery(query)
                              
            sparql.method = 'POST'
            sparql.query()
