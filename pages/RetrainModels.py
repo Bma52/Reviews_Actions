@@ -51,7 +51,13 @@ from heapq import nlargest
 from sqlalchemy import create_engine
 import sqlalchemy 
 from sklearn.metrics import classification_report as creport
-
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import f1_score
+from sklearn.metrics import hamming_loss
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import GridSearchCV
 
 
 
@@ -152,6 +158,56 @@ def train_model_action_flag(df):
    
    
    
+   
+def train_action_model():
+   df = read_csv("Gummy_data_for_multi_label_action_model.csv")
+
+   x=df["review sentences"]
+   y=df.iloc[:,2:]
+   y.astype(int)
+
+
+   x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,random_state=42, shuffle=True)
+   pipeline = Pipeline([
+                ('tfidf', TfidfVectorizer()),
+                ('clf', OneVsRestClassifier(MultinomialNB(fit_prior=True, class_prior=None)))
+            ])
+
+
+   parameters = {
+                'tfidf__max_df': (0.25, 0.5, 0.75),
+                'tfidf__ngram_range': [(1, 2)],
+                'tfidf__min_df': [1, 3, 5],
+                'clf__estimator__alpha': (1e-2, 1e-3)
+            }
+
+   grid_search_cv = GridSearchCV(pipeline, parameters, cv=2, n_jobs=3, verbose=10)
+   y_train = np.argmax(y_train.values, axis=1)
+   grid_search_cv.fit(x_train, y_train)
+
+   #pipeline.fit(x_train, y_train)
+   predictions = grid_search_cv.predict(x_test)
+
+   #predictions = np.argmax(predictions, axis = 1)
+   #y_test = np.argmax(y_test, axis = 1)
+   accuracy = accuracy_score(y_test ,predictions)
+   #f1_score = f1_score(y_test, predictions, average="micro")
+   #hamming_loss = hamming_loss(y_test, predictions)
+
+   return accuracy, grid_search_cv
+
+
+def save_action_model(grid_search_cv):
+   
+   filename_multi_action = 'multi_label_action_model_version2.sav'
+   pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
+   
+
+
+
+
+
+   
 def save_action_noaction_model(clf):
    
     filename_svm = 'SVM_action_noaction_model_version2.sav'
@@ -183,7 +239,7 @@ def train_environment_detection_model(df_train):
     
    
     
-    return creport(y_test, y_pred_env), clf
+    return acc, clf
 
 
 def save_env_model(clf):
@@ -208,7 +264,7 @@ def train_valence_detection_model(df_train):
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
     LR= linear_model.LogisticRegression()
     LR.fit(X_train_tfidf, y_train.values)
-    LR.score(X_train_tfidf, y_train.values)
+    acc = LR.score(X_train_tfidf, y_train.values)
  
 
 
@@ -217,7 +273,7 @@ def train_valence_detection_model(df_train):
 
     
 
-    return creport(y_test, y_pred_val), LR
+    return acc, LR
    
    
    
@@ -248,7 +304,7 @@ def train_object_detection_model(df_train):
  
     
 
-    return creport(y_test, y_pred_obj), clf
+    return acc, clf
    
    
 def save_obj_model(clf):
@@ -288,7 +344,7 @@ def train_agent_detection_model(df_train):
     #filename_clf_agent = 'SVM_agent_model_version2.sav'
     #pickle.dump(clf, open(filename_clf_agent, 'wb'))
 
-    return creport(y_test, y_pred_agent), clf
+    return acc, clf
    
    
    
@@ -345,6 +401,14 @@ def main():
          save1= st.button("Save new action/noaction model")
          if save1:
             save_action_noaction_model(model)
+            
+    df_action_report = train_action_model()
+    st.write("Action Model Retrained")
+    with st.expander("View report"):
+         st.write(df_action_report)
+         save6= st.button("Save new action model")
+         if save6:
+            save_action_model(model)
             
          
     df_env_report, model = train_environment_detection_model(df_train)
