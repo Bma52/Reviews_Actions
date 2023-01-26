@@ -515,21 +515,23 @@ def main(df_annotation, annotator_name) -> None:
             else:
                  no_form(df_one_review, row, annotator_name)
                   
+          st.button("Load Next Review", key = df_one_review["review_id"][df_one_review["reviewBody"] == i])
+                  
 
                  
                  
                   
-    page_number = 0
+    
     list_reviews = df_annotation["reviewBody"].unique()         
-    itr = iter(list_reviews)
+    #itr = iter(list_reviews)
     for i in list_reviews:
         review_container(i, annotator_name)
-        _ ,next = st.columns([10, 2])
+        #_ ,next = st.columns([10, 2])
         
-        if next.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
-           next(itr)
-        else:
-           itr = i
+        #if next.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
+           #next(itr)
+        #else:
+           #itr = i
 
 
          
