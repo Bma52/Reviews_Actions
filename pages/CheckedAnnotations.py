@@ -364,6 +364,9 @@ def main():
         checked_data = checked_data[checked_data["checkedBy"] == "Fz13"]
      if fz13:
         checked_data = checked_data[checked_data["checkedBy"] == "Wk14"]
+         
+     if bma52 & fz13:
+        checked_data = checked_data[(checked_data["checkedBy"] == "Bma52") & (checked_data["checkedBy"] == "Fz13")]
             
       
      with st.expander("View Checked Annotation"):
