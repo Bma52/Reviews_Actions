@@ -173,70 +173,10 @@ def insert_checked_annotation(df):
 
 
 
-def main(df_annotation, annotator_name) -> None:
-   
 
-                                 
-   
-    actions = [' ', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
-    'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
-    'Type','Unlock','Use','Edit','Meet','UsingVideo','Absorb','Access','Add','Break','Buy','Charge','Consume','Crack','Cruise','Do','Drop','Find',
-    'Flicker','Flip','Fold','Hold','PlugIn','Purchase','Put','Rotate','Run','Send','Setup','Switch','Take','Touch','View','ch','Delete','Expect','Hear',
-    'Install','Load','Looking','Open','Pay','Pickup','Produce','Realize','Reboot','Receive','Remove','Return','Save','Set','Support','Surprise',
-    'Upgrade','Backup','Bend','Boot','Close','Communicate','Disconnect','Display','Fall','Improve','Lift','Light','Look','Navigate','Notify','Place',
-    'Power','Press','Process','Project','Protect','Reduce','Reflect','Refresh','Respond','Scan','See','Select','Shake','Sign','Sketch','Start','Turn','Update',
-    'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record', 'Add a new action']
-    features = [' ','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
-       'ScreenQuality', 'ProcessingPower', 'Lightweight',
-       'ScreenRefreshRate', 'CPU', 'Speed', 'BatteryLife', 'Fans',
-       'DiscDrive', 'PairXboxController', 'Camera', 'ScreenSize',
-       'ApplePencil', 'LogitechPencil', 'SplitScreen', 'WirelessKeyboard',
-       'Size', 'Programs', 'AttachableKeyboard', 'Multitask', 'BigSur',
-       'Memory', 'Speakers', 'OperatingSystem', 'SSD', 'WordProcessing',
-       'Bluetooth', 'Keyboard', 'TabletFunction', 'TouchScreen',
-       'Microphone', 'Processor', 'PowerSettings', 'Hinges',
-       'WirelessConnection', 'TouchPad', 'WiFi', 'Ports', 'Battery',
-       'GooglePlayStore', 'Stylus', 'HardDrive', 'SDCardSlot', 'Trackpad',
-       'Screen', 'ScreenBrightness', 'CDDrive', 'Cables', 'PowerButton',
-       'PrivacyMode', 'iGPU', 'FingerprintScanner', 'SupportAssistant',
-       'CameraButton', 'MicrophoneButton', 'GPU', 'Charger', 'Weight',
-       'tr', 'InternalDrive', 'Microsoft', 'Fan', 'NumericKeypad',
-       'Cortana', 'SleepMode', 'OpenBox', 'SurfaceSlimPen',
-       'WindowsHello', 'SPen']
-    environments = [' ', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
-       'Room']
-    agents = [' ', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
-       'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
-       'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
-       'Freelancer', 'Developer', 'Photographer']
-    valence = [' ', 'positive', 'negative', 'neutral']
-    objects = [' ','Games', 'Media', 'Application', 'Movie', 'Pictures',
-       'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
-       'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
-       'Design', 'Data', 'WorkTasks', 'Music', 'FaceTime', 'iMessage',
-       'iPhone', 'Laptop', 'Sims', 'Facebook', 'OnlineClasses',
-       'AppleProducts', 'Programs', 'Word', 'Show', 'BluetoothDevice',
-       'VirtualTeaching', 'Video', 'ZoomMeeting', 'OnlineLearning',
-       'Screen', 'Book', 'Meetings', 'WirelessDevice', 'Document',
-       'Sound', 'WiFi', 'YouTube', 'VideoObject', 'Spotify', 'Message',
-       'MicrosoftOffice', 'Mouse', 'GooglePhone', 'Files', 'Trackpad',
-       'RemoteServer', 'CD', 'Storage', 'Desktop', 'Skype', 'Windows10',
-       'Solitaire', 'SmartSpeakers', 'Documents', 'Camera', 'PhotoObject',
-       'SupportAssistant', 'DrawingObject', 'Microphone', 'Monitor',
-       'Memory', 'MailApplication', 'FanNoise', 'USB', 'Numbers',
-       'laptop', 'Keys', 'ImageObject', 'Song', 'Charging', 'Manual',
-       'Mobile', 'Code', 'Film', 'Audio', 'SignedDocuments', 'Text',
-       'GraphicDesigns', 'Information', 'UI/UX', 'Paper', 'eGPU',
-       'Leisure', 'MovieObject']
-
-
-    df_annotation["Actions"] = df_annotation["Actions"].str.replace("Action", "")
-
-    features =list(map(lambda x: x.lower(), features))
-    valence =list(map(lambda x: x.lower(), valence))
     
     
-    def form(df_annotation, i, annotator_name):
+def form(df_annotation, i, annotator_name):
        st.session_state = i
        #st.session_state.a_list = []
       
@@ -404,8 +344,9 @@ def main(df_annotation, annotator_name) -> None:
 
                
 
-
-    def no_form(df_annotation, i, annotator_name):
+            
+            
+def no_form(df_annotation, i, annotator_name):
        #st.session_state.a_list = []
        
        st.session_state = i
@@ -487,7 +428,6 @@ def main(df_annotation, annotator_name) -> None:
        #return new_action, new_ability, new_feature, new_agent, new_env, new_valence, new_obj, i
 
 
-
     
 
     
@@ -495,7 +435,7 @@ def main(df_annotation, annotator_name) -> None:
     
 
     
-    def review_container(i, annotator_name):
+def review_container(i, annotator_name):
        
           st.session_state = i
           df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
@@ -519,12 +459,70 @@ def main(df_annotation, annotator_name) -> None:
             else:
                  no_form(df_one_review, row, annotator_name)
                   
-            
                   
+                  
+def main(df_annotation, annotator_name) -> None:
+   
 
-                 
-                 
-                  
+                                 
+   
+    actions = [' ', 'No_Action','Carry','Chat','Download','Game','Listen','Play','Stream','Teach','Watch','Work','Design','Draw','Exercise',
+    'Multitask','Read','Study','Surf','Write','Attend','Browse','Call','Capture','Connect','Move','Scroll','Store','Text','Transfer','Travel',
+    'Type','Unlock','Use','Edit','Meet','UsingVideo','Absorb','Access','Add','Break','Buy','Charge','Consume','Crack','Cruise','Do','Drop','Find',
+    'Flicker','Flip','Fold','Hold','PlugIn','Purchase','Put','Rotate','Run','Send','Setup','Switch','Take','Touch','View','ch','Delete','Expect','Hear',
+    'Install','Load','Looking','Open','Pay','Pickup','Produce','Realize','Reboot','Receive','Remove','Return','Save','Set','Support','Surprise',
+    'Upgrade','Backup','Bend','Boot','Close','Communicate','Disconnect','Display','Fall','Improve','Lift','Light','Look','Navigate','Notify','Place',
+    'Power','Press','Process','Project','Protect','Reduce','Reflect','Refresh','Respond','Scan','See','Select','Shake','Sign','Sketch','Start','Turn','Update',
+    'Vege','Weight','Wipe','Code','Develop','Film','Note','Photograph','Compute','Create','Interact','Record', 'Add a new action']
+    features = [' ','ScreenResolution', 'GraphicsCard', 'Performance', 'FPS',
+       'ScreenQuality', 'ProcessingPower', 'Lightweight',
+       'ScreenRefreshRate', 'CPU', 'Speed', 'BatteryLife', 'Fans',
+       'DiscDrive', 'PairXboxController', 'Camera', 'ScreenSize',
+       'ApplePencil', 'LogitechPencil', 'SplitScreen', 'WirelessKeyboard',
+       'Size', 'Programs', 'AttachableKeyboard', 'Multitask', 'BigSur',
+       'Memory', 'Speakers', 'OperatingSystem', 'SSD', 'WordProcessing',
+       'Bluetooth', 'Keyboard', 'TabletFunction', 'TouchScreen',
+       'Microphone', 'Processor', 'PowerSettings', 'Hinges',
+       'WirelessConnection', 'TouchPad', 'WiFi', 'Ports', 'Battery',
+       'GooglePlayStore', 'Stylus', 'HardDrive', 'SDCardSlot', 'Trackpad',
+       'Screen', 'ScreenBrightness', 'CDDrive', 'Cables', 'PowerButton',
+       'PrivacyMode', 'iGPU', 'FingerprintScanner', 'SupportAssistant',
+       'CameraButton', 'MicrophoneButton', 'GPU', 'Charger', 'Weight',
+       'tr', 'InternalDrive', 'Microsoft', 'Fan', 'NumericKeypad',
+       'Cortana', 'SleepMode', 'OpenBox', 'SurfaceSlimPen',
+       'WindowsHello', 'SPen']
+    environments = [' ', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
+       'Room']
+    agents = [' ', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
+       'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
+       'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
+       'Freelancer', 'Developer', 'Photographer']
+    valence = [' ', 'positive', 'negative', 'neutral']
+    objects = [' ','Games', 'Media', 'Application', 'Movie', 'Pictures',
+       'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
+       'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
+       'Design', 'Data', 'WorkTasks', 'Music', 'FaceTime', 'iMessage',
+       'iPhone', 'Laptop', 'Sims', 'Facebook', 'OnlineClasses',
+       'AppleProducts', 'Programs', 'Word', 'Show', 'BluetoothDevice',
+       'VirtualTeaching', 'Video', 'ZoomMeeting', 'OnlineLearning',
+       'Screen', 'Book', 'Meetings', 'WirelessDevice', 'Document',
+       'Sound', 'WiFi', 'YouTube', 'VideoObject', 'Spotify', 'Message',
+       'MicrosoftOffice', 'Mouse', 'GooglePhone', 'Files', 'Trackpad',
+       'RemoteServer', 'CD', 'Storage', 'Desktop', 'Skype', 'Windows10',
+       'Solitaire', 'SmartSpeakers', 'Documents', 'Camera', 'PhotoObject',
+       'SupportAssistant', 'DrawingObject', 'Microphone', 'Monitor',
+       'Memory', 'MailApplication', 'FanNoise', 'USB', 'Numbers',
+       'laptop', 'Keys', 'ImageObject', 'Song', 'Charging', 'Manual',
+       'Mobile', 'Code', 'Film', 'Audio', 'SignedDocuments', 'Text',
+       'GraphicDesigns', 'Information', 'UI/UX', 'Paper', 'eGPU',
+       'Leisure', 'MovieObject']
+
+
+    df_annotation["Actions"] = df_annotation["Actions"].str.replace("Action", "")
+
+    features =list(map(lambda x: x.lower(), features))
+    valence =list(map(lambda x: x.lower(), valence))
+             
     
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
