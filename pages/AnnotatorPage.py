@@ -522,7 +522,7 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
 
     for i in list_reviews:
-        prev, _ ,next = st.beta_columns([2, 8, 2])
+        prev, _ ,next = st.columns([2, 8, 2])
    
         if next.button("Next"):
 
@@ -530,6 +530,7 @@ def main(df_annotation, annotator_name) -> None:
                page_number = 0
             else:
                page_number += 1
+            review_container(i, annotator_name)
 
         if prev.button("Previous"):
 
@@ -537,12 +538,13 @@ def main(df_annotation, annotator_name) -> None:
                page_number = last_page
             else:
                page_number -= 1
+            review_container(i, annotator_name)
          
         #start_idx = page_number * N 
         #end_idx = (1 + page_number) * N
 
          # Index into the sub dataframe
-        review_container(i, annotator_name)
+        #review_container(i, annotator_name)
 
             
                   
