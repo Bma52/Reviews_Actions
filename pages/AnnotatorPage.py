@@ -175,7 +175,7 @@ def insert_checked_annotation(df):
 
 
     
-@st.cache
+
 def form(df_annotation, i, annotator_name):
        st.session_state = i
        #st.session_state.a_list = []
@@ -345,7 +345,7 @@ def form(df_annotation, i, annotator_name):
                
 
             
-@st.cache            
+           
 def no_form(df_annotation, i, annotator_name):
        #st.session_state.a_list = []
        
