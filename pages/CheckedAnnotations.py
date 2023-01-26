@@ -340,7 +340,7 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Subject"] = list_subjects
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
-       st.write(df_tuples)
+       #st.write(df_tuples)
        for i in df_tuples.index:
            construct_graph(df_tuples, i, df['annotation_md5'][i])
        
@@ -355,8 +355,8 @@ def main():
      checked_data, review_data, product_data = get_new_reviews_mysql()
      col1, col2, col3 = st.columns(3)
 
-     checked_by = st.selectbox("Checked By at least", ["Checked by at least 1 annotator", "Checked by at least 2 annotators", "Checked by at least 3 annotators"])
-
+     checked_by = st.multiselect("Filter Checked data by annotators:", ["Bma52", "Fz13", "Wk14"])
+     checked_data = checked_data[checked_data["checkedBy"] in checked_by]
 
       
      with st.expander("View Checked Annotation"):
