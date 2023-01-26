@@ -908,8 +908,9 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_annotation["Object"] = df_annotation["Object"].astype(str)
     df_annotation["Ability"] = df_annotation["Ability"].astype(str)
     df_annotation["annotation_md5"] = df_annotation["annotation_md5"].astype(str)
-    df_annotation["User_description"] = ["The {0} has a {1} sentiment becuase he or she {2} using this product".format(agent, valence, action) for agent, valence, action in df_annotation["Agent"], df_annotation["Valence"], df_annotation["Actions"] ]
-
+    #df_annotation["User_description"] = ["The {0} has a {1} sentiment becuase he or she {2} using this product".format(agent, valence, action) for agent, valence, action in df_annotation["Agent"], df_annotation["Valence"], df_annotation["Actions"] ]
+    for i in df_annotation.index:
+	df_annotation.iloc[i]["User_description"] = "The {0} has a {1} sentiment becuase he or she {2} using this product".format(df_annotation["Agent"][i], df_annotation["Valence"][i], df_annotation["Actions"][i])
     #frame_annotation = df_annotation.to_sql("Annotation", dbConnection, index = False, if_exists='append')
     
     annotation_cols = "`,`".join([str(i) for i in df_annotation.columns.tolist()])
