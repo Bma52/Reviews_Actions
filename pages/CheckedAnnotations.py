@@ -91,7 +91,7 @@ def get_new_reviews_mysql():
 def insert_to_sparql(df_tuples, annotation_md5):
     ssl._create_default_https_context = ssl._create_unverified_context
     for index in df_tuples.index:
-          
+      
           tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
           queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
           
@@ -102,8 +102,9 @@ def insert_to_sparql(df_tuples, annotation_md5):
               )
 
 
-          sparql.setQuery(str(queryString)) 
-          sparql.method = 'POST'
+          sparql.setQuery(str(queryString))
+          sparql.setMethod('POST')
+          #sparql.method = 'POST'
           sparql.query()
     st.write("Successfully inserted into triple store.")
     
