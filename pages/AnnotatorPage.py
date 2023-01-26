@@ -515,7 +515,7 @@ def main(df_annotation, annotator_name) -> None:
             else:
                  no_form(df_one_review, row, annotator_name)
                   
-          #st.button("Load Next Review", key = df_one_review["review_id"][df_one_review["reviewBody"] == i])
+          
                   
 
                  
@@ -524,36 +524,13 @@ def main(df_annotation, annotator_name) -> None:
     
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
+    count = 1
     for i in list_reviews:
-        load_review = st.button("Load Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+        load_review = st.button("Load Review {0}".format(count) , key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
+        count +=1
         if load_review:
            review_container(i, annotator_name)
-        #_ ,next = st.columns([10, 2])
-        
-        #if next.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i]):
-           #next(itr)
-        #else:
-           #itr = i
 
-
-         
-        #start_idx = page_number * N 
-        #end_idx = (1 + page_number) * N
-
-         # Index into the sub dataframe
-        #review_container(i, annotator_name)
-
-            
-                  
-
-
-        #review_container(i, annotator_name)
-        #load_next_btn = st.button("Load Next Review", key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
-      
-        #if load_next_btn:
-            #continue;  
-        #else:
-            #break;
     
  
     
