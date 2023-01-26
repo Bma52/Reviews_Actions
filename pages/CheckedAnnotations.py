@@ -105,7 +105,7 @@ def insert_to_sparql(df_tuples, annotation_md5):
 
 
           sparql.setQuery(queryString) 
-          sparql.method = 'GET'
+          sparql.method = 'POST'
           sparql.query()
     st.write("Successfully inserted into triple store.")
     
@@ -338,8 +338,25 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Subject"] = list_subjects
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
+       for i in df_tuples.index:
+          tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
+          queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+          #tripletsString_concat += tripletString
+          st.write(queryString)
+            
+          ssl._create_default_https_context = ssl._create_unverified_context
+          #tripletsString_concat = " "
+          sparql = SPARQLWrapper(
+             "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
+              )
 
-       insert_to_sparql(df_tuples, df["annotation_md5"][i])
+
+          sparql.setQuery(queryString) 
+          sparql.method = 'POST'
+          sparql.query()
+       st.write("Successfully inserted into triple store.")
+
+       #insert_to_sparql(df_tuples, df["annotation_md5"][i])
     
     
     
