@@ -96,27 +96,6 @@ def construct_graph(df_tuples, index, annotation_md5):
        return str(queryString)
        
 
-def insert_to_sparql(queryString):
-
-    ssl._create_default_https_context = ssl._create_unverified_context
-    #for index in df_tuples.index:
-      
-    #tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-    #queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-          
-    st.write(queryString)
-            
-    sparql = SPARQLWrapper(
-             "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
-              )
-
-    sparql.setQuery(queryString)
-                             
-    sparql.setMethod('POST')
-    sparql.query()
-    st.write("Successfully inserted into triple store.")
-
-   
    
    
 def computeMD5hash(my_string):
@@ -343,26 +322,26 @@ def create_triplets(df, df_review, df_product, i):
        df_tuples["Predicate"] = list_predicates
        df_tuples["Object"] = list_objects
        #st.write(df_tuples)
-       for i in df_tuples.index:
+       #for i in df_tuples.index:
            #queryString = construct_graph(df_tuples, i, df['annotation_md5'][i])
-           ssl._create_default_https_context = ssl._create_unverified_context
+       dt.write(df_tuples)
+      """
+      ssl._create_default_https_context = ssl._create_unverified_context
            #for index in df_tuples.index:
-           queryString = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049> }"
-           #tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-           #queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
-           #query = "{0}".format(queryString)
-           st.write(queryString)
+       queryString1 = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049> }"
+       queryString2 = 
+       st.write(queryString)
             
-           sparql = SPARQLWrapper(
+       sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
 
-           sparql.setQuery(queryString)
+       sparql.setQuery(queryString)
                              
-           sparql.setMethod('POST')
-           sparql.query()
+       sparql.setMethod('POST')
+       sparql.query()
        st.write("Successfully inserted into triple store.")
-       
+       """
            #insert_to_sparql(df_tuples, df['annotation_md5'][i])
        
     
