@@ -89,8 +89,8 @@ def get_new_reviews_mysql():
 
 def construct_graph(df_tuples, index, annotation_md5):
       
-       tripletString = " <<{0}>> <<{1}>> {2} .".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-       queryString =  "INSERT DATA {{ GRAPH <{0}> {{{1}}}}}".format(str(annotation_md5), tripletString) 
+       tripletString = " <<{0}>> <<{1}>> {2}".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
+       queryString =  "INSERT DATA {{ {{1}}}}".format(str(annotation_md5), tripletString) 
        #insert_to_sparql(queryString)
          
        return queryString
@@ -138,7 +138,8 @@ def create_triplets(df, df_review, df_product, i):
 
     dct= "http://purl.org/dc/terms/"
     rdfs= "http://www.w3.org/2000/01/rdf-schema#"
-    oa= "http://www.w3.org/ns/oa#" 
+    #oa= "http://www.w3.org/ns/oa#"
+    oa = "http://linked.aub.edu.lb/actionrec/Annotation/"
     dcterms= "http://purl.org/dc/terms/" 
     xsd= "http://www.w3.org/2001/XMLSchema#"
     rdf= "http://www.w3.org/1999/02/22-rdf-syntax-ns#type/" 
