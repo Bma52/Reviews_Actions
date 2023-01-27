@@ -359,7 +359,7 @@ def create_triplets(df, df_review, df_product, i):
 
            sparql.setQuery(queryString)
                              
-           sparql.method = 'POST'
+           sparql.setMethod('POST')
            sparql.query()
        st.write("Successfully inserted into triple store.")
        
