@@ -112,7 +112,7 @@ def insert_to_sparql(queryString):
 
     sparql.setQuery(queryString)
                              
-    sparql.method = 'POST'
+    sparql.setMethod('POST')
     sparql.query()
     st.write("Successfully inserted into triple store.")
 
