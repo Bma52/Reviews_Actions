@@ -90,10 +90,10 @@ def get_new_reviews_mysql():
 def construct_graph(df_tuples, index, annotation_md5):
       
        tripletString = " <<{0}>> <<{1}>> {2}".format( df_tuples["Subject"][index], df_tuples["Predicate"][index], df_tuples["Object"][index])
-       queryString =  "INSERT DATA {{{1}}}".format(str(annotation_md5), tripletString) 
+       queryString =  "INSERT DATA {{{0}}}".format(tripletString) 
        #insert_to_sparql(queryString)
          
-       return queryString
+       return str(queryString)
        
 
 def insert_to_sparql(queryString):
