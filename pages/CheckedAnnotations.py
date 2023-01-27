@@ -325,7 +325,7 @@ def create_triplets(df, df_review, df_product, i):
        #for i in df_tuples.index:
            #queryString = construct_graph(df_tuples, i, df['annotation_md5'][i])
        dt.write(df_tuples)
-      """
+       """
       ssl._create_default_https_context = ssl._create_unverified_context
            #for index in df_tuples.index:
        queryString1 = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049> }"
