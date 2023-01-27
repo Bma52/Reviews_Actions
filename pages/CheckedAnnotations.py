@@ -325,13 +325,13 @@ def create_triplets(df, df_review, df_product, i):
        #for i in df_tuples.index:
            #queryString = construct_graph(df_tuples, i, df['annotation_md5'][i])
        st.write(df_tuples)
-       """
-      ssl._create_default_https_context = ssl._create_unverified_context
+       
+       ssl._create_default_https_context = ssl._create_unverified_context
            #for index in df_tuples.index:
-       queryString1 = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049> }"
-       queryString2 = 
-       st.write(queryString)
-            
+       queryString1 = "INSERT DATA { <http://schema.org/{{0}}> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/{{1}}> }".format(str(df['Actions'][i]),str(df['annotation_md5'][i])) 
+       #queryString2 = 
+       st.write(queryString1)
+       
        sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
@@ -341,7 +341,7 @@ def create_triplets(df, df_review, df_product, i):
        sparql.setMethod('POST')
        sparql.query()
        st.write("Successfully inserted into triple store.")
-       """
+       
            #insert_to_sparql(df_tuples, df['annotation_md5'][i])
        
     
