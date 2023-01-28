@@ -400,7 +400,7 @@ def main():
              with col13:
               KG = (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j]))
               if KG:
-                  create_triplets(checked_data, review_data, product_data, i)
+                  create_triplets(checked_data, review_data, product_data, j)
 
             
           
