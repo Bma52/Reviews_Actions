@@ -324,14 +324,14 @@ def create_triplets(df, df_review, df_product, i):
        #st.write(df_tuples)
        #for i in df_tuples.index:
            #queryString = construct_graph(df_tuples, i, df['annotation_md5'][i])
-       st.write(df_tuples)
+       #st.write(df_tuples)
        
        ssl._create_default_https_context = ssl._create_unverified_context
            #for index in df_tuples.index:
        #queryString1 = "INSERT DATA { <http://schema.org/{{0}}> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/{{1}}> }".format(str(df['Actions'][i]),str(df['annotation_md5'][i])) 
        #queryString = "INSERT DATA {{ <<{0}>> <<{1}>> {2} }}".format( str(df_tuples.iloc[0]["Subject"]), str(df_tuples.iloc[0]["Predicate"]), str(df_tuples.iloc[0]["Object"]))
-       queryString = "INSERT DATA {" + str(" <<") + str(df_tuples.iloc[0]["Subject"]) + str(">>") +  str(" <<") + str(df_tuples.iloc[0]["Predicate"]) + str(">> ") + str(df_tuples.iloc[0]["Object"]) + "}"
-      
+       #queryString = "INSERT DATA {" + str(" <<") + str(df_tuples.iloc[0]["Subject"]) + str(">>") +  str(" <<") + str(df_tuples.iloc[0]["Predicate"]) + str(">> ") + str(df_tuples.iloc[0]["Object"]) + "}"
+       queryString = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049>}"
        #queryString2 = 
        st.write(queryString)
        
