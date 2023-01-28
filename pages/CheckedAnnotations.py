@@ -111,7 +111,7 @@ def create_triplets(df, df_review, df_product, i):
     
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
-    df_product = df_product[df_product['product_name'] == str(df_review.iloc[0]['product_name'])]
+    df_product = df_product[df_product['product_name'] == str(df_review.iloc[i]['product_name'])]
    
    
 
@@ -275,40 +275,40 @@ def create_triplets(df, df_review, df_product, i):
 
 
        list_objects = ['<' + oa + str(df['annotation_md5'][i]) + '>',
-                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<<' + arec + str(df['Ability'][i])+ '>>',
-                '<<' + schema + str(df['Actions'][i])+ '>>',
-                '<<' + arec + str(df['Agent'][i])+ '>>',
-                '<<' + schema + str(df['Environment'][i])+ '>>',
-                '<<' + schema + str(df['Object'][i])+ '>>',
-                '<<' + schema + str(df_review.iloc[0]['reviewBody_md5'])+ '>>',
-                '<<' + schema + str(df['Actions'][i])+ '>>',
-                "'" + str(df['Valence'][i])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df['reviewBody'][i])+"'"  + '^^'+'<<{0}string>>'.format(xsd),
-                '<<' + oa + str(df['annotation_md5'][i])+ '>>',
-                '<<' + schema + str(df["Object"][i])+ '>>',
-                '<<' + schema + str(df['Actions'][i])+ '>>',
-                '<<' + arec + str(df['Features'][i])+ '>>',
-                '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
-                "'" +str(df_product.iloc[0]["ratingValue"])+ "'" + '^^'+'<<{0}decimal>>'.format(xsd),
-                '<<' + schema + str(df_product.iloc[0]["seller_name"])+ '>>',
-                '<<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>>',
-                "'" +str(df["checkedTimestamp"][i])+ "'" + '^^'+'<<{0}dateTime>>'.format(xsd),
-                "'" +str(df['annotation'][i])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                '<<' + schema + str(df_product.iloc[0]["seller_name"])+ '>>',
-                '<<' + str(df_product.iloc[0]["availability"])+ '>>',
-                "'" +str(df_product.iloc[0]["price"])+ "'" + '^^'+'<<{0}decimal>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["priceCurrency"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["model"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["description"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
-                "'" +str(df_product.iloc[0]["brand_name"])+ "'" + '^^'+'<<{0}string>>'.format(xsd),
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + arec + str(df['Ability'][i])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
+                '<' + arec + str(df['Agent'][i])+ '>',
+                '<' + schema + str(df['Environment'][i])+ '>',
+                '<' + schema + str(df['Object'][i])+ '>',
+                '<' + schema + str(df_review.iloc[0]['reviewBody_md5'])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
+                "'" + str(df['Valence'][i])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df['reviewBody'][i])+"'"  + '^^'+'<{0}string>'.format(xsd),
+                '<' + oa + str(df['annotation_md5'][i])+ '>',
+                '<' + schema + str(df["Object"][i])+ '>',
+                '<' + schema + str(df['Actions'][i])+ '>',
+                '<' + arec + str(df['Features'][i])+ '>',
+                '<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>',
+                "'" +str(df_product.iloc[0]["ratingValue"])+ "'" + '^^'+'<{0}decimal>'.format(xsd),
+                '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
+                '<' + schema + str(df_product.iloc[0]["product_name_md5"])+ '>',
+                "'" +str(df["checkedTimestamp"][i])+ "'" + '^^'+'<{0}dateTime>'.format(xsd),
+                "'" +str(df['annotation'][i])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                '<' + schema + str(df_product.iloc[0]["seller_name"])+ '>',
+                '<' + str(df_product.iloc[0]["availability"])+ '>',
+                "'" +str(df_product.iloc[0]["price"])+ "'" + '^^'+'<{0}decimal>'.format(xsd),
+                "'" +str(df_product.iloc[0]["priceCurrency"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["model"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["product_name"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["description"])+ "'" + '^^'+'<{0}string>'.format(xsd),
+                "'" +str(df_product.iloc[0]["brand_name"])+ "'" + '^^'+'<{0}string>'.format(xsd),
                 #str(df_product.iloc[0]["url"]) + '^^'+'<<{0}string>>'.format(xsd),
                 #str(df_product.iloc[0]["image"]) + '^^'+'<<{0}string>>'.format(xsd),
                ]    
@@ -332,18 +332,21 @@ def create_triplets(df, df_review, df_product, i):
        #queryString = "INSERT DATA {{ <<{0}>> <<{1}>> {2} }}".format( str(df_tuples.iloc[0]["Subject"]), str(df_tuples.iloc[0]["Predicate"]), str(df_tuples.iloc[0]["Object"]))
        #queryString = "INSERT DATA {" + str(" <<") + str(df_tuples.iloc[0]["Subject"]) + str(">>") +  str(" <<") + str(df_tuples.iloc[0]["Predicate"]) + str(">> ") + str(df_tuples.iloc[0]["Object"]) + "}"
        #queryString = "INSERT DATA { <http://schema.org/LearnAction> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/b6a5da3c79c2f579c35f52ad663ef049>}"
-       queryString = "INSERT DATA {" + str(" <") + str(df_tuples.iloc[0]["Subject"]) + str(">") +  str(" <") + str(df_tuples.iloc[0]["Predicate"]) + str("> ") + str(df_tuples.iloc[0]["Object"]) + "}"
-       #queryString2 = 
-       st.write(queryString)
+       for row in df_tuples.index:
+      
+           queryString = "INSERT DATA {" + str(" <") + str(df_tuples.iloc[row]["Subject"]) + str(">") +  str(" <") + str(df_tuples.iloc[row]["Predicate"]) + str("> ") + str(df_tuples.iloc[row]["Object"]) + "}"
+    
+           st.write(queryString)
        
-       sparql = SPARQLWrapper(
+           sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
               )
 
-       sparql.setQuery(queryString)
+           sparql.setQuery(queryString)
                              
-       sparql.setMethod('POST')
-       sparql.query()
+           sparql.setMethod('POST')
+           sparql.query()
+            
        st.write("Successfully inserted into triple store.")
        
            #insert_to_sparql(df_tuples, df['annotation_md5'][i])
