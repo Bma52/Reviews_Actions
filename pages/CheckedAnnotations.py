@@ -109,12 +109,13 @@ def create_triplets(df, df_review, df_product, i):
     
     reviewBody = str(df.iloc[i]["reviewBody"])
     df_review = df_review[df_review['reviewBody'] == reviewBody]
+    st.write(df_review)
     product_name = df_review["product_name"].unique()
-   
+    st.write(df_product)
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
     df_product = df_product[df_product['product_name'] == str(product_name)]
-    st.write(df_product)
+    
    
 
     dct= "http://purl.org/dc/terms/"
@@ -208,14 +209,14 @@ def create_triplets(df, df_review, df_product, i):
                  arec + str(df['Features'][i]),
                  oa + str(df['annotation_md5'][i]),
                  schema + str(df_review.iloc[0]['reviewBody_md5']),
-                 schema + str(df_product["product_name_md5"].value()),
+                 schema + str(df_product["product_name_md5"][0]),
                  schema + str(df["Actions"][i]),
-                 schema + str(df_product["product_name_md5"]),
-                 schema + str(df_product["product_name_md5"]),
+                 schema + str(df_product["product_name_md5"][0]),
+                 schema + str(df_product["product_name_md5"][0]),
                  schema + str(df_review.iloc[0]['reviewBody_md5']),
                  schema + str(df_review.iloc[0]['reviewBody_md5']),
-                 schema + str(df_product["availability"]),
-                 schema + str(df_product["availability"]),
+                 schema + str(df_product["availability"][0]),
+                 schema + str(df_product["availability"][0]),
                  oa + str(df['annotation_md5'][i]),
                  oa + str(df['annotation_md5'][i]),
                  schema + str(df_review.iloc[0]['reviewBody_md5']),
