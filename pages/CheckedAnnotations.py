@@ -109,14 +109,14 @@ def create_triplets(df, df_review, df_product, i):
     
     reviewBody = str(df.iloc[i]["reviewBody"])
     df_review = df_review[df_review['reviewBody'] == reviewBody]
-    st.write(df_review)
+    #st.write(df_review)
     product_name = df_review["product_name"].unique()
     str_product = product_name[0]
-    st.write(str_product)
+    #st.write(str_product)
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
     df_product = df_product[df_product['product_name'] == str(str_product)]
-    st.write(df_product)
+    #st.write(df_product)
    
 
     dct= "http://purl.org/dc/terms/"
@@ -340,7 +340,7 @@ def create_triplets(df, df_review, df_product, i):
       
            queryString = "INSERT DATA {" + str(" <") + str(df_tuples.iloc[row]["Subject"]) + str(">") +  str(" <") + str(df_tuples.iloc[row]["Predicate"]) + str("> ") + str(df_tuples.iloc[row]["Object"]) + "}"
     
-           st.write(queryString)
+           #st.write(queryString)
        
            sparql = SPARQLWrapper(
              "https://linked.aub.edu.lb:8080/fuseki/actionrec_ml/update"
