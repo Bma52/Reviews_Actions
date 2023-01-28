@@ -111,11 +111,11 @@ def create_triplets(df, df_review, df_product, i):
     df_review = df_review[df_review['reviewBody'] == reviewBody]
     st.write(df_review)
     product_name = df_review["product_name"].unique()
-    st.write(df_product)
+   
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
     df_product = df_product[df_product['product_name'] == str(product_name)]
-    
+    st.write(df_product)
    
 
     dct= "http://purl.org/dc/terms/"
