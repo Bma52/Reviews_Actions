@@ -329,8 +329,9 @@ def create_triplets(df, df_review, df_product, i):
        ssl._create_default_https_context = ssl._create_unverified_context
            #for index in df_tuples.index:
        #queryString1 = "INSERT DATA { <http://schema.org/{{0}}> <http://purl.org/dc/terms/isPartOf> <http://linked.aub.edu.lb/actionrec/Annotation/{{1}}> }".format(str(df['Actions'][i]),str(df['annotation_md5'][i])) 
-       queryString = "INSERT DATA {{ <<{0}>> <<{1}>> {2} }}".format( str(df_tuples.iloc[0]["Subject"]), str(df_tuples.iloc[0]["Predicate"]), str(df_tuples.iloc[0]["Object"]))
-         #queryString2 = 
+       #queryString = "INSERT DATA {{ <<{0}>> <<{1}>> {2} }}".format( str(df_tuples.iloc[0]["Subject"]), str(df_tuples.iloc[0]["Predicate"]), str(df_tuples.iloc[0]["Object"]))
+       queryString = "INSERT DATA { <" + str(df_tuples.iloc[0]["Subject"]) + "><" + str(df_tuples.iloc[0]["Predicate"]) + ">" + str(df_tuples.iloc[0]["Object"])
+       #queryString2 = 
        st.write(queryString)
        
        sparql = SPARQLWrapper(
