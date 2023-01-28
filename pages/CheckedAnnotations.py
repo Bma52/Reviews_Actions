@@ -106,12 +106,14 @@ def computeMD5hash(my_string):
     
     
 def create_triplets(df, df_review, df_product, i):
-   
-    df_review = df_review[df_review['reviewBody'] == df['reviewBody'][i]]
     
+    reviewBody = str(df.iloc[i]["reviewBody"])
+    df_review = df_review[df_review['reviewBody'] == reviewBody]
+    product_name = str(df_review["product_name"][0])
+   
     #df_review['product_name_md5'] = computeMD5hash(df_review['product_name'][i])
       
-    df_product = df_product[df_product['product_name'] == str(df_review.iloc[i]['product_name'])]
+    df_product = df_product[df_product['product_name'] == product_name]
    
    
 
