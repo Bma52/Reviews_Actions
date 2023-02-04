@@ -63,6 +63,10 @@ from sklearn.model_selection import GridSearchCV
 
 
 
+def get_training_det():
+   df = pd.read_csv("TrainingSet.csv")
+   return df
+
 def get_model_info_mysql():
    
 
@@ -391,7 +395,11 @@ def get_train_data_mysql():
 def main():
     st.markdown('<div class="header"> <H1 align="center"><font style="style=color:lightblue; "> The Machine Learning Models Page</font></H1></div>', unsafe_allow_html=True)
     model_data = get_model_info_mysql()
-    df_train = get_train_data_mysql()
+    df_train_checked = get_train_data_mysql()
+    df_train_checked = df_train_checked[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
+    df_train_initial = get_training_det()
+    df_train_initial = df_train_initial[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
+    df_train = df_train_initial.append(df_train_checked, ignore_index = True)
     with st.expander("View ML Models Information"):
         st.write(model_data)
       
