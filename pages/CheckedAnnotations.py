@@ -378,7 +378,7 @@ def main():
         for review in reviews:
            checked_data = checked_data[checked_data["annotation"] == review]
            with st.expander("View Checked Annotation"):
-          #st.write(checked_data)
+           #st.write(checked_data)
               for j in checked_data.index:
                  col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
                  with col1:
@@ -424,7 +424,7 @@ def main():
                  with txtColumns[3]:
                    st.text_input('col4', key="{0} 4".format(review))
                  st.form_submit_button(on_click=add_txtForm)    
-
+              continue;
           
 
        #on_click=create_triplets(checked_data, review_data, product_data, j)
