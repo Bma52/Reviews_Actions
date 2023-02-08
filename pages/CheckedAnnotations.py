@@ -356,6 +356,12 @@ def create_triplets(df, df_review, df_product, i):
            #insert_to_sparql(df_tuples, df['annotation_md5'][i])
        
     
+   
+def add_txtForm():
+    st.session_state.col1 += (st.session_state.input_col1 + '  \n')
+    st.session_state.col2 += (st.session_state.input_col2 + '  \n')
+    st.session_state.col3 += (st.session_state.input_col3 + '  \n')
+    st.session_state.col4 += (st.session_state.input_col4 + '  \n')
     
     
 def main():
@@ -402,7 +408,21 @@ def main():
               if KG:
                   create_triplets(checked_data, review_data, product_data, j)
 
-            
+
+
+     txtForm = st.form(key='txtForm')
+     with txtForm:
+         txtColumns = st.columns(4)
+         with txtColumns[0]:
+            st.text_input('col1', key='input_col1')
+         with txtColumns[1]:
+            st.text_input('col2', key='input_col2')
+         with txtColumns[2]:
+            st.text_input('col3', key='input_col3')
+         with txtColumns[3]:
+            st.text_input('col4', key='input_col4')
+     st.form_submit_button(on_click=add_txtForm)    
+
           
 
        #on_click=create_triplets(checked_data, review_data, product_data, j)
