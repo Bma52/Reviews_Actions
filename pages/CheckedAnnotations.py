@@ -367,8 +367,7 @@ def add_txtForm():
    
    
 def display_reviews(checked_data):
-    
-      
+
          for j in checked_data.index:
                  col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
                  with col1:
@@ -419,18 +418,18 @@ def main():
            with st.expander("View Checked Annotation"):
               display_reviews(checked_data)
 
-              txtForm = st.form(key=review)
-              with txtForm:
-                 txtColumns = st.columns(4)
-                 with txtColumns[0]:
+              #txtForm = st.form(key=review)
+              #with txtForm:
+              txtColumns = st.columns(4)
+              with txtColumns[0]:
                    st.text_input('col1', key="{0} 1".format(review))
-                 with txtColumns[1]:
+              with txtColumns[1]:
                    st.text_input('col2', key="{0} 2".format(review))
-                 with txtColumns[2]:
+              with txtColumns[2]:
                    st.text_input('col3', key="{0} 3".format(review))
-                 with txtColumns[3]:
+              with txtColumns[3]:
                    st.text_input('col4', key="{0} 4".format(review))
-                 st.form_submit_button(on_click=add_txtForm)    
+                 #st.form_submit_button(on_click=add_txtForm)    
               
           
 
