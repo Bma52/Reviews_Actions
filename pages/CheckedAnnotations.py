@@ -421,7 +421,7 @@ def main():
             st.text_input('col3', key='input_col3')
          with txtColumns[3]:
             st.text_input('col4', key='input_col4')
-     st.form_submit_button(on_click=add_txtForm)    
+         st.form_submit_button(on_click=add_txtForm)    
 
           
 
