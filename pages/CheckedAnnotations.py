@@ -412,7 +412,7 @@ def main():
 
 
 
-           txtForm = st.form(key=checked_data["annotation"][j])
+           txtForm = st.form(key=review)
            with txtForm:
               txtColumns = st.columns(4)
               with txtColumns[0]:
