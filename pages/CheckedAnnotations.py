@@ -424,7 +424,7 @@ def main():
                  with txtColumns[3]:
                    st.text_input('col4', key="{0} 4".format(review))
                  st.form_submit_button(on_click=add_txtForm)    
-              continue;
+              
           
 
        #on_click=create_triplets(checked_data, review_data, product_data, j)
