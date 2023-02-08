@@ -416,13 +416,13 @@ def main():
            with txtForm:
               txtColumns = st.columns(4)
               with txtColumns[0]:
-                 st.text_input('col1', key='input_col1')
+                 st.text_input('col1', key="{0} 1".format(review))
               with txtColumns[1]:
-                 st.text_input('col2', key='input_col2')
+                 st.text_input('col2', key="{0} 2".format(review))
               with txtColumns[2]:
-                st.text_input('col3', key='input_col3')
+                st.text_input('col3', key="{0} 3".format(review))
               with txtColumns[3]:
-                st.text_input('col4', key='input_col4')
+                st.text_input('col4', key="{0} 4".format(review))
               st.form_submit_button(on_click=add_txtForm)    
 
           
