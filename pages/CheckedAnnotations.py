@@ -373,8 +373,10 @@ def main():
      checked_by = st.multiselect("Filter Checked data by annotators:", ["","Bma52", "Fz13", "Wk14"])
      if checked_by:
         checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
-
-      
+    
+     reviews = checked_data["annotation"].unique()
+     for review in reviews:
+        checked_data = checked_data[checked_data["annotation"] == review]
         with st.expander("View Checked Annotation"):
           #st.write(checked_data)
           for j in checked_data.index:
