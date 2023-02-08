@@ -374,7 +374,7 @@ def main():
      if checked_by:
         checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
     
-     reviews = checked_data["annotation"].unique()
+     reviews = checked_data[["annotation"]].unique()
      for review in reviews:
         checked_data = checked_data[checked_data["annotation"] == review]
         with st.expander("View Checked Annotation"):
