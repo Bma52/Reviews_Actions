@@ -374,12 +374,12 @@ def main():
      if checked_by:
         checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
     
-     reviews = checked_data[["annotation"]].unique()
-     for review in reviews:
-        checked_data = checked_data[checked_data["annotation"] == review]
-        with st.expander("View Checked Annotation"):
+        reviews = checked_data["annotation"].unique()
+        for review in reviews:
+           checked_data = checked_data[checked_data["annotation"] == review]
+           with st.expander("View Checked Annotation"):
           #st.write(checked_data)
-          for j in checked_data.index:
+            for j in checked_data.index:
              col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
              with col1:
               st.write(checked_data["annotation"][j])
