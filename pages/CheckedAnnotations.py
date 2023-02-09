@@ -424,8 +424,8 @@ def main():
            with st.expander("View Checked Annotation"):
               checked_data , j = display_reviews(checked_data)
 
-              txtForm = st.form(key=review)
-              with txtForm:
+              #txtForm = st.form(key=review)
+              #with txtForm:
               txtColumns = st.columns(6)
               with txtColumns[0]:
                    action = st.text_input('Action', key="{0} 1".format(review))
@@ -446,7 +446,7 @@ def main():
               checked_data["Features"][j] = feature
               checked_data["Object"][j] = obj
               st.write(checked_data.loc[j])
-              st.form_submit_button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, j))    
+              st.button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, j))    
               
           
 
