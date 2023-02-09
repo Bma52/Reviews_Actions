@@ -446,7 +446,7 @@ def main():
               checked_data["Features"][0] = feature
               checked_data["Object"][0] = obj
               
-              if st.button("Construct KG", key= checked_data["checked_annotation_id"][0])):
+              if st.button("Construct KG", key= checked_data["checked_annotation_id"][0]):
                  create_triplets(checked_data, review_data, product_data, 0)
               
               
