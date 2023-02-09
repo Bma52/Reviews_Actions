@@ -369,7 +369,7 @@ def add_txtForm():
 def display_reviews(checked_data):
 
          for j in checked_data.index:
-                 col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns(13)
+                 col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12 = st.columns(12)
                  with col1:
                   st.write(checked_data["annotation"][j])
                  with col2:
@@ -394,11 +394,12 @@ def display_reviews(checked_data):
                   st.write(checked_data["Ability"][j])
                  with col12:
                   st.write(checked_data["checkedBy"][j])
-                 with col13:
-                  KG = (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j]))
-                  if KG:
-                     create_triplets(checked_data, review_data, product_data, j)
-
+                 #with col13:
+                  #KG = (st.button("Construct KG" ,key= checked_data["checked_annotation_id"][j]))
+                  #if KG:
+                     #create_triplets(checked_data, review_data, product_data, j)
+                     
+         return checked_data, j
    
     
     
@@ -421,24 +422,31 @@ def main():
            checked_data = checked_data[checked_data["annotation"] == str(review)]
            
            with st.expander("View Checked Annotation"):
-              display_reviews(checked_data)
+              checked_data , j = display_reviews(checked_data)
 
-              #txtForm = st.form(key=review)
-              #with txtForm:
+              txtForm = st.form(key=review)
+              with txtForm:
               txtColumns = st.columns(6)
               with txtColumns[0]:
-                   st.text_input('Action', key="{0} 1".format(review))
+                   action = st.text_input('Action', key="{0} 1".format(review))
               with txtColumns[1]:
-                   st.text_input('Agent', key="{0} 2".format(review))
+                   agent = st.text_input('Agent', key="{0} 2".format(review))
               with txtColumns[2]:
-                   st.text_input('Environment', key="{0} 3".format(review))
+                   env = st.text_input('Environment', key="{0} 3".format(review))
               with txtColumns[3]:
-                   st.text_input('Valence', key="{0} 4".format(review))
+                   valence = st.text_input('Valence', key="{0} 4".format(review))
               with txtColumns[4]:
-                   st.text_input('Feature', key="{0} 5".format(review))
+                   feature = st.text_input('Feature', key="{0} 5".format(review))
               with txtColumns[5]:
-                   st.text_input('Object', key="{0} 6".format(review))
-                 #st.form_submit_button(on_click=add_txtForm)    
+                   obj = st.text_input('Object', key="{0} 6".format(review))
+              checked_data["Actions"][j] = action
+              checked_data["Agent"][j] = agent
+              checked_data["Environment"][j] = env
+              checked_data["Valence"][j] = valence
+              checked_data["Features"][j] = feature
+              checked_data["Object"][j] = obj
+              st.write(checked_data.loc[j])
+              st.form_submit_button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, j))    
               
           
 
