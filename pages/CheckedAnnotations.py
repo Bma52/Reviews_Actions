@@ -399,7 +399,7 @@ def display_reviews(checked_data):
                   #if KG:
                      #create_triplets(checked_data, review_data, product_data, j)
                      
-         return checked_data, j
+         return checked_data
    
     
     
@@ -422,7 +422,7 @@ def main():
            checked_data = checked_data[checked_data["annotation"] == str(review)]
            
            with st.expander("View Checked Annotation"):
-              checked_data , j = display_reviews(checked_data)
+              checked_data = display_reviews(checked_data)
 
               #txtForm = st.form(key=review)
               #with txtForm:
@@ -439,14 +439,14 @@ def main():
                    feature = st.text_input('Feature', key="{0} 5".format(review))
               with txtColumns[5]:
                    obj = st.text_input('Object', key="{0} 6".format(review))
-              checked_data["Actions"][j] = action
-              checked_data["Agent"][j] = agent
-              checked_data["Environment"][j] = env
-              checked_data["Valence"][j] = valence
-              checked_data["Features"][j] = feature
-              checked_data["Object"][j] = obj
-              st.write(checked_data.loc[j])
-              st.button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, j))    
+              checked_data["Actions"][0] = action
+              checked_data["Agent"][0] = agent
+              checked_data["Environment"][0] = env
+              checked_data["Valence"][0] = valence
+              checked_data["Features"][0] = feature
+              checked_data["Object"][0] = obj
+              st.write(checked_data.loc[0])
+              st.button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, 0))    
               
           
 
