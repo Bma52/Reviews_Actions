@@ -410,11 +410,12 @@ def main():
 
      checked_by = st.multiselect("Filter Checked data by annotators:", ["","Bma52", "Fz13", "Wk14"])
      if checked_by:
-        
+        checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
     
         reviews = checked_data["annotation"].unique()
         for review in reviews:
            st.write(review)
+           checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
            checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
            checked_data = checked_data[checked_data["annotation"] == str(review)]
            
