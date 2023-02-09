@@ -425,7 +425,7 @@ def main():
 
               #txtForm = st.form(key=review)
               #with txtForm:
-              txtColumns = st.columns(5)
+              txtColumns = st.columns(6)
               with txtColumns[0]:
                    st.text_input('Action', key="{0} 1".format(review))
               with txtColumns[1]:
