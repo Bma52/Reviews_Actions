@@ -185,8 +185,8 @@ def create_triplets(df, df_review, df_product, i):
     df["checkedTimestamp"] = pd.to_datetime(df["checkedTimestamp"])
       
 
-    if df["Actions"][i] == "No_ActionAction":
-        st.write(df["Actions"][i])
+    if df.iloc[i]["Actions"] == "No_ActionAction":
+        st.write(df.iloc[i]["Actions"])
         st.error("No triplets created, this annotation has no action")
         #return None
     else:
@@ -446,7 +446,9 @@ def main():
               checked_data["Features"][0] = feature
               checked_data["Object"][0] = obj
               
-              st.button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, 0))    
+              if st.button("Construct KG"):
+                 create_triplets(checked_data, review_data, product_data, 0)
+              
               
           
 
