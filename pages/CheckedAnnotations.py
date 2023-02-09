@@ -425,15 +425,19 @@ def main():
 
               #txtForm = st.form(key=review)
               #with txtForm:
-              txtColumns = st.columns(4)
+              txtColumns = st.columns(5)
               with txtColumns[0]:
-                   st.text_input('col1', key="{0} 1".format(review))
+                   st.text_input('Action', key="{0} 1".format(review))
               with txtColumns[1]:
-                   st.text_input('col2', key="{0} 2".format(review))
+                   st.text_input('Agent', key="{0} 2".format(review))
               with txtColumns[2]:
-                   st.text_input('col3', key="{0} 3".format(review))
+                   st.text_input('Environment', key="{0} 3".format(review))
               with txtColumns[3]:
-                   st.text_input('col4', key="{0} 4".format(review))
+                   st.text_input('Valence', key="{0} 4".format(review))
+              with txtColumns[4]:
+                   st.text_input('Feature', key="{0} 5".format(review))
+              with txtColumns[5]:
+                   st.text_input('Object', key="{0} 6".format(review))
                  #st.form_submit_button(on_click=add_txtForm)    
               
           
