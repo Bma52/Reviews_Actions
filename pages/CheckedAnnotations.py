@@ -414,6 +414,7 @@ def main():
     
         reviews = checked_data["annotation"].unique()
         for review in reviews:
+           st.write(review)
            checked_data = checked_data[checked_data["annotation"] == str(review)]
            
            with st.expander("View Checked Annotation"):
