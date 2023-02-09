@@ -413,9 +413,10 @@ def main():
         checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
     
         reviews = checked_data["annotation"].unique()
+        checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
         for review in reviews:
            st.write(review)
-           checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
+           
            checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
            checked_data = checked_data[checked_data["annotation"] == str(review)]
            
