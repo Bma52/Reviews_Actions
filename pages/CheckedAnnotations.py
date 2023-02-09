@@ -445,7 +445,7 @@ def main():
               checked_data["Valence"][0] = valence
               checked_data["Features"][0] = feature
               checked_data["Object"][0] = obj
-              st.write(checked_data.loc[0])
+              
               st.button("Construct KG", on_click= create_triplets(checked_data, review_data, product_data, 0))    
               
           
