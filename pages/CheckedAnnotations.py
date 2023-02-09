@@ -415,8 +415,9 @@ def main():
         reviews = checked_data["annotation"].unique()
         for review in reviews:
            checked_data = checked_data[checked_data["annotation"] == review]
+           display_reviews(checked_data)
            with st.expander("View Checked Annotation"):
-              display_reviews(checked_data)
+              
 
               #txtForm = st.form(key=review)
               #with txtForm:
