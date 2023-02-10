@@ -439,12 +439,13 @@ def main():
                    feature = st.text_input('Feature', key="{0} 5".format(review))
               with txtColumns[5]:
                    obj = st.text_input('Object', key="{0} 6".format(review))
-              checked_data["Actions"][0] = action
+              checked_data["Actions"][0] = action + "Action"
               checked_data["Agent"][0] = agent
               checked_data["Environment"][0] = env
               checked_data["Valence"][0] = valence
               checked_data["Features"][0] = feature
               checked_data["Object"][0] = obj
+              checked_data["Ability"][0] = action + "Ability"
               
               if st.button("Construct KG", key= review):
                  create_triplets(checked_data, review_data, product_data, 0)
