@@ -429,7 +429,7 @@ def main():
     df_action_report, model_2 = train_action_model(df_train)
     st.write("Action Model Retrained")
     with st.expander("View report"):
-         st.write(df_action_report[0])
+         st.write(df_action_report)
          save6= st.button("Save new action model")
          if save6:
             save_action_model(model_2)
