@@ -97,7 +97,37 @@ def get_model_info_mysql():
     return  model_data
 
 
+def store_new_model_data(model_version, label, accuracy):
+   
+    host="linked.aub.edu.lb"
+    port=3306
+    database ="reviews_actions_ml"
 
+        
+    
+    configs = Properties()
+    
+    with open('dbconfig.properties', 'rb') as config_file:
+           configs.load(config_file)
+            
+ 
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+        
+
+    cursor = dbConnection.cursor()
+    sql = "INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ({0}, {1}, {2});".format(model_version, label, accuracy)
+    cursor.execute(sql)
+    st.write("New Model Information is now stored in MYSQL")
+             
+    # the connection is not autocommitted by default, so we must commit to save our changes
+    dbConnection.commit()
+   
+   
+   
+   
+   
+   
+   
 
 
 def preprocess_text(x):
@@ -207,11 +237,16 @@ def train_action_model(df_train):
    return accuracy, grid_search_cv
 
 
-def save_action_model(grid_search_cv):
+def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   
+   model_data_action = model_data[model_data["label"] == "Action"]
+   count = len(list(model_data_action["label"]))
+   model_version = "version_" + str(count+1)
+   label = "Action"
+   accuracy = accuracy*100
+   store_new_model_data(model_version, label, accuracy)
 
 
 
@@ -252,11 +287,16 @@ def train_environment_detection_model(df_train):
     return acc, clf
 
 
-def save_env_model(clf):
+def save_env_model(clf, accuracy, model_data):
     filename_clf = 'SVM_environment_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
       
-      
+    model_data_env = model_data[model_data["label"] == "Environment"]
+    count = len(list(model_data_env["label"]))
+    model_version = "version_" + str(count+1)
+    label = "Environment"
+    accuracy = accuracy*100
+    store_new_model_data(model_version, label, accuracy)
       
       
 
@@ -287,9 +327,16 @@ def train_valence_detection_model(df_train):
    
    
    
-def save_valence_model(LR):
+def save_valence_model(LR, accuracy, model_data):
     filename_LR = 'LR_valence_model_2.sav'
     pickle.dump(LR, open(filename_LR, 'wb'))
+   
+    model_data_valence = model_data[model_data["label"] == "Valence"]
+    count = len(list(model_data_valence["label"]))
+    model_version = "version_" + str(count+1)
+    label = "Valence"
+    accuracy = accuracy*100
+    store_new_model_data(model_version, label, accuracy)
 
 
 
@@ -317,12 +364,17 @@ def train_object_detection_model(df_train):
     return acc, clf
    
    
-def save_obj_model(clf):
+def save_obj_model(clf, accuracy, model_data):
     filename_clf = 'SVM_object_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
    
    
-   
+    model_data_obj = model_data[model_data["label"] == "Object"]
+    count = len(list(model_data_obj["label"]))
+    model_version = "version_" + str(count+1)
+    label = "Object"
+    accuracy = accuracy*100
+    store_new_model_data(model_version, label, accuracy)
 
 
 
@@ -358,11 +410,16 @@ def train_agent_detection_model(df_train):
    
    
    
-def save_agent_model(clf):
+def save_agent_model(clf, accuracy, model_data):
     filename_clf = 'SVM_agent_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
    
-   
+    model_data_agent = model_data[model_data["label"] == "Agent"]
+    count = len(list(model_data_agent["label"]))
+    model_version = "version_" + str(count+1)
+    label = "Agent"
+    accuracy = accuracy*100
+    store_new_model_data(model_version, label, accuracy)
    
 def get_train_data_mysql():
    
@@ -432,7 +489,7 @@ def main():
          st.write(df_action_report)
          save6= st.button("Save new action model")
          if save6:
-            save_action_model(model_2)
+            save_action_model(model_2, 0.95, model_data)
             
          
     df_env_report, model_3 = train_environment_detection_model(df_train)
@@ -441,7 +498,7 @@ def main():
          st.write(df_env_report)
          save2= st.button("Save new Environment model")
          if save2:
-            save_env_model(model_3)
+            save_env_model(model_3, df_env_report, model_data)
              
              
     df_agent_report, model_4 = train_agent_detection_model(df_train)
@@ -450,7 +507,7 @@ def main():
          st.write(df_agent_report)
          save3= st.button("Save new Agent model")
          if save3:
-            save_agent_model(model_4)
+            save_agent_model(model_4, df_agent_report, model_data)
              
              
     df_valence_report, model_5 = train_valence_detection_model(df_train)
@@ -459,7 +516,7 @@ def main():
          st.write(df_valence_report)
          save4= st.button("Save new Valence model")
          if save4:
-            save_valence_model(model_5)
+            save_valence_model(model_5, df_valence_report, model_data)
               
               
     df_object_report, model_6 = train_object_detection_model(df_train)
@@ -468,7 +525,7 @@ def main():
          st.write(df_object_report)
          save5= st.button("Save new Object model")
          if save5:
-            save_valence_model(model_6)
+            save_obj_model(model_6, df_object_report, model_data)
   
      
   
