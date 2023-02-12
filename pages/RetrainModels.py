@@ -112,10 +112,12 @@ def store_new_model_data(model_version, label, accuracy):
             
  
     dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
-        
+    model_version = str(model_version)
+    label = str(label)
+    accuracy = float(accuracy)
     
     cursor = dbConnection.cursor()
-    sql = """INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ({0}, {1}, {2});""".format(model_version, label, accuracy)
+    sql = """INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ({{0}}, {{1}}, {{2}});""".format(model_version, label, accuracy)
     cursor.execute(sql)
     st.write("New Model Information is now stored in MYSQL")
              
