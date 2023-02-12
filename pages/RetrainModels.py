@@ -59,6 +59,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import OneHotEncoder
 
 
 
@@ -164,11 +165,14 @@ def train_model_action_flag(df):
    
    
    
-def train_action_model():
-   df = pd.read_csv("Gummy_data_for_multi_label_action_model.csv")
-
-   x=df["review sentences"]
-   y=df.iloc[:,3:]
+def train_action_model(df_train):
+   #df = pd.read_csv("Gummy_data_for_multi_label_action_model.csv")
+   df = df_train[["annotation", "Actions"]]
+   df_final = get_dummy_actions(df_train)
+   
+   
+   x=df_final["annotation"]
+   y=df_final.iloc[:,3:]
    y.astype(int)
 
 
@@ -387,8 +391,17 @@ def get_train_data_mysql():
 
     return  checked_data
 
+ 
 
-
+def get_dummy_actions(df_train_checked):
+   
+   df_actions = df_train_checked[["annotation", "Actions"]]
+   encoder = OneHotEncoder(handle_unknown='ignore')
+   encoder_df = pd.DataFrame(encoder.fit_transform(df_actions[['Actions']]).toarray())
+   final_df = df_actions.join(encoder_df)
+   final_df.drop('Actions', axis=1, inplace=True)
+   
+   return final_df
   
   
   
@@ -399,6 +412,7 @@ def main():
     df_train_checked = df_train_checked[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
     df_train_initial = get_training_det()
     df_train_initial = df_train_initial[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
+    #df_actions_new = get_dummy_actions(df_train_checked)
     df_train = df_train_initial.append(df_train_checked, ignore_index = True)
     with st.expander("View ML Models Information"):
         st.write(model_data)
@@ -412,7 +426,7 @@ def main():
          if save1:
             save_action_noaction_model(model)
             
-    df_action_report = train_action_model()
+    df_action_report = train_action_model(df_train)
     st.write("Action Model Retrained")
     with st.expander("View report"):
          st.write(df_action_report)
