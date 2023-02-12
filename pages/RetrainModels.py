@@ -209,7 +209,7 @@ def train_action_model(df_train):
 
 def save_action_model(grid_search_cv):
    
-   filename_multi_action = 'multi_label_action_model_version2.sav'
+   filename_multi_action = 'multi_label_action_model.sav'
    pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
    
 
@@ -220,7 +220,7 @@ def save_action_model(grid_search_cv):
    
 def save_action_noaction_model(clf):
    
-    filename_svm = 'SVM_action_noaction_model_version2.sav'
+    filename_svm = 'SVM_action_noaction_model.sav'
     pickle.dump(clf, open(filename_svm, 'wb'))
 
 
@@ -253,7 +253,7 @@ def train_environment_detection_model(df_train):
 
 
 def save_env_model(clf):
-    filename_clf = 'SVM_environment_model_version2.sav'
+    filename_clf = 'SVM_environment_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
       
       
@@ -288,7 +288,7 @@ def train_valence_detection_model(df_train):
    
    
 def save_valence_model(LR):
-    filename_LR = 'LR_valence_model_version2.sav'
+    filename_LR = 'LR_valence_model_2.sav'
     pickle.dump(LR, open(filename_LR, 'wb'))
 
 
@@ -318,7 +318,7 @@ def train_object_detection_model(df_train):
    
    
 def save_obj_model(clf):
-    filename_clf = 'SVM_object_model_version2.sav'
+    filename_clf = 'SVM_object_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
    
    
@@ -359,7 +359,7 @@ def train_agent_detection_model(df_train):
    
    
 def save_agent_model(clf):
-    filename_clf = 'SVM_agent_model_version2.sav'
+    filename_clf = 'SVM_agent_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
    
    
@@ -418,57 +418,57 @@ def main():
         st.write(model_data)
       
     
-    df_flag_report, model = train_model_action_flag(df_train)
+    df_flag_report, model_1 = train_model_action_flag(df_train)
     st.write("Action Flag Model Retrained")
     with st.expander("View report"):
          st.write(df_flag_report)
          save1= st.button("Save new action/noaction model")
          if save1:
-            save_action_noaction_model(model)
+            save_action_noaction_model(model_1)
             
-    df_action_report = train_action_model(df_train)
+    df_action_report, model_2 = train_action_model(df_train)
     st.write("Action Model Retrained")
     with st.expander("View report"):
-         st.write(df_action_report)
+         st.write(df_action_report[0])
          save6= st.button("Save new action model")
          if save6:
-            save_action_model(model)
+            save_action_model(model_2)
             
          
-    df_env_report, model = train_environment_detection_model(df_train)
+    df_env_report, model_3 = train_environment_detection_model(df_train)
     st.write("Environement Model Retrained")  
     with st.expander("View Report"):
          st.write(df_env_report)
          save2= st.button("Save new Environment model")
          if save2:
-            save_env_model(model)
+            save_env_model(model_3)
              
              
-    df_agent_report, model = train_agent_detection_model(df_train)
+    df_agent_report, model_4 = train_agent_detection_model(df_train)
     st.write("Agent Model Retrained")  
     with st.expander("View Report"):
          st.write(df_agent_report)
          save3= st.button("Save new Agent model")
          if save3:
-            save_agent_model(model)
+            save_agent_model(model_4)
              
              
-    df_valence_report, model = train_valence_detection_model(df_train)
+    df_valence_report, model_5 = train_valence_detection_model(df_train)
     st.write("Valence Model Retrained")  
     with st.expander("View Report"):
          st.write(df_valence_report)
          save4= st.button("Save new Valence model")
          if save4:
-            save_valence_model(model)
+            save_valence_model(model_5)
               
               
-    df_object_report, model = train_object_detection_model(df_train)
+    df_object_report, model_6 = train_object_detection_model(df_train)
     st.write("Object Model Retrained")  
     with st.expander("View Report"):
          st.write(df_object_report)
          save5= st.button("Save new Object model")
          if save5:
-            save_valence_model(model)
+            save_valence_model(model_6)
   
      
   
