@@ -117,7 +117,7 @@ def store_new_model_data(model_version, label, accuracy):
     accuracy = float(accuracy)
     
     cursor = dbConnection.cursor()
-    sql = """INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ({0}, {1}, {2});""".format(model_version, label, accuracy)
+    sql = """INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ({0}, {1}, {2})""".format(model_version, label, accuracy)
     cursor.execute(sql)
     st.write("New Model Information is now stored in MYSQL")
              
@@ -245,7 +245,7 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
-   model_version = "version_" + str(count+1)
+   model_version = "Version_" + str(count+1)
    label = "Action"
    accuracy = accuracy*100
    store_new_model_data(model_version, label, accuracy)
@@ -491,7 +491,7 @@ def main():
          st.write(df_action_report)
          save6= st.button("Save new action model")
          if save6:
-            save_action_model(model_2, 0.95, model_data)
+            save_action_model(model_2, df_action_report, model_data)
             
          
     df_env_report, model_3 = train_environment_detection_model(df_train)
