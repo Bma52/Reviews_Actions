@@ -997,9 +997,10 @@ def main():
             
         list_ability =[]
         for i in df_final["Actions"]:
-             #ability = i.replace("Action", "Ability")
-	    ability = i + "Ability"
-            list_ability.append(ability)
+             
+	     ability = i + "Ability"
+	     #ability = i.replace("Action", "Ability")
+             list_ability.append(ability)
 
         df_final["Ability"] = list_ability
         df_final["Ability"]  = df_final["Ability"] .str.replace("Ability_", "")
