@@ -249,7 +249,7 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    model_version = "Version_" + str(count+1)
    label = "Action"
    accuracy = accuracy*100
-   store_new_model_data(model_version, label, accuracy)
+   #store_new_model_data(model_version, label, accuracy)
 
 
 
