@@ -136,7 +136,7 @@ def update_to_git(model, filename_str):
     account = "Bma52"
     repo = "Reviews_Actions"
     
-    gh = github3.login(username=username, password=password)
+    gh = login(username=username, password=password)
     repository = gh.repository(account, repo)
     filename = filename_str
     content = pickle.dump(model, open(filename, 'wb'))
