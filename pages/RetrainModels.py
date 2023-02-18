@@ -131,9 +131,9 @@ def store_new_model_data(model_version, label, accuracy):
    
 def update_to_git(model, filename_str):
     #file_info = [path]
-    username = "Bma52"
+    username = "bma52@mail.aub.edu"
     password = "HB#Fa*232711"
-    account = "bma52@mail.aub.edu"
+    account = "Bma52"
     repo = "Reviews_Actions"
     
     gh = github3.login(username=username, password=password)
