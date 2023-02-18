@@ -129,7 +129,7 @@ def store_new_model_data(model_version, label, accuracy):
    
    
    
-def update_to_git(username,password,account,repo,model, filename_str):
+def update_to_git(model, filename_str):
     #file_info = [path]
     username = "Bma52"
     password = "HB#Fa*232711"
@@ -261,7 +261,7 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   update_to_git(username,password,account,repo, grid_search_cv, filename_multi_action)
+   update_to_git(grid_search_cv, filename_multi_action)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
