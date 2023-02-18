@@ -60,7 +60,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
-import github3
+from github3 import login
 
 
 
