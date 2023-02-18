@@ -60,7 +60,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
-
+import github3
 
 
 
@@ -128,6 +128,23 @@ def store_new_model_data(model_version, label, accuracy):
    
    
    
+   
+def update_to_git(username,password,account,repo,model, filename_str):
+    #file_info = [path]
+    username = "Bma52"
+    password = "HB#Fa*232711"
+    account = "bma52@mail.aub.edu"
+    repo = "Reviews_Actions"
+    
+    gh = github3.login(username=username, password=password)
+    repository = gh.repository(account, repo)
+    filename = filename_str
+    content = pickle.dump(model, open(filename, 'wb'))
+    
+    #with open(file_info, 'rb') as fd:
+            #contents = fd.read()
+    contents_object = repository.contents(filename)
+    contents_object.update("Model Updated",content)
    
    
    
@@ -243,7 +260,8 @@ def train_action_model(df_train):
 def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
-   pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
+   #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
+   update_to_git(username,password,account,repo, grid_search_cv, filename_multi_action)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
