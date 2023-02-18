@@ -139,12 +139,12 @@ def update_to_git(model, filename_str):
     gh = login(username=username, password=password)
     repository = gh.repository(account, repo)
     filename = filename_str
-    new_content = pickle.dump(model, open(filename, 'wb'))
+    #new_content = pickle.dump(model, open(filename, 'wb'))
     
-    with open(filename, 'rb') as fd:
-            contents = fd.read()
+    #with open(filename, 'rb') as fd:
+            #contents = fd.read()
     contents_object = repository.file_contents(filename)
-    contents_object.update("Model Updated", new_content)
+    contents_object.update("Model Updated", pickle.dump(model))
    
    
    
