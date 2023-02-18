@@ -144,7 +144,7 @@ def update_to_git(model, filename_str):
     #with open(filename, 'rb') as fd:
             #contents = fd.read()
     contents_object = repository.file_contents(filename)
-    contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb'))
+    contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
    
    
    
