@@ -61,6 +61,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
 from github3 import login
+from github import Github
 
 
 
@@ -136,15 +137,20 @@ def update_to_git(model, filename_str):
     account = "Bma52"
     repo = "Reviews_Actions"
     
-    gh = login(username=username, password=password)
-    repository = gh.repository(account, repo)
-    filename = filename_str
+    g = Github('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')
+
+    repo = g.get_repo('Bma52/Reviews_Actions')
+    repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
+    
+    #gh = login(username=username, password=password)
+    #repository = gh.repository(account, repo)
+    #filename = filename_str
     #new_content = pickle.dump(model, open(filename, 'wb'))
     
     #with open(filename, 'rb') as fd:
             #contents = fd.read()
-    contents_object = repository.file_contents(filename)
-    contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
+    #contents_object = repository.file_contents(filename)
+    #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
    
    
    
