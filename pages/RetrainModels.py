@@ -137,13 +137,13 @@ def update_to_git(model, filename_str):
     account = "Bma52"
     repo = "Reviews_Actions"
     
-    g = Github('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')
+    #g = Github('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')
 
     #repo = g.get_repo('Bma52/Reviews_Actions')
     #repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     
-    #gh = login(username=username, password=password)
-    repository = g.repository(username, repo)
+    gh = login(username=username, password=password)
+    repository = gh.repository(account, repo)
     filename = filename_str
     #repo.create_file('multi_label_action_model.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     repository.create_file('multi_label_action_model_2.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
