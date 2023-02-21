@@ -272,13 +272,13 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   update_to_git(grid_search_cv, filename_multi_action)
+   #update_to_git(grid_search_cv, filename_multi_action)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
    label = "Action"
    accuracy = accuracy*100
-   #store_new_model_data(model_version, label, accuracy)
+   store_new_model_data(model_version, label, accuracy)
 
 
 
