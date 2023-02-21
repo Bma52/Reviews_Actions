@@ -118,7 +118,7 @@ def store_new_model_data(model_version, label, accuracy):
     accuracy = float(accuracy)
     
     cursor = dbConnection.cursor()
-    sql = "INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ("+ model_version + "," + label + "," + str(accuracy) + ")" 
+    sql = "INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ("+ model_version + "," + label + "," + str(accuracy) + ");" 
    
     cursor.execute(sql)
     st.write("New Model Information is now stored in MYSQL")
@@ -146,7 +146,7 @@ def update_to_git(model, filename_str):
     repository = gh.repository(account, repo)
     filename = filename_str
     #repo.create_file('multi_label_action_model.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    repository.create_file('multi_label_action_model_2.sav', 'Model Updated', model, branch='main')
+    repository.create_file('multi_label_action_model_2.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     
     #contents = repo.get_contents(filename_str, ref = "main")
     #repo.update_file(contents.path, "more training set", "more training set", pickle.dump(model, open(filename, 'wb')), branch='main')
