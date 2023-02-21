@@ -118,7 +118,7 @@ def store_new_model_data(model_version, label, accuracy):
     accuracy = float(accuracy)
     
     cursor = dbConnection.cursor()
-    sql = '""'+ "INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ("+ model_version + "," + label + "," + str(accuracy) + ")" + '""'
+    sql = "INSERT INTO `ML_models` (model_version, label, accuracy) VALUES ("+ model_version + "," + label + "," + str(accuracy) + ")" 
    
     cursor.execute(sql)
     st.write("New Model Information is now stored in MYSQL")
@@ -272,7 +272,7 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   #update_to_git(grid_search_cv, filename_multi_action)
+   update_to_git(grid_search_cv, filename_multi_action)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
