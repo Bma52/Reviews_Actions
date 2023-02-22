@@ -129,7 +129,7 @@ def store_new_model_data(model_version, label, accuracy):
  
 def write_pickle(obj, fname):
     with open(fname, 'wb') as f:
-        pickle.dump(obj, f, protocol=2)
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
    
    
    
