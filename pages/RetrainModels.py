@@ -126,7 +126,10 @@ def store_new_model_data(model_version, label, accuracy):
     # the connection is not autocommitted by default, so we must commit to save our changes
     dbConnection.commit()
    
-   
+ 
+def write_pickle(obj, fname):
+    with open(fname, 'wb') as f:
+        pickle.dump(obj, f, protocol=2)
    
    
    
@@ -136,6 +139,8 @@ def update_to_git(model, filename_str):
     password = "HB#Fa*232711"
     account = "Bma52"
     repo = "Reviews_Actions"
+      
+    write_pickle(model, filename_str)
     
     #g = Github('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')
 
@@ -146,7 +151,7 @@ def update_to_git(model, filename_str):
     repository = gh.repository(account, repo)
     filename = filename_str
     #repo.create_file('multi_label_action_model.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    repository.create_file('multi_label_action_model_2.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
+    repository.create_file(filename, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     
     #contents = repo.get_contents(filename_str, ref = "main")
     #repo.update_file(contents.path, "more training set", "more training set", pickle.dump(model, open(filename, 'wb')), branch='main')
@@ -285,10 +290,17 @@ def save_action_model(grid_search_cv, accuracy, model_data):
 
 
    
-def save_action_noaction_model(clf):
+def save_action_noaction_model(clf, accuracy, model_data):
    
     filename_svm = 'SVM_action_noaction_model.sav'
-    pickle.dump(clf, open(filename_svm, 'wb'))
+    #pickle.dump(clf, open(filename_svm, 'wb'))
+    update_to_git(clf, filename_svm)
+    model_data_action_noaction = model_data[model_data["label"] == "Action/No-Action"]
+    count = len(list(model_data_action_noaction["label"]))
+    model_version = "Version_" + str(count+1)
+    label = "Action/No-Action"
+    accuracy = accuracy*100
+    store_new_model_data(model_version, label, accuracy)
 
 
 
@@ -321,8 +333,8 @@ def train_environment_detection_model(df_train):
 
 def save_env_model(clf, accuracy, model_data):
     filename_clf = 'SVM_environment_model_2.sav'
-    pickle.dump(clf, open(filename_clf, 'wb'))
-      
+    #pickle.dump(clf, open(filename_clf, 'wb'))
+    update_to_git(clf, filename_clf)
     model_data_env = model_data[model_data["label"] == "Environment"]
     count = len(list(model_data_env["label"]))
     model_version = "version_" + str(count+1)
@@ -361,8 +373,8 @@ def train_valence_detection_model(df_train):
    
 def save_valence_model(LR, accuracy, model_data):
     filename_LR = 'LR_valence_model_2.sav'
-    pickle.dump(LR, open(filename_LR, 'wb'))
-   
+    #pickle.dump(LR, open(filename_LR, 'wb'))
+    update_to_git(LR, filename_LR)
     model_data_valence = model_data[model_data["label"] == "Valence"]
     count = len(list(model_data_valence["label"]))
     model_version = "version_" + str(count+1)
@@ -398,9 +410,9 @@ def train_object_detection_model(df_train):
    
 def save_obj_model(clf, accuracy, model_data):
     filename_clf = 'SVM_object_model_2.sav'
-    pickle.dump(clf, open(filename_clf, 'wb'))
+    #pickle.dump(clf, open(filename_clf, 'wb'))
    
-   
+    update_to_git(clf, filename_clf)
     model_data_obj = model_data[model_data["label"] == "Object"]
     count = len(list(model_data_obj["label"]))
     model_version = "version_" + str(count+1)
@@ -513,7 +525,7 @@ def main():
          st.write(df_flag_report)
          save1= st.button("Save new action/noaction model")
          if save1:
-            save_action_noaction_model(model_1)
+            save_action_noaction_model(model_1, df_flag_report, model_data)
             
     df_action_report, model_2 = train_action_model(df_train)
     st.write("Action Model Retrained")
