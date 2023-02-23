@@ -145,8 +145,8 @@ def update_to_git(model, filename_str):
     
 
     #existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
-    Repo.clone_from('https://Bma52:HB#Fa*232711@github.com/Bma52/Reviews_Actions.git', 'https://github.com/Bma52/Reviews_Actions')
-    repo = Repo('/path/to/local/repo')
+    Repo.clone_from('https://github.com/Bma52/Reviews_Actions', '/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
+    repo = Repo('/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
     pickle.dump(model, open(filename, 'wb'))
 
     # Add files. Accepts a list of files
