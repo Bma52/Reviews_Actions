@@ -530,9 +530,10 @@ def main(df_annotation, annotator_name) -> None:
          next_btn = st.button("Load Next Review", key = str(i) + annotator_name)
          if next_btn:
             i += 1
-            
+            continue;
          else:
             i = i
+            break;
             
 
     
