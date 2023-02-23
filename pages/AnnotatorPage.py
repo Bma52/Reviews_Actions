@@ -529,8 +529,9 @@ def main(df_annotation, annotator_name) -> None:
     #counter = iter(range(len(list_reviews)))
     next_btn = st.button("Load Next Review", key = rand(10)[0])
     if next_btn:
-        #next(review)
-        review_container(next(review), df_annotation, annotator_name)
+       
+        st.write(next(review))
+        #review_container(next(review), df_annotation, annotator_name)
       
     """
     review = iter(list_reviews)
