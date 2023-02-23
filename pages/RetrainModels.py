@@ -62,6 +62,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
 from github3 import login
 from github import Github
+from git import Repo
 
 
 
@@ -142,16 +143,28 @@ def update_to_git(model, filename_str):
       
     write_pickle(model, filename_str)
     
+
+    existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
+    Repo.clone_from('https://Bma52:HB#Fa*232711@github.com/Bma52/Reviews_Actions.git', 'https://github.com/Bma52/Reviews_Actions')
+    repo = Repo('/path/to/local/repo')
+    pickle.dump(model, open(filename, 'wb'))
+
+    # Add files. Accepts a list of files
+    repo.index.add(filename_str)
+
+    # Commit
+    repo.index.commit('Model Updated in GitHub Repository')
+    
     #g = Github('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')
 
     #repo = g.get_repo('Bma52/Reviews_Actions')
     #repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     
-    gh = login(username=username, password=password)
-    repository = gh.repository(account, repo)
-    filename = filename_str
+    #gh = login(username=username, password=password)
+    #repository = gh.repository(account, repo)
+    #filename = filename_str
     #repo.create_file('multi_label_action_model.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    repository.create_file(filename, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
+    #repository.create_file(filename, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
     
     #contents = repo.get_contents(filename_str, ref = "main")
     #repo.update_file(contents.path, "more training set", "more training set", pickle.dump(model, open(filename, 'wb')), branch='main')
