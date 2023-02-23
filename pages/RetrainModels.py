@@ -321,7 +321,7 @@ def train_environment_detection_model(df_train):
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
     accuracy_train = clf.score(X_train_tfidf, y_train.values)
-    print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
+    #print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
     
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
