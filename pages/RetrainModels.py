@@ -142,11 +142,17 @@ def update_to_git(model, filename_str):
     repo = "Reviews_Actions"
       
     write_pickle(model, filename_str)
-    
+    repodir = '/Users/bothainaa/Documents/Thesis Rep/Action-Rec'
+    if os.path.isdir(repodir):      # if repo exists, pull newest data 
+       repo = Repo(repodir) 
+       repo.remotes.origin.pull()
+    else:                           # otherwise, clone from remote
+       repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', 
+                           repodir)
 
     #existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
-    Repo.clone_from('https://github.com/Bma52/Reviews_Actions', '/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
-    repo = Repo('/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
+    #Repo.clone_from('https://github.com/Bma52/Reviews_Actions', '/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
+    #repo = Repo('/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
     pickle.dump(model, open(filename, 'wb'))
 
     # Add files. Accepts a list of files
