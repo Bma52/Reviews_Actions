@@ -50,7 +50,7 @@ import pymysql
 import jprops
 from jproperties import Properties
 import sqlalchemy 
-
+from numpy.random import rand
 from flask import Flask
 
 
@@ -524,10 +524,10 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
     #for i in list_reviews:
-    """
+   
     review = iter(list_reviews)
     #counter = iter(range(len(list_reviews)))
-    next_btn = st.button("Load Next Review", key = str(review))
+    next_btn = st.button("Load Next Review", key = rand(10)[0])
     if next_btn:
         #next(review)
         review_container(next(review), df_annotation, annotator_name)
@@ -541,7 +541,7 @@ def main(df_annotation, annotator_name) -> None:
          if next_btn:
             review_container(next(review), df_annotation, annotator_name)
             
-
+     """
    
 
     
