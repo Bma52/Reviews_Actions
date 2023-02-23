@@ -524,6 +524,14 @@ def main(df_annotation, annotator_name) -> None:
     list_reviews = df_annotation["reviewBody"].unique()         
     #itr = iter(list_reviews)
     #for i in list_reviews:
+    review = iter(list_reviews)
+    #counter = iter(range(len(list_reviews)))
+    next_btn = st.button("Load Next Review", key = str(1))
+    if next_btn:
+        #next(review)
+        review_container(next(review), df_annotation, annotator_name)
+      
+    """
     for i in range(0, len(list_reviews)):
          review = list_reviews[i]
          review_container(review, df_annotation, annotator_name)
@@ -535,7 +543,7 @@ def main(df_annotation, annotator_name) -> None:
          else:
             i = i
             break;
-            
+     """
 
     
  
