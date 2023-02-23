@@ -136,24 +136,19 @@ def write_pickle(obj, fname):
    
    
 def update_to_git(model, filename_str):
-    #file_info = [path]
-    username = "bma52@mail.aub.edu"
-    password = "HB#Fa*232711"
-    account = "Bma52"
-    repo = "Reviews_Actions"
-      
+
     write_pickle(model, filename_str)
     repodir = '/Users/bothainaa/Documents/Thesis Rep/Action-Rec'
+    repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', repodir)
+      
+    """
     if os.path.isdir(repodir):      # if repo exists, pull newest data 
        repo = Repo(repodir) 
        repo.remotes.origin.pull()
     else:                           # otherwise, clone from remote
-       repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', 
-                           repodir)
+       repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', repodir)
+    """
 
-    #existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
-    #Repo.clone_from('https://github.com/Bma52/Reviews_Actions', '/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
-    #repo = Repo('/Users/bothainaa/Documents/Thesis Rep/Action-Rec')
     pickle.dump(model, open(filename, 'wb'))
 
     # Add files. Accepts a list of files
@@ -162,25 +157,7 @@ def update_to_git(model, filename_str):
     # Commit
     repo.index.commit('Model Updated in GitHub Repository')
     
-    #g = Github('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')
 
-    #repo = g.get_repo('Bma52/Reviews_Actions')
-    #repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    
-    #gh = login(username=username, password=password)
-    #repository = gh.repository(account, repo)
-    #filename = filename_str
-    #repo.create_file('multi_label_action_model.sav', 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    #repository.create_file(filename, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    
-    #contents = repo.get_contents(filename_str, ref = "main")
-    #repo.update_file(contents.path, "more training set", "more training set", pickle.dump(model, open(filename, 'wb')), branch='main')
-    #new_content = pickle.dump(model, open(filename, 'wb'))
-    
-    #with open(filename, 'rb') as fd:
-            #contents = fd.read()
-    #contents_object = repository.file_contents(filename)
-    #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
    
    
    
