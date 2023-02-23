@@ -414,24 +414,27 @@ def main():
         #result = df[df['Mahindra Sales of quarter'].map(df['Mahindra Sales of quarter'].value_counts()) > 1]
         #checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 2]
         checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > 1)
+        reviews = checked_data["annotation"].unique()
         count = 1
      elif checked_by == "At least 3 annotators":
         #checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 3]
         checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > 2)
+        reviews = checked_data["annotation"].unique()
         count = 2
      elif checked_by == "":
         checked_data = checked_annotation_data
+        reviews = checked_data["annotation"].unique()
         count = 0
         
         
-        reviews = checked_data["annotation"].unique()
+        #reviews = checked_data["annotation"].unique()
         checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
         for review in reviews:
            st.write(review)
            #df.groupby("A").filter(lambda x: len(x) > 1)
            #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > count)
            
-           checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= count]
+           checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > count]
            #checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
            #checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].map(checked_annotation_data["checkedBy"].value_counts()) > 2]
            checked_data = checked_data[checked_data["annotation"] == str(review)]
