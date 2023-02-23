@@ -428,9 +428,9 @@ def main():
         count = 0
         
         
-        reviews = checked_data["annotation"].unique()
-        checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
-        for review in reviews:
+     reviews = checked_data["annotation"].unique()
+     checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
+     for review in reviews:
            st.write(review)
            #df.groupby("A").filter(lambda x: len(x) > 1)
            #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > count)
