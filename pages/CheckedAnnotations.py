@@ -422,7 +422,7 @@ def main():
         #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > 2)
         #reviews = checked_data["annotation"].unique()
         count = 1
-     elif checked_by == "At least 2 annotators":
+     elif checked_by == "At least 3 annotators":
         checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > 2]
         #reviews = checked_data["annotation"].unique()
         count = 2
