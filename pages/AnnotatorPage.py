@@ -529,42 +529,12 @@ def main(df_annotation, annotator_name) -> None:
          review_container(review, df_annotation, annotator_name)
          next_btn = st.button("Load Next Review", key = str(i) + annotator_name)
          if next_btn:
-            i = i + 1
-            continue;
+            i += 1
+            
          else:
             i = i
-            break;
-    """
-    count = 1
-    for i in list_reviews:
-        load_review = st.button("Load Review {0}".format(count) , key = df_annotation["review_id"][df_annotation["reviewBody"] == i])
-        count +=1
-        if load_review:
-            #review_container(i, annotator_name)
-          st.session_state = i
-          df_one_review = df_annotation.loc[df_annotation['reviewBody'] == i]
-          df_one_review = df_one_review.drop_duplicates(subset=['annotation_md5'], keep='first')
-          st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Product Name:</p>', unsafe_allow_html=True)
-          st.subheader(df_annotation["product_name"].unique())
-          st.markdown('<p style="font-family:sans-serif; color:Red; font-size: 20px;">Review Text:</p>', unsafe_allow_html=True)
-          st.write(i)
-          sorting_proba = st.checkbox("Sort annotations by machine scores", key = i)
-          if sorting_proba:
-             df_one_review = df_one_review.sort_values(by = ["ActionProbability"] , ascending=False)
-
-       
-          for row in df_one_review.index:
-            st.write("The probability of this part of the review having an action is ", df_one_review["ActionProbability"][row])
-            #df_checked_annotation = pd.DataFrame(columns = ["reviewBody","annotation", "ActionFlag", "ActionProbability", "Actions", "Features", "Agent", "Environment", "Valence", "Object", "Ability", "annotation_md5", "checkedBy"])
             
-            if df_one_review["ActionFlag"][row] == "Action Exist":
-                 form(df_one_review, row, annotator_name)
 
-            else:
-                 no_form(df_one_review, row, annotator_name)
-               
-               
-     """
     
  
     
