@@ -144,7 +144,7 @@ def update_to_git(model, filename_str):
     write_pickle(model, filename_str)
     
 
-    existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
+    #existing_repo = Repo('https://github.com/Bma52/Reviews_Actions')
     Repo.clone_from('https://Bma52:HB#Fa*232711@github.com/Bma52/Reviews_Actions.git', 'https://github.com/Bma52/Reviews_Actions')
     repo = Repo('/path/to/local/repo')
     pickle.dump(model, open(filename, 'wb'))
