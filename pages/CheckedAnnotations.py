@@ -415,6 +415,8 @@ def main():
         checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 2]
      elif checked_by == "At least 3 annotators":
         checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 3]
+     elif checked_by == "":
+        checked_data = checked_annotation_data
         
         reviews = checked_data["annotation"].unique()
         #checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
