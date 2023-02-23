@@ -259,6 +259,7 @@ def train_action_model(df_train):
    grid_search_cv = GridSearchCV(pipeline, parameters, cv=2, n_jobs=3, verbose=10)
    y_train = np.argmax(y_train.values, axis=1)
    grid_search_cv.fit(x_train, y_train)
+   accuracy_train = grid_search_cv.score(x_train, y_train)
 
    #pipeline.fit(x_train, y_train)
    predictions = grid_search_cv.predict(x_test)
@@ -319,12 +320,13 @@ def train_environment_detection_model(df_train):
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
-    acc = clf.score(X_train_tfidf, y_train.values)
+    accuracy_train = clf.score(X_train_tfidf, y_train.values)
     print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
     
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_env = clf.predict(x_test_tfidf)
+    acc = accuracy_score(y_test ,y_pred_env)
     
    
     
@@ -358,12 +360,13 @@ def train_valence_detection_model(df_train):
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
     LR= linear_model.LogisticRegression()
     LR.fit(X_train_tfidf, y_train.values)
-    acc = LR.score(X_train_tfidf, y_train.values)
+    acc_train = LR.score(X_train_tfidf, y_train.values)
  
 
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_val = LR.predict(x_test_tfidf)
+    acc = accuracy_score(y_test ,y_pred_val)
 
     
 
@@ -397,11 +400,12 @@ def train_object_detection_model(df_train):
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
-    acc = clf.score(X_train_tfidf, y_train.values)
+    acc_train = clf.score(X_train_tfidf, y_train.values)
 
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_obj = clf.predict(x_test_tfidf)
+    acc = accuracy_score(y_test ,y_pred_obj)
  
     
 
@@ -441,11 +445,12 @@ def train_agent_detection_model(df_train):
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
-    acc = clf.score(X_train_tfidf, y_train.values)
+    acc_train = clf.score(X_train_tfidf, y_train.values)
     #print("Accuracy for agent detection model on training set (80% of total dataset) is :", acc)
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_agent = clf.predict(x_test_tfidf)
+    acc = accuracy_score(y_test ,y_pred_agent)
 
     #filename_clf_agent = 'SVM_agent_model_version2.sav'
     #pickle.dump(clf, open(filename_clf_agent, 'wb'))
