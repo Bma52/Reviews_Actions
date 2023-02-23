@@ -410,21 +410,22 @@ def main():
      col1, col2, col3 = st.columns(3)
 
      checked_by = st.selectbox("Filter Checked data by number of annotators:", ["","At least 2 annotators", "At least 3 annotators"])
-     if checked_by == "At least 2 annotators":
+     if checked_by == "":
         #result = df[df['Mahindra Sales of quarter'].map(df['Mahindra Sales of quarter'].value_counts()) > 1]
-        checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].count()) > 1]
+        checked_data = checked_annotation_data
+        #checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > 1]
         #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > 1)
         #reviews = checked_data["annotation"].unique()
-        count = 1
-     elif checked_by == "At least 3 annotators":
-        checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].count()) > 2]
+        count = 0
+     elif checked_by == "At least 2 annotators":
+        checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > 1]
         #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > 2)
         #reviews = checked_data["annotation"].unique()
-        count = 2
-     elif checked_by == "":
-        checked_data = checked_annotation_data
+        count = 1
+     elif checked_by == "At least 2 annotators":
+        checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > 2]
         #reviews = checked_data["annotation"].unique()
-        count = 0
+        count = 2
         
         
         reviews = checked_data["annotation"].unique()
@@ -434,7 +435,7 @@ def main():
            #df.groupby("A").filter(lambda x: len(x) > 1)
            #checked_data = checked_annotation_data.groupby("annotation").filter(lambda x: len(x) > count)
            
-           checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].str.count(review)) > count]
+           checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) > count]
            #checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].isin(checked_by)]
            #checked_data = checked_annotation_data[checked_annotation_data["checkedBy"].map(checked_annotation_data["checkedBy"].value_counts()) > 2]
            checked_data = checked_data[checked_data["annotation"] == str(review)]
