@@ -196,7 +196,7 @@ def create_triplets(df, df_review, df_product, i):
        Predicate= []
        Object = []
 
-       list_subjects = [schema + str(df['Actions'][i]), 
+       list_subjects = [schema + str(df['Actions'][0]), 
                  arec + str(df['Features'][i]), 
                  arec + str(df['Ability'][i]), 
                  schema + str(df['Environment'][i]),
