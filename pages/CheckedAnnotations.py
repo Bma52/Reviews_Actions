@@ -409,7 +409,7 @@ def main():
      checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
      col1, col2, col3 = st.columns(3)
 
-     checked_by = st.multiselect("Filter Checked data by annotators:", ["","At least 2 annotators", "At least 3 annotators"])
+     checked_by = st.multiselect("Filter Checked data by number of annotators:", ["","At least 2 annotators", "At least 3 annotators"])
      if checked_by == "At least 2 annotators":
         #result = df[df['Mahindra Sales of quarter'].map(df['Mahindra Sales of quarter'].value_counts()) > 1]
         checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 2]
@@ -417,7 +417,7 @@ def main():
         checked_data = checked_annotation_data[checked_annotation_data["annotation"].map(checked_annotation_data["annotation"].value_counts()) >= 3]
         
         reviews = checked_data["annotation"].unique()
-        checked_data, review_data, product_data = get_new_reviews_mysql()
+        #checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
         for review in reviews:
            st.write(review)
            
