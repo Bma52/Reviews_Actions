@@ -537,8 +537,8 @@ def main(df_annotation, annotator_name) -> None:
      """
       
     for i in range(0, len(list_reviews)):
-         review = iterr(list_reviews[i])
-         review_container(review, df_annotation, annotator_name)
+         review = iterr(list_reviews)
+         review_container(list_reviews[i], df_annotation, annotator_name)
          #st.button("Load Next Review", key = str(i) + annotator_name, on_click = next())
          next_btn = st.button("Load Next Review", key = str(i) + annotator_name)
          if next_btn:
