@@ -518,7 +518,7 @@ def main(df_annotation, annotator_name) -> None:
             else:
                  no_form(df_one_review, row, annotator_name)
                   
-                  
+   
                   
 
     list_reviews = df_annotation["reviewBody"].unique()         
@@ -535,13 +535,16 @@ def main(df_annotation, annotator_name) -> None:
        
         #st.write(next(review))
      """
-    review = iter(list_reviews)
-    for i in range(0, len(list_reviews)):
-         review_container(list_reviews[i], df_annotation, annotator_name)
+    #review = iter(list_reviews)
+    #for i in range(0, len(list_reviews)):
+    
          #st.button("Load Next Review", key = str(i) + annotator_name, on_click = next())
-         next_btn = st.button("Load Next Review", key = str(i) + annotator_name)
-         if next_btn:
-            next(review)
+    review = iter(list_reviews)
+    load_next_btn = st.button("Load Next Review", key = str(i) + annotator_name)
+    if next_btn:
+       st.session_state = review 
+       review_container(review, df_annotation, annotator_name)
+       next(review)
             
 
    
