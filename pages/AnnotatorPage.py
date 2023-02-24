@@ -542,7 +542,7 @@ def main(df_annotation, annotator_name) -> None:
     review = iter(list_reviews)
     count = 0
     load_next_btn = st.button("Load Next Review", key = str(count) + annotator_name)
-    if next_btn:
+    if load_next_btn:
        st.session_state = review 
        count +=1
        review_container(review, df_annotation, annotator_name)
