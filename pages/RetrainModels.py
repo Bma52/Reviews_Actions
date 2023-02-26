@@ -142,7 +142,7 @@ def update_to_git(model, filename_str):
 
     #write_pickle(model, filename_str)
     repodir = '/Users/bothainaa/Documents/Thesis Rep/Action-Rec'
-    repo = Repo.clone_from('git@github.com:Bma52/Reviews_Actions.git', repodir)
+    repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions.git', repodir)
       
     """
     if os.path.isdir(repodir):      # if repo exists, pull newest data 
