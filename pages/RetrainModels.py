@@ -140,9 +140,9 @@ def write_pickle(model):
    
 def update_to_git(model, filename_str):
 
-    write_pickle(model, filename_str)
+    #write_pickle(model, filename_str)
     repodir = '/Users/bothainaa/Documents/Thesis Rep/Action-Rec'
-    repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', repodir)
+    repo = Repo.clone_from('git@github.com:Bma52/Reviews_Actions.git', repodir)
       
     """
     if os.path.isdir(repodir):      # if repo exists, pull newest data 
@@ -151,11 +151,11 @@ def update_to_git(model, filename_str):
     else:                           # otherwise, clone from remote
        repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', repodir)
     """
-
-    pickle.dump(model, open(filename, 'wb'))
+    repo.file_contents(filename).update('Model Updated in GitHub Repository', model)
+    #pickle.dump(model, open(filename, 'wb'))
 
     # Add files. Accepts a list of files
-    repo.index.add(filename_str)
+    #repo.index.add(filename_str)
 
     # Commit
     repo.index.commit('Model Updated in GitHub Repository')
@@ -278,8 +278,8 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   #update_to_git(grid_search_cv, filename_multi_action)
-   write_pickle(grid_search_cv)
+   update_to_git(grid_search_cv, filename_multi_action)
+   #write_pickle(grid_search_cv)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
