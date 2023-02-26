@@ -129,9 +129,12 @@ def store_new_model_data(model_version, label, accuracy):
     dbConnection.commit()
    
  
-def write_pickle(obj, fname):
-    with open(fname, 'wb') as f:
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+def write_pickle(model):
+    #with open(fname, 'wb') as f:
+        #pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+      
+    with open("https://github.com/Bma52/Reviews_Actions/blob/main/multi_label_action_model.sav","wb") as file:
+        pickle.dump(model,file)  
    
    
    
@@ -275,7 +278,8 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
    filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   update_to_git(grid_search_cv, filename_multi_action)
+   #update_to_git(grid_search_cv, filename_multi_action)
+   write_pickle(grid_search_cv)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
    model_version = "Version_" + str(count+1)
