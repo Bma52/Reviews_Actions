@@ -141,8 +141,8 @@ def write_pickle(model):
 def update_to_git(model, filename_str):
 
     #write_pickle(model, filename_str)
-    repodir = '/Users/bothainaa/Documents/git'
-    repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions.git', repodir)
+    #repodir = '/Users/bothainaa/Documents/git'
+    #repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions.git', repodir)
       
     """
     if os.path.isdir(repodir):      # if repo exists, pull newest data 
@@ -151,14 +151,33 @@ def update_to_git(model, filename_str):
     else:                           # otherwise, clone from remote
        repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions', repodir)
     """
-    repo.file_contents(filename).update('Model Updated in GitHub Repository', model)
+    #repo.file_contents(filename).update('Model Updated in GitHub Repository', model)
     #pickle.dump(model, open(filename, 'wb'))
 
     # Add files. Accepts a list of files
     #repo.index.add(filename_str)
 
     # Commit
-    repo.index.commit('Model Updated in GitHub Repository')
+    #repo.index.commit('Model Updated in GitHub Repository')
+   
+    filename = filename_str
+    g = Github('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')
+
+    repo = g.get_repo('Bma52/Reviews_Actions')
+    repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
+
+    #gh = login(username=username, password=password)
+    #repository = gh.repository(account, repo)
+    #filename = filename_str
+    #new_content = pickle.dump(model, open(filename, 'wb'))
+
+    #with open(filename, 'rb') as fd:
+            #contents = fd.read()
+    contents_object = repository.file_contents(filename)
+    contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
+    #contents_object = repository.file_contents(filename)
+    #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
+
     
 
    
