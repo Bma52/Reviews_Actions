@@ -997,7 +997,7 @@ def main():
             
         list_ability =[]
         for i in df_final["Actions"]:
-            ability = i + "Ability"
+            ability = str(i) + "Ability"
 	    #ability = i.replace("Action", "Ability")
             list_ability.append(ability)
 
