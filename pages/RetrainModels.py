@@ -141,7 +141,7 @@ def write_pickle(model):
 def update_to_git(model, filename_str):
 
     #write_pickle(model, filename_str)
-    repodir = '/Users/bothainaa/Documents/Thesis Rep/Action-Rec'
+    repodir = '/Users/bothainaa/Documents/git'
     repo = Repo.clone_from('https://github.com/Bma52/Reviews_Actions.git', repodir)
       
     """
