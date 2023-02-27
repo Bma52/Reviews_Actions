@@ -166,14 +166,14 @@ def update_to_git(model, filename_str):
     repo = "Reviews_Actions"
    
     
-    gh = login(username=username, password=password)
-    repo = gh.repository(account, repo)
-    filename = filename_str
+    #gh = login(username=username, password=password)
+    #repo = gh.repository(account, repo)
+    #filename = filename_str
     #g = Github('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')
 
     #repo = gh.get_repo('Bma52/Reviews_Actions')
-    repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-    repo.commit("Commited")
+    #repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
+    #repo.commit("Commited")
     #gh = login(username=username, password=password)
     #repository = gh.repository(account, repo)
     #filename = filename_str
@@ -185,6 +185,18 @@ def update_to_git(model, filename_str):
     #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
     #contents_object = repository.file_contents(filename)
     #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
+      
+      
+    gh = github3.login(username="bma52@mail.aub.edu", password="HB#Fa*232711")
+    repository = gh.repository("Bma52", "Reviews_Actions")
+    
+    with open(filename_str,"wb") as file:
+            contents = pickle.dump(model,file) 
+    repository.create_file(
+            path=filename_str,
+            message='Start tracking {!r}'.format(filename_str),
+            content=contents,
+            )
 
     
 
