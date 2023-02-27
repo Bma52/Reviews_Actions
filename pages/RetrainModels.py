@@ -64,7 +64,7 @@ from github3 import login
 from github import Github
 from git import Repo
 import os 
-
+import github3
 
 
 def get_training_det():
