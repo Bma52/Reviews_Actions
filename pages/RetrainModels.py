@@ -173,7 +173,7 @@ def update_to_git(model, filename_str):
 
     #repo = gh.get_repo('Bma52/Reviews_Actions')
     repo.create_file(filename_str, 'Model Updated', pickle.dump(model, open(filename, 'wb')), branch='main')
-
+    repo.commit("Commited")
     #gh = login(username=username, password=password)
     #repository = gh.repository(account, repo)
     #filename = filename_str
@@ -181,8 +181,8 @@ def update_to_git(model, filename_str):
 
     #with open(filename, 'rb') as fd:
             #contents = fd.read()
-    contents_object = repo.file_contents(filename)
-    contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
+    #contents_object = repo.file_contents(filename)
+    #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
     #contents_object = repository.file_contents(filename)
     #contents_object.update("Model Updated", pickle.dump(model, open(filename, 'wb')))
 
