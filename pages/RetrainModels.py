@@ -247,23 +247,28 @@ def train_model_action_flag(df):
     X=list(x)  
     #x = x.transpose()
    
-    #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
-    #X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
 
-    count_vect=CountVectorizer()
-    tfidf_transformer = TfidfTransformer()
-    X_train_counts=count_vect.fit_transform(X)
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-    X_train_tfidf= X_train_tfidf.toarray()
+    #count_vect=CountVectorizer()
+    #tfidf_transformer = TfidfTransformer()
+    #X_train_counts=count_vect.fit_transform(X)
+    #X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+    #X_train_tfidf= X_train_tfidf.toarray()
 
     clf= SVC(random_state = 0,  probability=True)
-    clf.fit(X_train_tfidf, y.values)
-    acc = clf.score(X_train_tfidf, y.values)
+    clf.fit(X_train_tfidf, y_train.values)
+    acc_train = clf.score(X_train_tfidf, y_train.values)
+      
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_action_noaction = clf.predict(x_test_tfidf)
+    acc = accuracy_score(y_test ,y_pred_action_noaction)
       
     #x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     #y_pred_flag = clf.predict(x_test_tfidf)
-   
+    filename_svm = 'SVM_action_noaction_model.sav'
+    pickle.dump(clf, open(filename_svm, 'wb'))
 
     return acc, clf
    
@@ -309,15 +314,17 @@ def train_action_model(df_train):
    accuracy = accuracy_score(y_test ,predictions)
    #f1_score = f1_score(y_test, predictions, average="micro")
    #hamming_loss = hamming_loss(y_test, predictions)
+   filename_multi_action = 'multi_label_action_model.sav'
+   pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
 
    return accuracy, grid_search_cv
 
 
 def save_action_model(grid_search_cv, accuracy, model_data):
    
-   filename_multi_action = 'multi_label_action_model.sav'
+   #filename_multi_action = 'multi_label_action_model.sav'
    #pickle.dump(grid_search_cv, open(filename_multi_action, 'wb'))
-   update_to_git(grid_search_cv, filename_multi_action)
+   #update_to_git(grid_search_cv, filename_multi_action)
    #write_pickle(grid_search_cv)
    model_data_action = model_data[model_data["label"] == "Action"]
    count = len(list(model_data_action["label"]))
@@ -333,9 +340,9 @@ def save_action_model(grid_search_cv, accuracy, model_data):
    
 def save_action_noaction_model(clf, accuracy, model_data):
    
-    filename_svm = 'SVM_action_noaction_model.sav'
+    #filename_svm = 'SVM_action_noaction_model.sav'
     #pickle.dump(clf, open(filename_svm, 'wb'))
-    update_to_git(clf, filename_svm)
+    #update_to_git(clf, filename_svm)
     model_data_action_noaction = model_data[model_data["label"] == "Action/No-Action"]
     count = len(list(model_data_action_noaction["label"]))
     model_version = "Version_" + str(count+1)
@@ -368,15 +375,16 @@ def train_environment_detection_model(df_train):
     y_pred_env = clf.predict(x_test_tfidf)
     acc = accuracy_score(y_test ,y_pred_env)
     
-   
+    filename_clf = 'SVM_environment_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
     
     return acc, clf
 
 
 def save_env_model(clf, accuracy, model_data):
-    filename_clf = 'SVM_environment_model_2.sav'
+    #filename_clf = 'SVM_environment_model_2.sav'
     #pickle.dump(clf, open(filename_clf, 'wb'))
-    update_to_git(clf, filename_clf)
+    #update_to_git(clf, filename_clf)
     model_data_env = model_data[model_data["label"] == "Environment"]
     count = len(list(model_data_env["label"]))
     model_version = "version_" + str(count+1)
@@ -407,7 +415,9 @@ def train_valence_detection_model(df_train):
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_val = LR.predict(x_test_tfidf)
     acc = accuracy_score(y_test ,y_pred_val)
-
+    
+    filename_LR = 'LR_valence_model_2.sav'
+    pickle.dump(LR, open(filename_LR, 'wb'))
     
 
     return acc, LR
@@ -415,9 +425,10 @@ def train_valence_detection_model(df_train):
    
    
 def save_valence_model(LR, accuracy, model_data):
-    filename_LR = 'LR_valence_model_2.sav'
+    #filename_LR = 'LR_valence_model_2.sav'
     #pickle.dump(LR, open(filename_LR, 'wb'))
-    update_to_git(LR, filename_LR)
+    #update_to_git(LR, filename_LR)
+      
     model_data_valence = model_data[model_data["label"] == "Valence"]
     count = len(list(model_data_valence["label"]))
     model_version = "version_" + str(count+1)
@@ -446,17 +457,19 @@ def train_object_detection_model(df_train):
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_obj = clf.predict(x_test_tfidf)
     acc = accuracy_score(y_test ,y_pred_obj)
- 
+   
+    filename_clf = 'SVM_object_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
     
 
     return acc, clf
    
    
 def save_obj_model(clf, accuracy, model_data):
-    filename_clf = 'SVM_object_model_2.sav'
+    #filename_clf = 'SVM_object_model_2.sav'
     #pickle.dump(clf, open(filename_clf, 'wb'))
    
-    update_to_git(clf, filename_clf)
+    #update_to_git(clf, filename_clf)
     model_data_obj = model_data[model_data["label"] == "Object"]
     count = len(list(model_data_obj["label"]))
     model_version = "version_" + str(count+1)
@@ -494,14 +507,16 @@ def train_agent_detection_model(df_train):
 
     #filename_clf_agent = 'SVM_agent_model_version2.sav'
     #pickle.dump(clf, open(filename_clf_agent, 'wb'))
+    filename_clf = 'SVM_agent_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
 
     return acc, clf
    
    
    
 def save_agent_model(clf, accuracy, model_data):
-    filename_clf = 'SVM_agent_model_2.sav'
-    pickle.dump(clf, open(filename_clf, 'wb'))
+    #filename_clf = 'SVM_agent_model_2.sav'
+    #pickle.dump(clf, open(filename_clf, 'wb'))
    
     model_data_agent = model_data[model_data["label"] == "Agent"]
     count = len(list(model_data_agent["label"]))
