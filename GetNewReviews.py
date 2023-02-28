@@ -385,8 +385,13 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 def train_model_action_flag() -> object:
 
     df = pd.read_csv("TrainingSet.csv")
-    x = df[["annotation"]]
-    y=df[["ActionFlag"]]
+    df = df[["annotation", "ActionFlag"]]
+    checked_data = get_new_reviews_mysql()
+    
+    checked_data = checked_data[["annotation", "ActionFlag"]]
+    df_train = df.append(checked_data, ignore_index = True)
+    x = df_train[["annotation"]]
+    y= df_train[["ActionFlag"]]
 
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
