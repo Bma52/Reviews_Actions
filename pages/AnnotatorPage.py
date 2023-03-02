@@ -267,7 +267,7 @@ def main(df_annotation, annotator_name) -> None:
                          new_action = otherOption+"Action"
                     else:  
                          new_action = new_action+"Action"
-                    st.write(new_action) 
+                    
                new_ability = new_action.replace("Action", "Ability")
                     
 
