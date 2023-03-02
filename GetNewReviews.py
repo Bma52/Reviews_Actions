@@ -616,7 +616,7 @@ def predict_agent(df_reviews, count_vect, tfidf_transformer):
 
 def predict_environment(df_reviews, count_vect, tfidf_transformer):
     reviews = df_reviews[["reviewBody"]]
-    reviews=reviews.iloc[:,0]
+    reviews= reviews.iloc[:,0]
 
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_env = 'SVM_environment_model_2.sav'
@@ -630,9 +630,11 @@ def predict_environment(df_reviews, count_vect, tfidf_transformer):
 
 
 
+
+
 def predict_valence(df_reviews, count_vect, tfidf_transformer):
     reviews = df_reviews[["reviewBody"]]
-    reviews=reviews.iloc[:,0]
+    reviews= reviews.iloc[:,0]
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_LR = 'LR_valence_model_2.sav'
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
