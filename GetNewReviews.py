@@ -1034,22 +1034,22 @@ def main():
             
 	
 	
-            #count_vect, tfidf_transformer = train_agent_detection_model(df_train)
+            count_vect_agent, tfidf_transformer_agent = train_agent_detection_model(df_train)
+	    count_vect_valence, tfidf_transformer_valence = train_valence_detection_model(df_train)
+	    count_vect_env, tfidf_transformer_env = train_environment_detection_model(df_train)
+	    count_vect_obj, tfidf_transformer_obj = train_object_detection_model(df_train)
+		
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
             with col1:
                df_final = predict_action(df_final)
                df_final = feature_extraction(df_final)
             with col2:
-	       count_vect, tfidf_transformer = train_agent_detection_model(df_train)
-               df_final = predict_agent(df_final, count_vect, tfidf_transformer)
-               count_vect, tfidf_transformer = train_valence_detection_model(df_train)
-               df_final = predict_valence(df_final, count_vect, tfidf_transformer)
+               df_final = predict_agent(df_final, count_vect_agent, tfidf_transformer_agent)
+               df_final = predict_valence(df_final, count_vect_valence, tfidf_transformer_valence)
             with col3:
-	       count_vect, tfidf_transformer = train_environment_detection_model(df_train)
-               df_final = predict_environment(df_final, count_vect, tfidf_transformer)
-	       count_vect, tfidf_transformer = train_object_detection_model(df_train)
-               df_final = predict_object(df_final, count_vect, tfidf_transformer)
+               df_final = predict_environment(df_final, count_vect_env, tfidf_transformer_env)
+               df_final = predict_object(df_final, count_vect_obj, tfidf_transformer_obj)
             
         list_ability =[]
         for i in df_final["Actions"]:
