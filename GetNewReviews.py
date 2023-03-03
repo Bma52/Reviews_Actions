@@ -1035,15 +1035,9 @@ def main():
 	
 	
             count_vect_agent, tfidf_transformer_agent = train_agent_detection_model(df_train)
-		
-		
-	    count_vect_valence, tfidf_transformer_valence = train_valence_detection_model(df_train)
-	
-	
-	    count_vect_env, tfidf_transformer_env = train_environment_detection_model(df_train)
-		
-		
-	    count_vect_obj, tfidf_transformer_obj = train_object_detection_model(df_train)
+            count_vect_valence, tfidf_transformer_valence = train_valence_detection_model(df_train)
+            count_vect_env, tfidf_transformer_env = train_environment_detection_model(df_train)
+            count_vect_obj, tfidf_transformer_obj = train_object_detection_model(df_train)
 		
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
