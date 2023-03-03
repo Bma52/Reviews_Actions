@@ -419,9 +419,9 @@ def train_model_action_flag() -> object:
 
 
 def train_environment_detection_model(df_train):
-    df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
+    #df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Environment"]]
     
     x=x.iloc[:,0]
@@ -448,7 +448,7 @@ def train_environment_detection_model(df_train):
 
 
 def train_valence_detection_model(df_train):
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Valence"]]
     
     x=x.iloc[:,0]
@@ -475,7 +475,7 @@ def train_valence_detection_model(df_train):
 
 
 def train_object_detection_model(df_train):
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Object"]]
     
     x=x.iloc[:,0]
@@ -504,9 +504,9 @@ def train_object_detection_model(df_train):
 def train_agent_detection_model(df_train):
     # Train the agent detection model with a split 80%, 20% and observe. 
     
-    df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
+    #df_train["Agent"] = df_train["Agent"].str.replace("http://linked.aub.edu.lb/actionrec/Agent/", "")
 
-    x = df_train[["Review Body"]]
+    x = df_train[["reviewBody"]]
     y = df_train[["Agent"]]
     
     x=x.iloc[:,0]
