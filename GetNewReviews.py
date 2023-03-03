@@ -600,7 +600,7 @@ def predict_action(df):
     return df_review_with_action
 
 
-def predict_agent(reviews_tfidf, count_vect, tfidf_transformer):
+def predict_agent(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     #Agent Detection 
     #reviews = df_reviews[["reviewBody"]]
     #reviews=reviews.iloc[:,0]
@@ -617,7 +617,7 @@ def predict_agent(reviews_tfidf, count_vect, tfidf_transformer):
 
 
 
-def predict_environment(reviews_tfidf, count_vect, tfidf_transformer):
+def predict_environment(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     #reviews = df_reviews[["reviewBody"]]
     #reviews= reviews.iloc[:,0]
     #count_vect, tfidf_transformer = train_agent_detection_model()
@@ -635,7 +635,7 @@ def predict_environment(reviews_tfidf, count_vect, tfidf_transformer):
 
 
 
-def predict_valence(reviews_tfidf, count_vect, tfidf_transformer):
+def predict_valence(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     #reviews = df_reviews[["reviewBody"]]
     #reviews= reviews.iloc[:,0]
     #count_vect, tfidf_transformer = train_agent_detection_model()
@@ -650,7 +650,7 @@ def predict_valence(reviews_tfidf, count_vect, tfidf_transformer):
 
 
 
-def predict_object(reviews_tfidf, count_vect, tfidf_transformer):
+def predict_object(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     #reviews = df_reviews[["reviewBody"]]
     #reviews=reviews.iloc[:,0]
     #reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
@@ -1044,11 +1044,11 @@ def main():
                df_final = predict_action(df_final)
                df_final = feature_extraction(df_final)
             with col2:
-               df_final = predict_agent(reviews_tfidf, count_vect, tfidf_transformer)
-               df_final = predict_valence(reviews_tfidf, count_vect, tfidf_transformer)
+               df_final = predict_agent(reviews_tfidf, count_vect, tfidf_transformer, df_final)
+               df_final = predict_valence(reviews_tfidf, count_vect, tfidf_transformer, df_final)
             with col3:
-               df_final = predict_environment(reviews_tfidf, count_vect, tfidf_transformer)
-               df_final = predict_object(reviews_tfidf, count_vect, tfidf_transformer)
+               df_final = predict_environment(reviews_tfidf, count_vect, tfidf_transformer, df_final)
+               df_final = predict_object(reviews_tfidf, count_vect, tfidf_transformer, df_final)
             
         list_ability =[]
         for i in df_final["Actions"]:
