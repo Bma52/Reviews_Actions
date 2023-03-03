@@ -1035,10 +1035,9 @@ def main():
 	
 	
             count_vect, tfidf_transformer = train_agent_detection_model(df_train)
-	    reviews = df_final[["reviewBody"]]
-	    reviews= reviews.iloc[:,0]
+            reviews = df_final[["reviewBody"]]
+            reviews= reviews.iloc[:,0]
             reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
-		
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
             with col1:
