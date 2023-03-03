@@ -617,7 +617,7 @@ def predict_agent(df_reviews, count_vect, tfidf_transformer):
 def predict_environment(df_reviews, count_vect, tfidf_transformer):
     reviews = df_reviews[["reviewBody"]]
     reviews= reviews.iloc[:,0]
-
+    #count_vect, tfidf_transformer = train_agent_detection_model()
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_env = 'SVM_environment_model_2.sav'
     loaded_env_detection_model = pickle.load(open(filename_env, 'rb'))
@@ -635,6 +635,7 @@ def predict_environment(df_reviews, count_vect, tfidf_transformer):
 def predict_valence(df_reviews, count_vect, tfidf_transformer):
     reviews = df_reviews[["reviewBody"]]
     reviews= reviews.iloc[:,0]
+    #count_vect, tfidf_transformer = train_agent_detection_model()
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_LR = 'LR_valence_model_2.sav'
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
@@ -744,6 +745,38 @@ def feature_extraction(df):
     return df
 
 
+
+
+def get_training_data():
+   df = pd.read_csv("TrainingSet.csv")
+   return df
+
+def get_train_data_mysql():
+   
+
+    host="linked.aub.edu.lb"
+    port=3306
+    database ="reviews_actions_ml"
+
+
+    
+    configs = Properties()
+    
+    with open('dbconfig.properties', 'rb') as config_file:
+         configs.load(config_file)
+           
+    dbConnection = mysql.connector.connect(user=configs.get("db.username").data, password=configs.get("db.password").data, host="linked.aub.edu.lb", database="reviews_actions_ml")
+
+
+
+    checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
+    checked_data["ActionProbability"] = checked_data["ActionProbability"].astype(float)
+      
+    dbConnection.commit()
+   
+
+
+    return  checked_data
 
 
 
@@ -988,7 +1021,16 @@ def main():
         st.write("Out of {0} annotations, {1} are informtaive referencing to an action.".format(df_final.shape[0], df_final[df_final["ActionFlag"] == "Action Exist"].shape[0]))
         with st.spinner('Predicting Semantics'):
              #time.sleep(50)
-            df_train = sparql_query()
+            #df_train = sparql_query()
+            df_train_checked = get_train_data_mysql()
+            df_train_checked = df_train_checked[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
+            df_train_initial = get_training_data()
+            df_train_initial = df_train_initial[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
+            #df_actions_new = get_dummy_actions(df_train_checked)
+            df_train = df_train_initial.append(df_train_checked, ignore_index = True)
+            
+	
+	
             count_vect, tfidf_transformer = train_agent_detection_model(df_train)
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
@@ -1009,7 +1051,7 @@ def main():
             list_ability.append(ability)
 
         df_final["Ability"] = list_ability
-        df_final["Ability"]  = df_final["Ability"] .str.replace("Ability_", "")
+        df_final["Ability"]  = df_final["Ability"].str.replace("Ability_", "")
         df_final["Actions"] = df_final["Actions"].str.replace("Action_", "")
 	
         
