@@ -610,7 +610,7 @@ def predict_agent(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     loaded_agent_detection_model = pickle.load(open(filename_clf, 'rb'))
     agent = loaded_agent_detection_model.predict(reviews_tfidf)
 
-    df_reviews["Agent"] = agent
+    df_reviews["Agent"] = list(agent)
     st.write("Agent Predicted ")
     return df_reviews
 
@@ -626,7 +626,7 @@ def predict_environment(reviews_tfidf, count_vect, tfidf_transformer, df_reviews
     loaded_env_detection_model = pickle.load(open(filename_env, 'rb'))
     environment = loaded_env_detection_model.predict(reviews_tfidf)
 
-    df_reviews["Environment"] = environment
+    df_reviews["Environment"] = list(environment)
     st.write("Environment Predicted ")
     return df_reviews
 
@@ -644,7 +644,7 @@ def predict_valence(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
     valence = loaded_valence_detection_model.predict(reviews_tfidf)
 
-    df_reviews["Valence"] = valence
+    df_reviews["Valence"] = list(valence)
     st.write("Valence Predicted")
     return df_reviews
 
@@ -658,7 +658,7 @@ def predict_object(reviews_tfidf, count_vect, tfidf_transformer, df_reviews):
     loaded_obj_detection_model = pickle.load(open(filename_obj, 'rb'))
     obj = loaded_obj_detection_model.predict(reviews_tfidf)
     
-    df_reviews["Object"] = obj
+    df_reviews["Object"] = list(obj)
     st.write("Object Predicted")
     return df_reviews
 
