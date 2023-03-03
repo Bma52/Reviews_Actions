@@ -444,7 +444,8 @@ def train_environment_detection_model(df_train):
     
     filename_clf = 'SVM_environment_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
-    return creport(y_test, y_pred_env)
+    #return creport(y_test, y_pred_env)
+    return count_vect, tfidf_transformer
 
 
 def train_valence_detection_model(df_train):
@@ -470,7 +471,8 @@ def train_valence_detection_model(df_train):
     
     filename_LR = 'LR_valence_model_2.sav'
     pickle.dump(LR, open(filename_LR, 'wb'))
-    return creport(y_test, y_pred_val)
+    #return creport(y_test, y_pred_val)
+    return count_vect, tfidf_transformer
 
 
 
@@ -496,7 +498,8 @@ def train_object_detection_model(df_train):
     
     filename_clf = 'SVM_object_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
-    return creport(y_test, y_pred_obj)
+    #return creport(y_test, y_pred_obj)
+    return count_vect, tfidf_transformer
 
 
 
@@ -1038,10 +1041,14 @@ def main():
                df_final = predict_action(df_final)
                df_final = feature_extraction(df_final)
             with col2:
+	       count_vect, tfidf_transformer = train_agent_detection_model(df_train)
                df_final = predict_agent(df_final, count_vect, tfidf_transformer)
-               #df_final = predict_valence(df_final, count_vect, tfidf_transformer)
+               count_vect, tfidf_transformer = train_valence_detection_model(df_train)
+               df_final = predict_valence(df_final, count_vect, tfidf_transformer)
             with col3:
+	       count_vect, tfidf_transformer = train_environment_detection_model(df_train)
                df_final = predict_environment(df_final, count_vect, tfidf_transformer)
+	       count_vect, tfidf_transformer = train_object_detection_model(df_train)
                df_final = predict_object(df_final, count_vect, tfidf_transformer)
             
         list_ability =[]
