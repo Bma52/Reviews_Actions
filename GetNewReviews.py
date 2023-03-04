@@ -382,7 +382,7 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 # Train the action flag model. The dataset is manually done and not from sparql. 
-def train_model_action_flag() -> object:
+def train_model_action_flag():
 
     df = pd.read_csv("TrainingSet.csv")
     df = df[["annotation", "ActionFlag"]]
@@ -639,6 +639,7 @@ def predict_valence(df_final, count_vect, tfidf_transformer):
     reviews = df_final[["reviewBody"]]
     reviews= reviews.iloc[:,0]
     #count_vect, tfidf_transformer = train_agent_detection_model()
+    reviews =list(reviews) 
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_LR = 'LR_valence_model_2.sav'
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
