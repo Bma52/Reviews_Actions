@@ -1032,11 +1032,9 @@ def main():
             df_train_initial = df_train_initial[["reviewBody", "annotation", "Actions", "Agent", "Environment", "Features", "Valence", "Object", "ActionFlag"]]
             #df_actions_new = get_dummy_actions(df_train_checked)
             df_train = df_train_initial.append(df_train_checked, ignore_index = True)
-            
-	
+
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
 	    X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
-		
             #count_vect, tfidf_transformer = train_agent_detection_model(df_train)
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
             #reviews = df_final[["reviewBody"]]
