@@ -351,7 +351,7 @@ def predict_informative_annotations(df_reviews):
 
 
 
-def preprocess_text(X):
+def preprocess_text(x):
     
     #x = df_train[["reviewBody"]]
 
