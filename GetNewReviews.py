@@ -351,11 +351,11 @@ def predict_informative_annotations(df_reviews):
 
 
 
-def preprocess_text(df_train):
+def preprocess_text(X):
     
-    x = df_train[["reviewBody"]]
+    #x = df_train[["reviewBody"]]
 
-    x=x.iloc[:,0]
+    #x=x.iloc[:,0]
     #y=y.iloc[:,:]
     #X=x.to_dict()
     X=list(x) 
