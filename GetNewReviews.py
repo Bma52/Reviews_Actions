@@ -527,8 +527,8 @@ def train_agent_detection_model(df_train):
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
     y_pred_agent = clf.predict(x_test_tfidf)
 
-    #filename_clf = 'SVM_agent_model_2.sav'
-    #pickle.dump(clf, open(filename_clf, 'wb'))
+    filename_clf = 'SVM_agent_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
 
     return count_vect, tfidf_transformer
 
@@ -1035,14 +1035,14 @@ def main():
 
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
-            #count_vect, tfidf_transformer = train_agent_detection_model(df_train)
+            count_vect, tfidf_transformer = train_agent_detection_model(df_train)
 	    
             #reviews = df_final[["reviewBody"]]
             #reviews= reviews.iloc[:,0]
             #reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
             #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
 		
-            count_vect, tfidf_transformer = preprocess_text(df_train)
+            #count_vect, tfidf_transformer = preprocess_text(df_train)
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
             with col1:
