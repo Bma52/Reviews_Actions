@@ -351,11 +351,11 @@ def predict_informative_annotations(df_reviews):
 
 
 
-def preprocess_text(x):
+def preprocess_text(df_train):
     
-    #x = df_train[["reviewBody"]]
+    x = df_train[["reviewBody"]]
 
-    #x=x.iloc[:,0]
+    x=x.iloc[:,0]
     #y=y.iloc[:,:]
     #X=x.to_dict()
     X=list(x) 
@@ -366,7 +366,7 @@ def preprocess_text(x):
     X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
     X_train_tfidf= X_train_tfidf.toarray()
 
-    return X_train_tfidf, count_vect, tfidf_transformer
+    return count_vect, tfidf_transformer
 
 
 def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
@@ -525,7 +525,7 @@ def train_agent_detection_model(df_train):
     #print("Accuracy for agent detection model on training set (80% of total dataset) is :", acc)
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
-    y_pred_env = clf.predict(x_test_tfidf)
+    y_pred_agent = clf.predict(x_test_tfidf)
 
     #filename_clf = 'SVM_agent_model_2.sav'
     #pickle.dump(clf, open(filename_clf, 'wb'))
@@ -1035,8 +1035,8 @@ def main():
 
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
 	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
-            count_vect, tfidf_transformer = train_agent_detection_model(df_train)
-	    #X_tfidf, count_vect, tfidf_transformer = preprocess_text(df_train)
+            #count_vect, tfidf_transformer = train_agent_detection_model(df_train)
+	    count_vect, tfidf_transformer = preprocess_text(df_train)
             #reviews = df_final[["reviewBody"]]
             #reviews= reviews.iloc[:,0]
             #reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
