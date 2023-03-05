@@ -168,7 +168,7 @@ def insert_checked_annotation(df):
               dbConnection.commit()
               
 
-@st.cache_data
+
 def main(df_annotation, annotator_name) -> None:
    
 
@@ -405,7 +405,7 @@ def main(df_annotation, annotator_name) -> None:
             
            
     def no_form(df_annotation, i, annotator_name):
-       #st.session_state.a_list = []
+       st.session_state.a_list = []
        
        st.session_state = i
          
@@ -525,7 +525,7 @@ def main(df_annotation, annotator_name) -> None:
 
       
     for review in list_reviews:
-      review_container(review, df_annotation, annotator_name)
+        review_container(review, df_annotation, annotator_name)
    
 
     
