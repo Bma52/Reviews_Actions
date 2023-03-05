@@ -548,7 +548,7 @@ def get_train_data_mysql():
 
     checked_data = pd.read_sql_query("SELECT * FROM CheckedAnnotation", dbConnection)
     checked_data["ActionProbability"] = checked_data["ActionProbability"].astype(float)
-      
+    checked_data = checked_data.drop_duplicates(subset = ['annotation', 'checkedBy'], keep = 'last').reset_index(drop = True) 
     dbConnection.commit()
    
 
