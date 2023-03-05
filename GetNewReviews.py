@@ -351,11 +351,11 @@ def predict_informative_annotations(df_reviews):
 
 
 
-def preprocess_text(df_train):
+def preprocess_text(x):
     
-    x = df_train[["reviewBody"]]
+    #x = df_train[["reviewBody"]]
 
-    x=x.iloc[:,0]
+    #x=x.iloc[:,0]
     #y=y.iloc[:,:]
     #X=x.to_dict()
     X=list(x) 
@@ -638,9 +638,9 @@ def predict_environment(df_final, count_vect, tfidf_transformer):
 def predict_valence(df_final, count_vect, tfidf_transformer):
     reviews = df_final[["reviewBody"]]
     reviews= reviews.iloc[:,0]
-    count_vect1, tfidf_transformer1 = train_agent_detection_model()
+    #count_vect1, tfidf_transformer1 = train_agent_detection_model()
     #reviews =list(reviews) 
-    reviews_tfidf = count_vectorizer(reviews, count_vect1, tfidf_transformer1)
+    reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_LR = 'LR_valence_model_2.sav'
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
     valence = loaded_valence_detection_model.predict(reviews_tfidf)
