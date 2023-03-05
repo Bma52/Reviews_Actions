@@ -366,7 +366,7 @@ def preprocess_text(x):
     X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
     X_train_tfidf= X_train_tfidf.toarray()
 
-    return count_vect, tfidf_transformer
+    return X_train_tfidf, count_vect, tfidf_transformer
 
 
 def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
