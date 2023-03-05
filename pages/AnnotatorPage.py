@@ -205,7 +205,7 @@ def main(df_annotation, annotator_name) -> None:
        'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
        'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
        'Freelancer', 'Developer', 'Photographer']
-    valence = [' ', 'positive', 'negative', 'neutral']
+    valences = [' ', 'positive', 'negative', 'neutral']
     objects = [' ','Games', 'Media', 'Application', 'Movie', 'Pictures',
        'Netflix', 'Notes', 'Internet', 'StudentWork', 'Artwork',
        'SchoolWork', 'Drawing', 'Product', 'Lectures', 'VirtualMeeting',
@@ -325,9 +325,8 @@ def main(df_annotation, annotator_name) -> None:
                     new_valence = df_annotation["Valence"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_valence = st.selectbox(
-                       "Please select the correct Valence.", valence, index= i
-                            )
+                    new_valence = st.selectbox("Please select the correct Valence.", valences , index= i)
+                            
                   
             
                      
