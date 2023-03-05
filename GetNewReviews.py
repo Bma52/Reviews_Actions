@@ -620,7 +620,7 @@ def predict_agent(df_final, count_vect, tfidf_transformer):
 def predict_environment(df_final, count_vect, tfidf_transformer):
     reviews = df_final[["reviewBody"]]
     reviews= reviews.iloc[:,0]
-    #count_vect, tfidf_transformer = train_agent_detection_model()
+    #count_vect, tfidf_transformer = train_valence_detection_model(df_train)
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
     filename_env = 'SVM_environment_model_2.sav'
     loaded_env_detection_model = pickle.load(open(filename_env, 'rb'))
@@ -1050,9 +1050,12 @@ def main():
                df_final = feature_extraction(df_final)
             with col2:
                df_final = predict_agent(df_final, count_vect, tfidf_transformer)
+	       count_vect, tfidf_transformer = train_valence_detection_model(df_train)
                df_final = predict_valence(df_final, count_vect, tfidf_transformer)
             with col3:
+	       count_vect, tfidf_transformer = train_environment_detection_model(df_train)
                df_final = predict_environment(df_final, count_vect, tfidf_transformer)
+	       count_vect, tfidf_transformer = train_object_detection_model(df_train)
                df_final = predict_object(df_final, count_vect, tfidf_transformer)
             
         list_ability =[]
