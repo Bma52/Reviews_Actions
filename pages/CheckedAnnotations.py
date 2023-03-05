@@ -431,6 +431,7 @@ def main():
            
      reviews = checked_data["annotation"].unique()
      checked_annotation_data, review_data, product_data = get_new_reviews_mysql()
+     checked_annotation_data.drop_duplicates(inplace = True)
      for review in reviews:
            st.write(review)
            #df.groupby("A").filter(lambda x: len(x) > 1)
