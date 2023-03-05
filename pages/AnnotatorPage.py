@@ -168,7 +168,7 @@ def insert_checked_annotation(df):
               dbConnection.commit()
               
 
-        
+@st.cache_data
 def main(df_annotation, annotator_name) -> None:
    
 
