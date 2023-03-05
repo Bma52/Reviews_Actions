@@ -78,7 +78,9 @@ def get_new_reviews_mysql():
     review_data = pd.read_sql_query("SELECT * FROM Review", dbConnection)
     product_data = pd.read_sql_query("SELECT * FROM Product", dbConnection)
     checked_data["ActionProbability"] = checked_data["ActionProbability"].astype(float)
-    checked_data.drop_duplicates(inplace=True)
+    checked_data = checked_data.drop_duplicates(subset = ['annotation', 'checkedBy'], keep = 'last').reset_index(drop = True) 
+  
+  
     
     dbConnection.commit()
    
