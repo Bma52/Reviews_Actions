@@ -96,10 +96,10 @@ def get_new_reviews_mysql(annotator_name):
     dbConnection.commit()
    
     
-    checked_data = checked_data[checked_data['checkedBy'] == annotator_name]
+    #checked_data = checked_data[checked_data['checkedBy'] == annotator_name]
    
-    list_checked_annotations = list(checked_data["annotation_md5"])
-    annotation_data = annotation_data[~annotation_data['annotation_md5'].isin(list_checked_annotations)]
+    #list_checked_annotations = list(checked_data["annotation_md5"])
+    #annotation_data = annotation_data[~annotation_data['annotation_md5'].isin(list_checked_annotations)]
       
     
    
