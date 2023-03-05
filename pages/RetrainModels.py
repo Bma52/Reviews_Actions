@@ -352,7 +352,7 @@ def save_action_noaction_model(clf, accuracy, model_data):
 
 
 
-def train_environment_detection_model(df_train):
+def train_environment_detection_model(df_train, count_vect, tfidf_transformer):
     #df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
 
     x = df_train[["annotation"]]
@@ -364,7 +364,8 @@ def train_environment_detection_model(df_train):
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
-    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    #X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    X_train_tfidf = count_vectorizer(x_train, count_vect, tfidf_transformer)
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
     accuracy_train = clf.score(X_train_tfidf, y_train.values)
@@ -395,7 +396,7 @@ def save_env_model(clf, accuracy, model_data):
       
 
 
-def train_valence_detection_model(df_train):
+def train_valence_detection_model(df_train, count_vect, tfidf_transformer):
     x = df_train[["annotation"]]
     y = df_train[["Valence"]]
     
@@ -405,7 +406,8 @@ def train_valence_detection_model(df_train):
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
-    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    #X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    X_train_tfidf = count_vectorizer(x_train, count_vect, tfidf_transformer)
     LR= linear_model.LogisticRegression()
     LR.fit(X_train_tfidf, y_train.values)
     acc_train = LR.score(X_train_tfidf, y_train.values)
@@ -438,7 +440,7 @@ def save_valence_model(LR, accuracy, model_data):
 
 
 
-def train_object_detection_model(df_train):
+def train_object_detection_model(df_train, count_vect, tfidf_transformer):
     x = df_train[["annotation"]]
     y = df_train[["Object"]]
     
@@ -448,7 +450,8 @@ def train_object_detection_model(df_train):
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
-    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    #X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    X_train_tfidf = count_vectorizer(x_train, count_vect, tfidf_transformer)
     clf= SVC(random_state = 0)
     clf.fit(X_train_tfidf, y_train.values)
     acc_train = clf.score(X_train_tfidf, y_train.values)
@@ -510,7 +513,7 @@ def train_agent_detection_model(df_train):
     filename_clf = 'SVM_agent_model_2.sav'
     pickle.dump(clf, open(filename_clf, 'wb'))
 
-    return acc, clf
+    return acc, clf, count_vect, tfidf_transformer
    
    
    
@@ -594,9 +597,20 @@ def main():
          save6= st.button("Save new action model")
          if save6:
             save_action_model(model_2, df_action_report, model_data)
-            
+           
          
-    df_env_report, model_3 = train_environment_detection_model(df_train)
+         
+    df_agent_report, model_4, count_vect, tfidf_transformer = train_agent_detection_model(df_train)
+    st.write("Agent Model Retrained")  
+    with st.expander("View Report"):
+         st.write(df_agent_report)
+         save3= st.button("Save new Agent model")
+         if save3:
+            save_agent_model(model_4, df_agent_report, model_data)
+         
+         
+         
+    df_env_report, model_3 = train_environment_detection_model(df_train, count_vect, tfidf_transformer)
     st.write("Environement Model Retrained")  
     with st.expander("View Report"):
          st.write(df_env_report)
@@ -605,16 +619,10 @@ def main():
             save_env_model(model_3, df_env_report, model_data)
              
              
-    df_agent_report, model_4 = train_agent_detection_model(df_train)
-    st.write("Agent Model Retrained")  
-    with st.expander("View Report"):
-         st.write(df_agent_report)
-         save3= st.button("Save new Agent model")
-         if save3:
-            save_agent_model(model_4, df_agent_report, model_data)
+
              
              
-    df_valence_report, model_5 = train_valence_detection_model(df_train)
+    df_valence_report, model_5 = train_valence_detection_model(df_train, count_vect, tfidf_transformer)
     st.write("Valence Model Retrained")  
     with st.expander("View Report"):
          st.write(df_valence_report)
@@ -622,8 +630,9 @@ def main():
          if save4:
             save_valence_model(model_5, df_valence_report, model_data)
               
+               
               
-    df_object_report, model_6 = train_object_detection_model(df_train)
+    df_object_report, model_6 = train_object_detection_model(df_train, count_vect, tfidf_transformer)
     st.write("Object Model Retrained")  
     with st.expander("View Report"):
          st.write(df_object_report)
