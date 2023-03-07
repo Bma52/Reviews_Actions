@@ -79,7 +79,9 @@ def fetch_reviews(product_url):
 
 
     response = requests.request("POST", server, headers=headers, data=payload)
-    data = response.json()
+    data = json.loads(response.text)
+    #data = response.json()
+    
 
     df = pd.DataFrame.from_dict(data, orient="index")
 
