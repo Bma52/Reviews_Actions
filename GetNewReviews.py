@@ -61,7 +61,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 def fetch_reviews(product_url):
     
     #payload="{\"url\":\"https://www.bestbuy.com/site/reviews/microsoft-surface-laptop-studio-14-4-touch-screen-intel-core-i7-16gb-memory-nvidia-geforce-rtx-3050-ti-512gb-ssd-platinum/6478302?variant=A\"}"
-    payload="{\"url\":\"https://www.bestbuy.com/site/reviews/lenovo-ideapad-duet-3-chromebook-11-0-2000x1200-touch-2-in-1-tablet-snapdragon-7cg2-4g-ram-128g-emmc-with-keyboard-misty-blue/6508240?variant=A&skuId=6508240\"}"
+    #payload="{\"url\":\"https://www.bestbuy.com/site/reviews/lenovo-ideapad-duet-3-chromebook-11-0-2000x1200-touch-2-in-1-tablet-snapdragon-7cg2-4g-ram-128g-emmc-with-keyboard-misty-blue/6508240?variant=A&skuId=6508240\"}"
 
   
     server = "http://linked.aub.edu.lb:8585/ml"
