@@ -60,7 +60,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 
 def fetch_reviews(product_url):
     
-    payload="{\"url\":\"https://www.bestbuy.com/site/reviews/microsoft-surface-laptop-studio-14-4-touch-screen-intel-core-i7-16gb-memory-nvidia-geforce-rtx-3050-ti-512gb-ssd-platinum/6478302?variant=A\"}"
+    #payload="{\"url\":\"https://www.bestbuy.com/site/reviews/microsoft-surface-laptop-studio-14-4-touch-screen-intel-core-i7-16gb-memory-nvidia-geforce-rtx-3050-ti-512gb-ssd-platinum/6478302?variant=A\"}"
 
   
     server = "http://linked.aub.edu.lb:8585/ml"
