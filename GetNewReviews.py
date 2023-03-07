@@ -80,8 +80,8 @@ def fetch_reviews(product_url):
 
     response = requests.request("POST", server, headers=headers, data=payload)
     #data = response.text
-    #data = response.json()
-    data = json.loads(response)
+    data = response.json()
+    #data = json.loads(response)
 
     df = pd.DataFrame.from_dict(data, orient="index")
 
