@@ -79,7 +79,7 @@ def fetch_reviews(product_url):
 
 
     response = requests.request("POST", server, headers=headers, data=payload)
-    data = json.loads(response.text)
+    data = response.text
     #data = response.json()
     
 
