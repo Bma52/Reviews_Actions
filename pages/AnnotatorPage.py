@@ -199,8 +199,8 @@ def main(df_annotation, annotator_name) -> None:
        'tr', 'InternalDrive', 'Microsoft', 'Fan', 'NumericKeypad',
        'Cortana', 'SleepMode', 'OpenBox', 'SurfaceSlimPen',
        'WindowsHello', 'SPen']
-    environments = [' ', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office',
-       'Room']
+    environments = [' ', 'Universal', 'Travel', 'University', 'Home', 'Work', 'Office','Room']
+       
     agents = [' ', 'Person', 'Gamer', 'Employee', 'Son', 'Student', 'Artist',
        'Designer', 'Musician', 'GraphicDesigner', 'Daughter', 'Teacher',
        'Kid', 'Wife', 'Father', 'Psychotherapist', 'FilmMaker',
@@ -341,7 +341,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_env = df_annotation["Environment"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_env = st.selectbox("Please select the correct Environment.", environments, index= i)
+                    new_env = st.selectbox("Please select the correct Environment.", environments, index= df_annotation["Environment"][i])
                             
   
                   
