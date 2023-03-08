@@ -340,8 +340,7 @@ def main(df_annotation, annotator_name) -> None:
                if checked_env == "Yes":
                     new_env = df_annotation["Environment"][i]
                else:
-                    #st.caption("Please enter the correct action")
-                    new_env = st.selectbox("Please select the correct Environment.", environments, index= df_annotation["Environment"][i])
+                    new_env = st.selectbox("Please select the correct Environment.", environments, index= i)
                             
   
                   
