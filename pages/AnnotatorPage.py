@@ -287,7 +287,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_feature = df_annotation["Features"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_feature = st.selectbox("Please select the correct Feature.", features, index= 0)
+                    new_feature = st.selectbox("Please select the correct Feature.", features)
                             
 
 
@@ -303,7 +303,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_agent = df_annotation["Agent"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_agent = st.selectbox("Please select the correct Agent.", agents, index= 0)
+                    new_agent = st.selectbox("Please select the correct Agent.", agents)
                             
                
 
@@ -322,7 +322,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_valence = df_annotation["Valence"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_valence = st.selectbox("Please select the correct Valence.", valence , index= 0)
+                    new_valence = st.selectbox("Please select the correct Valence.", valence)
                             
                   
             
@@ -340,7 +340,7 @@ def main(df_annotation, annotator_name) -> None:
                if checked_env == "Yes":
                     new_env = df_annotation["Environment"][i]
                else:
-                    new_env = st.selectbox("Please select the correct Environment.", environments, index= 0)
+                    new_env = st.selectbox("Please select the correct Environment.", environments)
                             
   
                   
@@ -357,7 +357,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_obj = df_annotation["Object"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_obj = st.selectbox("Please select the correct Object.", objects, index= 0)
+                    new_obj = st.selectbox("Please select the correct Object.", objects)
                             
                   
                  
