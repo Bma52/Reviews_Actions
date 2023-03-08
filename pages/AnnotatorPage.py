@@ -258,7 +258,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_action = df_annotation["Actions"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_action = st.selectbox("Please select the correct Action.", actions, key = "action"+ str(i))
+                    new_action = st.selectbox("Please select the correct Action.", actions, key = str(i))
                             
                     
                     if new_action == 'Add a new action':
@@ -287,7 +287,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_feature = df_annotation["Features"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_feature = st.selectbox("Please select the correct Feature.", features, key = "feature"+ str(i))
+                    new_feature = st.selectbox("Please select the correct Feature.", features, key = str(i))
                             
 
 
@@ -303,7 +303,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_agent = df_annotation["Agent"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_agent = st.selectbox("Please select the correct Agent.", agents, key = "agent"+ str(i))
+                    new_agent = st.selectbox("Please select the correct Agent.", agents, key = str(i))
                             
                
 
@@ -322,7 +322,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_valence = df_annotation["Valence"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_valence = st.selectbox("Please select the correct Valence.", valence, key = "valence"+ str(i))
+                    new_valence = st.selectbox("Please select the correct Valence.", valence, key = str(i))
                             
                   
             
@@ -340,7 +340,7 @@ def main(df_annotation, annotator_name) -> None:
                if checked_env == "Yes":
                     new_env = df_annotation["Environment"][i]
                else:
-                    new_env = st.selectbox("Please select the correct Environment.", environments, key = "environment"+ str(i))
+                    new_env = st.selectbox("Please select the correct Environment.", environments, key = str(i))
                             
   
                   
@@ -357,7 +357,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_obj = df_annotation["Object"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_obj = st.selectbox("Please select the correct Object.", objects, key = "object"+ str(i))
+                    new_obj = st.selectbox("Please select the correct Object.", objects, key = str(i))
                             
                   
                  
