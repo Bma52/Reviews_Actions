@@ -258,7 +258,7 @@ def main(df_annotation, annotator_name) -> None:
                     new_action = df_annotation["Actions"][i]
                else:
                     #st.caption("Please enter the correct action")
-                    new_action = st.selectbox("Please select the correct Action.", actions, index= df_annotation["Actions"][i])
+                    new_action = st.selectbox("Please select the correct Action.", actions)
                             
                     
                     if new_action == 'Add a new action':
