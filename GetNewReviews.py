@@ -112,7 +112,7 @@ def fetch_reviews(product_url):
     #st.write("Number of reviews in this page is {}".format(len(reviews)))
 
     df_product = df_product.rename(columns = {'name': 'product_name', '@type': 'type', '@context': 'context'})
-    df_product['brand'].apply(pd.Series)
+    df_product["brand"].apply(pd.Series)
     df_product["aggregateRating"].apply(pd.Series)
     df_product["offers"].apply(pd.Series)
 
