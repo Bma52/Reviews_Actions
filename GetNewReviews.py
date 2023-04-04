@@ -104,7 +104,11 @@ def fetch_reviews(product_url):
                        break;
     
     df_product = pd.DataFrame(products)
+    
+    reviews = list(df_product["reviews"])
+    #df_reviews = pd.json_normalize(reviews)
     df_reviews = pd.DataFrame(reviews)
+    #df_reviews["review"] = reviews
 
 
     #st.write("Number of products in this page is {}".format(len(products)))
@@ -131,28 +135,31 @@ def fetch_reviews(product_url):
     del df_product['aggregateRating']
     del df_product['offers']
     del df_product['seller']
+    
+    df_reviews = pd.melt(df_reviews, var_name= 'review_number', value_name='review')
+    df_review_final = df_reviews["review"].apply(pd.Series)
 
+    df_review_final = df_review_final.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
 
-    df_reviews = df_reviews.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
+    #df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'product_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'product_name'})
+    df_review_final = pd.concat([df_review_final, df_review_final["author"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'author_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["author"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'author_name'})
+    df_review_final = pd.concat([df_review_final, df_review_final["reviewRating"].apply(pd.Series)], axis=1)
 
-    df_reviews = pd.concat([df_reviews, df_reviews["reviewRating"].apply(pd.Series)], axis=1)
+    df_review_final = pd.concat([df_review_final, df_review_final["publisher"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'publisher_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["publisher"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'publisher_name'})
+    del df_review_final['@type']
+    #del df_review_final['itemReviewed']
+    del df_review_final['author']
+    del df_review_final['reviewRating']
+    del df_review_final['publisher']
+    
+    return df_product, df_review_final
 
-    del df_reviews['@type']
-    del df_reviews['itemReviewed']
-    del df_reviews['author']
-    del df_reviews['reviewRating']
-    del df_reviews['publisher']
-
-    return df_product, df_reviews
 
 
 
