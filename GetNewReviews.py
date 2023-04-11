@@ -396,8 +396,9 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 
+# Train the action flag model. The dataset is manually done and not from sparql. 
 def train_model_action_flag():
-	
+
     df = pd.read_csv("TrainingSet.csv")
     df = df[["annotation", "ActionFlag"]]
     checked_data = get_new_reviews_mysql()
@@ -406,29 +407,30 @@ def train_model_action_flag():
     df_train = df.append(checked_data, ignore_index = True)
     x = df_train[["annotation"]]
     y= df_train[["ActionFlag"]]
-    
-    x_train, x_test, y_train,  y_test = train_test_split(x,y, train_size=0.8)
-    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
 
-    #clf= SVC(random_state = 0, C = 100, gamma = 0.1, kernel= 'rbf', probability=True)
-    RF = RandomForestClassifier(random_state = 1, max_depth=5, n_estimators=10)
-    RF.fit(X_train_tfidf, y_train.values)
-    acc_train = RF.score(X_train_tfidf, y_train.values)
+    #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
-    
-    #x_val_tfidf = count_vectorizer(x_val, count_vect, tfidf_transformer)
-    #y_pred_action_noaction_val = RF.predict(x_val_tfidf)
-    #acc_val = accuracy_score(y_val ,y_pred_action_noaction_val)
-      
-    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
-    y_pred_action_noaction_test = RF.predict(x_test_tfidf)
-    acc_test = accuracy_score(y_test ,y_pred_action_noaction_test)
+    x=x.iloc[:,0]
+    y=y.iloc[:,:]
+    #X=x.to_dict()
+    X=list(x)  
 
+    count_vect=CountVectorizer()
+    tfidf_transformer = TfidfTransformer()
+    X_train_counts=count_vect.fit_transform(X)
+    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+    X_train_tfidf= X_train_tfidf.toarray()
+
+    clf= SVC(random_state = 0,  probability=True)
+    clf.fit(X_train_tfidf, y.values)
+    clf.score(X_train_tfidf, y.values)
     
-    filename_RF = 'RF_action_noaction_model_2.sav'
-    pickle.dump(RF, open(filename_RF, 'wb'))
+
+    filename_svm = 'SVM_action_noaction_model.sav'
+    pickle.dump(clf, open(filename_svm, 'wb'))
 
     return count_vect, tfidf_transformer
+
 
 
 
