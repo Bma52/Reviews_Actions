@@ -60,6 +60,7 @@ chart = functools.partial(st.plotly_chart, use_container_width=True)
 
 
 
+
 def fetch_reviews(product_url):
     
     #payload="{\"url\":\"https://www.bestbuy.com/site/reviews/microsoft-surface-laptop-studio-14-4-touch-screen-intel-core-i7-16gb-memory-nvidia-geforce-rtx-3050-ti-512gb-ssd-platinum/6478302?variant=A\"}"
@@ -106,7 +107,11 @@ def fetch_reviews(product_url):
                        break;
     
     df_product = pd.DataFrame(products)
+    
+    reviews = list(df_product["reviews"])
+    #df_reviews = pd.json_normalize(reviews)
     df_reviews = pd.DataFrame(reviews)
+    #df_reviews["review"] = reviews
 
 
     #st.write("Number of products in this page is {}".format(len(products)))
@@ -133,28 +138,30 @@ def fetch_reviews(product_url):
     del df_product['aggregateRating']
     del df_product['offers']
     del df_product['seller']
+    
+    df_reviews = pd.melt(df_reviews, var_name= 'review_number', value_name='review')
+    df_review_final = df_reviews["review"].apply(pd.Series)
 
+    df_review_final = df_review_final.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
 
-    df_reviews = df_reviews.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
+    #df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'product_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'product_name'})
+    df_review_final = pd.concat([df_review_final, df_review_final["author"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'author_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["author"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'author_name'})
+    df_review_final = pd.concat([df_review_final, df_review_final["reviewRating"].apply(pd.Series)], axis=1)
 
-    df_reviews = pd.concat([df_reviews, df_reviews["reviewRating"].apply(pd.Series)], axis=1)
+    df_review_final = pd.concat([df_review_final, df_review_final["publisher"].apply(pd.Series)], axis=1)
+    df_review_final = df_review_final.rename(columns = {'name': 'publisher_name'})
 
-    df_reviews = pd.concat([df_reviews, df_reviews["publisher"].apply(pd.Series)], axis=1)
-    df_reviews = df_reviews.rename(columns = {'name': 'publisher_name'})
-
-    del df_reviews['@type']
-    del df_reviews['itemReviewed']
-    del df_reviews['author']
-    del df_reviews['reviewRating']
-    del df_reviews['publisher']
-
-    return df_product, df_reviews
+    del df_review_final['@type']
+    #del df_review_final['itemReviewed']
+    del df_review_final['author']
+    del df_review_final['reviewRating']
+    del df_review_final['publisher']
+    
+    return df_product, df_review_final
 
 
 
@@ -388,41 +395,35 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 
-
-# Train the action flag model. The dataset is manually done and not from sparql. 
-def train_model_action_flag():
-
-    df = pd.read_csv("TrainingSet.csv")
-    df = df[["annotation", "ActionFlag"]]
-    checked_data = get_new_reviews_mysql()
-    
-    checked_data = checked_data[["annotation", "ActionFlag"]]
-    df_train = df.append(checked_data, ignore_index = True)
+def train_model_action_flag(df_train):
+	
     x = df_train[["annotation"]]
-    y= df_train[["ActionFlag"]]
-
-    #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
-
-    x=x.iloc[:,0]
-    y=y.iloc[:,:]
-    #X=x.to_dict()
-    X=list(x)  
-
-    count_vect=CountVectorizer()
-    tfidf_transformer = TfidfTransformer()
-    X_train_counts=count_vect.fit_transform(X)
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-    X_train_tfidf= X_train_tfidf.toarray()
-
-    clf= SVC(random_state = 0,  probability=True)
-    clf.fit(X_train_tfidf, y.values)
-    clf.score(X_train_tfidf, y.values)
+    y = df_train[["ActionFlag"]]
     
+    x_train, x_test, y_train,  y_test = train_test_split(x,y, train_size=0.8)
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
 
-    filename_svm = 'SVM_action_noaction_model.sav'
-    pickle.dump(clf, open(filename_svm, 'wb'))
+    #clf= SVC(random_state = 0, C = 100, gamma = 0.1, kernel= 'rbf', probability=True)
+    RF = RandomForestClassifier(random_state = 1, max_depth=5, n_estimators=10)
+    RF.fit(X_train_tfidf, y_train.values)
+    acc_train = RF.score(X_train_tfidf, y_train.values)
+
+    
+    #x_val_tfidf = count_vectorizer(x_val, count_vect, tfidf_transformer)
+    #y_pred_action_noaction_val = RF.predict(x_val_tfidf)
+    #acc_val = accuracy_score(y_val ,y_pred_action_noaction_val)
+      
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_action_noaction_test = RF.predict(x_test_tfidf)
+    acc_test = accuracy_score(y_test ,y_pred_action_noaction_test)
+
+    
+    filename_RF = 'RF_action_noaction_model_2.sav'
+    pickle.dump(RF, open(filename_RF, 'wb'))
 
     return count_vect, tfidf_transformer
+
+
 
 
 
@@ -439,7 +440,7 @@ def train_environment_detection_model(df_train):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
     
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
-    clf= SVC(random_state = 0)
+    clf= SVC(random_state = 0, C = 10, gamma = 1, kernel= 'rbf')
     clf.fit(X_train_tfidf, y_train.values)
     acc = clf.score(X_train_tfidf, y_train.values)
     print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
@@ -456,6 +457,10 @@ def train_environment_detection_model(df_train):
     return count_vect, tfidf_transformer
 
 
+
+
+
+
 def train_valence_detection_model(df_train):
     x = df_train[["reviewBody"]]
     y = df_train[["Valence"]]
@@ -467,18 +472,19 @@ def train_valence_detection_model(df_train):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
-    LR= linear_model.LogisticRegression()
-    LR.fit(X_train_tfidf, y_train.values)
-    LR.score(X_train_tfidf, y_train.values)
+    clf= SVC(random_state = 0, C = 10, gamma = 1, kernel= 'sigmoid')
+    #LR= linear_model.LogisticRegression()
+    clf.fit(X_train_tfidf, y_train.values)
+    clf.score(X_train_tfidf, y_train.values)
  
 
 
     x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
-    y_pred_val = LR.predict(x_test_tfidf)
+    y_pred_val = clf.predict(x_test_tfidf)
 
     
-    filename_LR = 'LR_valence_model_2.sav'
-    pickle.dump(LR, open(filename_LR, 'wb'))
+    filename_clf = 'SVM_valence_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
     #return creport(y_test, y_pred_val)
     return count_vect, tfidf_transformer
 
@@ -495,7 +501,7 @@ def train_object_detection_model(df_train):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
-    clf= SVC(random_state = 0)
+    clf= SVC(random_state = 0, C = 100, gamma = 0.1, kernel= 'rbf')
     clf.fit(X_train_tfidf, y_train.values)
     acc = clf.score(X_train_tfidf, y_train.values)
 
@@ -527,7 +533,7 @@ def train_agent_detection_model(df_train):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
 
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
-    clf= SVC(random_state = 0)
+    clf= SVC(random_state = 0, C = 100, gamma = 0.1, kernel= 'rbf')
     clf.fit(X_train_tfidf, y_train.values)
     acc = clf.score(X_train_tfidf, y_train.values)
     #print("Accuracy for agent detection model on training set (80% of total dataset) is :", acc)
@@ -539,6 +545,9 @@ def train_agent_detection_model(df_train):
     pickle.dump(clf, open(filename_clf, 'wb'))
 
     return count_vect, tfidf_transformer
+
+
+
 
 
 
@@ -649,7 +658,7 @@ def predict_valence(df_final, count_vect, tfidf_transformer):
     #count_vect1, tfidf_transformer1 = train_agent_detection_model()
     #reviews =list(reviews) 
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
-    filename_LR = 'LR_valence_model_2.sav'
+    filename_LR = 'SVM_valence_model_2.sav'
     loaded_valence_detection_model = pickle.load(open(filename_LR, 'rb'))
     valence = loaded_valence_detection_model.predict(reviews_tfidf)
 
