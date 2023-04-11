@@ -346,7 +346,7 @@ def predict_informative_annotations(df_reviews):
 
     df_final = pd.merge(df_splitted_review,df_reviews,left_on='level_0',right_index=True, suffixes=(['','_old']))[df_reviews.columns]
     x = df_final["review sentences"]
-    count_vect, tfidf_transformer = train_model_action_flag(df_final)
+    count_vect, tfidf_transformer = train_model_action_flag()
 
     result_action_flag, proba_action = action_no_action_model(x,count_vect, tfidf_transformer)
     df_final["ActionFlag"] = result_action_flag
@@ -395,10 +395,16 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 
 
-def train_model_action_flag(df_train):
+def train_model_action_flag():
 	
-    x = df_train[["review sentences"]]
-    y = df_train[["ActionFlag"]]
+    df = pd.read_csv("TrainingSet.csv")
+    df = df[["annotation", "ActionFlag"]]
+    checked_data = get_new_reviews_mysql()
+    
+    checked_data = checked_data[["annotation", "ActionFlag"]]
+    df_train = df.append(checked_data, ignore_index = True)
+    x = df_train[["annotation"]]
+    y= df_train[["ActionFlag"]]
     
     x_train, x_test, y_train,  y_test = train_test_split(x,y, train_size=0.8)
     X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
