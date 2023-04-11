@@ -604,7 +604,7 @@ def action_no_action_model(x, count_vect, tfidf_transformer ):
 
 def predict_action(df_final, count_vect, tfidf_transformer):
     #Agent Detection 
-    reviews = df_final[["annotation"]]
+    reviews = df_final[["review sentences"]]
     reviews=reviews.iloc[:,0]
     #count_vect, tfidf_transformer = train_agent_detection_model()
     reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
