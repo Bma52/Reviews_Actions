@@ -1070,7 +1070,7 @@ def main():
             container3 = st.container()
             col1, col2, col3 = container3.columns(3)
             with col1:
-	       count_vect, tfidf_transformer = train_action_detection_model(df_train)
+               count_vect, tfidf_transformer = train_action_detection_model(df_train)
                df_final = predict_action(df_final, count_vect, tfidf_transformer)
                df_final = feature_extraction(df_final)
             with col2:
