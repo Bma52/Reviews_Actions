@@ -397,7 +397,7 @@ def count_vectorizer(annotation, count_vect, tfidf_transformer) -> float:
 
 def train_model_action_flag(df_train):
 	
-    x = df_train[["annotation"]]
+    x = df_train[["review sentences"]]
     y = df_train[["ActionFlag"]]
     
     x_train, x_test, y_train,  y_test = train_test_split(x,y, train_size=0.8)
