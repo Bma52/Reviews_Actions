@@ -880,7 +880,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_product["sku"] = df_product["sku"].astype(str)
     df_product["model"] = df_product["model"].astype(str)
     df_product["brand_name"] = df_product["brand_name"].astype(str)
-    df_product["ratingValue"] = df_product["ratingValue"].astype(int)
+    df_product["ratingValue"] = df_product["ratingValue"].astype(float)
     df_product["reviewCount"] = df_product["reviewCount"].astype(int)
     df_product["priceCurrency"] = df_product["priceCurrency"].astype(str)
     #df_product["price"] = df_product["price"].astype(float)
