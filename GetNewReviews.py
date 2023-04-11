@@ -7,6 +7,7 @@ import streamlit as st
 import pandas as pd
 import plotly as plt
 import plotly.express as px
+from sklearn.ensemble import RandomForestClassifier
 #from joblib import load
 import pickle
 import numpy as np
