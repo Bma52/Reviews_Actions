@@ -346,7 +346,7 @@ def predict_informative_annotations(df_reviews):
 
     df_final = pd.merge(df_splitted_review,df_reviews,left_on='level_0',right_index=True, suffixes=(['','_old']))[df_reviews.columns]
     x = df_final["review sentences"]
-    count_vect, tfidf_transformer = train_model_action_flag()
+    count_vect, tfidf_transformer = train_model_action_flag(df_final)
 
     result_action_flag, proba_action = action_no_action_model(x,count_vect, tfidf_transformer)
     df_final["ActionFlag"] = result_action_flag
@@ -424,6 +424,35 @@ def train_model_action_flag(df_train):
     return count_vect, tfidf_transformer
 
 
+
+def train_action_detection_model(df_train):
+    #df_train["Environment"] = df_train["Environment"].str.replace("http://linked.aub.edu.lb/actionrec/Environment/", "")
+
+    x = df_train[["annotation"]]
+    y = df_train[["Actions"]]
+    
+    x=x.iloc[:,0]
+    y=y.iloc[:,:]
+
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2,random_state =1, shuffle = True)
+    
+    X_train_tfidf, count_vect, tfidf_transformer = preprocess_text(x_train)
+    clf= SVC(random_state = 0, C = 100, gamma = 0.1, kernel= 'rbf')
+    clf.fit(X_train_tfidf, y_train.values)
+    acc = clf.score(X_train_tfidf, y_train.values)
+    print("Accuracy for Environment detection model on training set (80% of total dataset) is :", acc)
+    
+
+    x_test_tfidf = count_vectorizer(x_test, count_vect, tfidf_transformer)
+    y_pred_env = clf.predict(x_test_tfidf)
+    
+    
+    
+    filename_clf = 'SVM_action_model_2.sav'
+    pickle.dump(clf, open(filename_clf, 'wb'))
+    #return creport(y_test, y_pred_env)
+    return count_vect, tfidf_transformer
 
 
 
@@ -564,57 +593,20 @@ def action_no_action_model(x, count_vect, tfidf_transformer ):
 
 
 
-def predict_action(df):
+def predict_action(df_final, count_vect, tfidf_transformer):
+    #Agent Detection 
+    reviews = df_final[["annotation"]]
+    reviews=reviews.iloc[:,0]
+    #count_vect, tfidf_transformer = train_agent_detection_model()
+    reviews_tfidf = count_vectorizer(reviews, count_vect, tfidf_transformer)
+    filename_clf =  'SVM_action_model_2.sav'
+    loaded_action_detection_model = pickle.load(open(filename_clf, 'rb'))
+    action = loaded_action_detection_model.predict(reviews_tfidf)
 
-    df = df[df["ActionFlag"] == "Action Exist"]
-    x = df["review sentences"]
-    filename_multi_action = 'multi_label_action_model.sav'
-    loaded_model_multi_action = pickle.load(open(filename_multi_action, 'rb'))
-    result_multi_action = loaded_model_multi_action.predict(x)
-    
-    clf = preprocessing.LabelBinarizer()
-    clf.fit(result_multi_action)
-    pred_array = clf.transform(result_multi_action)
+    df_final["Actions"] = action
+    st.write("Action Predicted ")
+    return df_final
 
-    actions = ['Action_AnimateAction', 'Action_BackupAction', 'Action_BendAction',
-       'Action_BrowseAction', 'Action_CallAction', 'Action_CarryAction',
-       'Action_ChargeAction', 'Action_ClickAction', 'Action_ConnectAction',
-       'Action_CrackAction', 'Action_CreateAction', 'Action_DesignAction',
-       'Action_DevelopAction', 'Action_DisableAction', 'Action_DownloadAction',
-       'Action_DrawAction', 'Action_EditAction', 'Action_ExerciseAction',
-       'Action_FilmAction', 'Action_FoldAction', 'Action_HearAction',
-       'Action_HoldAction', 'Action_InstallAction', 'Action_IntegrateAction',
-       'Action_InteractAction', 'Action_ListenAction', 'Action_LoadAction',
-       'Action_MeetAction', 'Action_MultitaskAction', 'Action_NavigateAction',
-       'Action_PlayAction', 'Action_ProcessAction', 'Action_ReadAction',
-       'Action_RecordAction', 'Action_ResizeAction', 'Action_RunAction',
-       'Action_ScanAction', 'Action_ScrollAction', 'Action_SelectAction',
-       'Action_SellAction', 'Action_SetupAction', 'Action_ShutDownAction',
-       'Action_SignAction', 'Action_StartAction', 'Action_StoreAction',
-       'Action_StreamAction', 'Action_StudyAction', 'Action_TeachAction',
-       'Action_TextAction', 'Action_TouchAction', 'Action_TransferAction',
-       'Action_TypeAction', 'Action_UnlockAction', 'Action_UpgradeAction',
-       'Action_ViewAction', 'Action_WatchAction', 'Action_WorkAction',
-       'Action_WriteAction']
-    id_action = [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
-       17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-       34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-       53, 54, 55, 56, 57]
-
-
-    dict_actions = dict(zip(id_action, actions))
-    pred_actions = []
-    for i in result_multi_action:
-        for j in dict_actions:
-           if i == j:
-             pred_actions.append(dict_actions[j])
-
-    df_pred_actions = pd.DataFrame(pred_actions, columns = {"Actions"})
-    
-    df_review_with_action = pd.concat([df.reset_index(drop=True), df_pred_actions.reset_index(drop = True)], axis=1)
-
-    st.write("Action Predicted")
-    return df_review_with_action
 
 
 def predict_agent(df_final, count_vect, tfidf_transformer):
@@ -630,6 +622,12 @@ def predict_agent(df_final, count_vect, tfidf_transformer):
     df_final["Agent"] = agent
     st.write("Agent Predicted ")
     return df_final
+
+
+
+
+
+
 
 
 
