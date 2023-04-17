@@ -108,11 +108,7 @@ def fetch_reviews(product_url):
                        break;
     
     df_product = pd.DataFrame(products)
-    
-    reviews = list(df_product["reviews"])
-    #df_reviews = pd.json_normalize(reviews)
     df_reviews = pd.DataFrame(reviews)
-    #df_reviews["review"] = reviews
 
 
     #st.write("Number of products in this page is {}".format(len(products)))
@@ -139,31 +135,28 @@ def fetch_reviews(product_url):
     del df_product['aggregateRating']
     del df_product['offers']
     del df_product['seller']
-    
-    df_reviews = pd.melt(df_reviews, var_name= 'review_number', value_name='review')
-    df_review_final = df_reviews["review"].apply(pd.Series)
 
-    df_review_final = df_review_final.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
 
-    #df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
-    df_review_final = df_review_final.rename(columns = {'name': 'product_name'})
+    df_reviews = df_reviews.rename(columns = {'name': 'review_name', '@type': 'type', '@context': 'context'})
 
-    df_review_final = pd.concat([df_review_final, df_review_final["author"].apply(pd.Series)], axis=1)
-    df_review_final = df_review_final.rename(columns = {'name': 'author_name'})
+    df_reviews = pd.concat([df_reviews, df_reviews["itemReviewed"].apply(pd.Series)], axis=1)
+    df_reviews = df_reviews.rename(columns = {'name': 'product_name'})
 
-    df_review_final = pd.concat([df_review_final, df_review_final["reviewRating"].apply(pd.Series)], axis=1)
+    df_reviews = pd.concat([df_reviews, df_reviews["author"].apply(pd.Series)], axis=1)
+    df_reviews = df_reviews.rename(columns = {'name': 'author_name'})
 
-    df_review_final = pd.concat([df_review_final, df_review_final["publisher"].apply(pd.Series)], axis=1)
-    df_review_final = df_review_final.rename(columns = {'name': 'publisher_name'})
+    df_reviews = pd.concat([df_reviews, df_reviews["reviewRating"].apply(pd.Series)], axis=1)
 
-    del df_review_final['@type']
-    #del df_review_final['itemReviewed']
-    del df_review_final['author']
-    del df_review_final['reviewRating']
-    del df_review_final['publisher']
-    
-    return df_product, df_review_final
+    df_reviews = pd.concat([df_reviews, df_reviews["publisher"].apply(pd.Series)], axis=1)
+    df_reviews = df_reviews.rename(columns = {'name': 'publisher_name'})
 
+    del df_reviews['@type']
+    del df_reviews['itemReviewed']
+    del df_reviews['author']
+    del df_reviews['reviewRating']
+    del df_reviews['publisher']
+
+    return df_product, df_reviews
 
 
 
@@ -876,15 +869,15 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_product["product_name"] = df_product["product_name"].astype(str)
     df_product["url"] = df_product["url"].astype(str)
     df_product["description"] = df_product["description"].astype(str)
-    #df_product["image"] = df_product["image"].astype(str)
+    df_product["image"] = df_product["image"].astype(str)
     df_product["sku"] = df_product["sku"].astype(str)
     df_product["model"] = df_product["model"].astype(str)
     df_product["brand_name"] = df_product["brand_name"].astype(str)
     df_product["ratingValue"] = df_product["ratingValue"].astype(float)
     df_product["reviewCount"] = df_product["reviewCount"].astype(int)
     df_product["priceCurrency"] = df_product["priceCurrency"].astype(str)
-    #df_product["price"] = df_product["price"].astype(float)
-    #df_product["availability"] = df_product["availability"].astype(str)
+    df_product["price"] = df_product["price"].astype(float)
+    df_product["availability"] = df_product["availability"].astype(str)
     df_product["seller_name"] = df_product["seller_name"].astype(str)
 
     product_md5 = []
@@ -912,7 +905,7 @@ def insert_to_mysql(df_product, df_reviews, df_annotation):
     df_reviews["context"] = df_reviews["context"].astype(str)
     df_reviews["type"] = df_reviews["type"].astype(str)
     df_reviews["review_name"] = df_reviews["review_name"].astype(str)
-    #df_reviews["product_name"] = df_reviews["product_name"].astype(str)
+    df_reviews["product_name"] = df_reviews["product_name"].astype(str)
     df_reviews["author_name"] = df_reviews["author_name"].astype(str)
     df_reviews["reviewBody"] = df_reviews["reviewBody"].astype(str)
     df_reviews["ratingValue"] = df_reviews["ratingValue"].astype(int)
